@@ -4,7 +4,7 @@
 
 ### Start the expo app
 
-```terminal
+```console
 cd Client
 npm start
 ```
