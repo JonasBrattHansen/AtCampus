@@ -1,0 +1,71 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+entity Users{
+    * id: long AG ?
+    --
+    firstName: varchar(30) NN
+    lastName: varchar(40) NN
+    email: varchar(100) NN
+    password: varchar(255) NN
+    phoneNumber: varchar(15) NN
+    school: long FK NN
+    program: long FK NN
+    profileImage: varchar(255)
+    dateCreated: datetime NN
+}
+
+entity School{
+    * id: long AG ?
+    --
+    name: varchar(100) NN
+}
+
+entity Group{
+    * id: Long AG ?
+    --
+    name: varchar(100) NN
+    description: text
+    image: varchar(255)
+    school: long FK NN
+    admin: long FK (users) NN
+    dateCreated: datetime NN
+}
+
+entity UserGroup{
+    * id: Long AG ?
+    --
+    userId: Long FK NN
+    groupId: Long FK NN
+    isFavorite: boolean = false NN
+    dateJoined: datetime NN
+}
+
+entity Posts{
+    * id: Long AG ?
+    --
+    title: varchar(70) NN
+    body: text NN
+    dateCreated: datetime NN
+    userGroup: long FK NN
+}
+
+entity Comments{
+    * id: Long AG ?
+    --
+    body: text NN
+    dateCreated: datetime NN
+    postId: long FK NN
+    userGroupId: long FK NN
+}
+
+
+Users }o--|| School
+Users ||--o{ Group
+Users ||--o{ UserGroup
+Group ||--o{ UserGroup
+Posts }o--|| UserGroup
+Comments }o--|| Posts
+
+
+@enduml
