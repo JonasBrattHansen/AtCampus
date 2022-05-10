@@ -6,8 +6,8 @@ import javax.persistence.*
 @Table(name = "programs")
 class Program(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "programs_program_id_sequence")
-    @SequenceGenerator(name = "programs_program_id_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "programs_program_id_seq")
+    @SequenceGenerator(name = "programs_program_id_seq", sequenceName = "programs_program_id_seq", allocationSize = 1)
     @Column(name = "program_id")
     val id: Long? = null,
     @Column(name = "program_name")

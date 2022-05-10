@@ -10,7 +10,7 @@ import javax.persistence.*
 class Group (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "groups_group_id_sequence")
-    @SequenceGenerator(name = "groups_group_id_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "groups_group_id_sequence", sequenceName = "groups_group_id_sequence", allocationSize = 1)
     @Column(name = "group_id")
     val id: Long? = null,
     @Column(name = "group_name")
@@ -27,11 +27,9 @@ class Group (
     val school: School,
     @Column(name = "group_date_created")
     val dateCreated: LocalDate? = LocalDate.now(),
-    @OneToMany(cascade = [CascadeType.ALL])
-    @JoinColumn(referencedColumnName = "group_id")
-    val userGroup: MutableList<UserGroup> = mutableListOf()
+
 ){
     override fun toString(): String {
-        return "Group(id=$id, name='$name', description='$description', image='$image', admin=$admin, school=$school, dateCreated=$dateCreated, userGroup=$userGroup)"
+        return "Group(id=$id, name='$name', description='$description', image='$image', admin=$admin, school=$school, dateCreated=$dateCreated)"
     }
 }

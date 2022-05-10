@@ -13,7 +13,7 @@ import javax.persistence.Table
 class Comment (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comments_comment_sequence_id")
-    @SequenceGenerator(name = "comments_comment_sequence_id", allocationSize = 1)
+    @SequenceGenerator(name = "comments_comment_sequence_id", sequenceName = "comments_comment_sequence_id", allocationSize = 1)
     @Column(name = "comment_id")
     val id: Long? = null,
     @Column(name = "comment_body")

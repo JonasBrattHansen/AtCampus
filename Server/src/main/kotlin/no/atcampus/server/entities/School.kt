@@ -7,7 +7,7 @@ import javax.persistence.*
 class School(
     @Id
 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schools_school_id_sequence")
-@SequenceGenerator(name = "schools_school_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "schools_school_id_sequence", sequenceName = "schools_school_id_sequence", allocationSize = 1)
 @Column(name = "school_id")
 val id: Long? = null,
 @Column(name = "school_name")

@@ -17,7 +17,7 @@ import javax.persistence.Table
 class UserGroup (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_group_id_sequence")
-    @SequenceGenerator(name = "user_group_id_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "user_group_id_sequence", sequenceName = "user_group_id_sequence", allocationSize = 1)
     @Column(name = "user_group_id")
     val id: Long? = null,
     @ManyToOne(cascade = [CascadeType.ALL])

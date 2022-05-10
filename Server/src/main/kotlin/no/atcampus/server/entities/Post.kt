@@ -19,13 +19,14 @@ import javax.persistence.Table
 class Post (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posts_post_id_sequence")
-    @SequenceGenerator(name = "posts_post_id_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "posts_post_id_sequence", sequenceName = "posts_post_id_sequence", allocationSize = 1)
     @Column(name = "post_id")
     val id: Long? = null,
     @Column(name = "post_title")
     val title: String,
-    @Column(name = "post_bodu")
+    @Column(name = "post_body")
     val body: String,
+    @Column(name = "post_date_created")
     val dateCreated: LocalDate? = LocalDate.now(),
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
