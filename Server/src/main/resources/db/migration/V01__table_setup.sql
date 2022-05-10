@@ -49,16 +49,16 @@ CREATE TABLE post (
     post_id bigserial PRIMARY KEY,
     post_title varchar(70) NOT NULL,
     post_body text NOT NULL,
-    post_date_created date NOT NULL default current_date,
     user_id bigint NOT NULL references users(user_id),
-    group_id bigint NOT NULL references groups(group_id)
+    group_id bigint NOT NULL references groups(group_id),
+    post_date_created date NOT NULL default current_date
 );
 
 CREATE TABLE comment (
     comment_id bigserial PRIMARY KEY,
     comment_body text NOT NULL,
-    comment_date date NOT NULL default current_date,
     comment_post_id bigint NOT NULL references post(post_id),
-    comment_user_id bigint NOT NULL references users(user_id)
+    comment_user_id bigint NOT NULL references users(user_id),
+    comment_date date NOT NULL default current_date
 );
 
