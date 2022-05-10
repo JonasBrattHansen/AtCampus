@@ -5,6 +5,7 @@ import Welcome from "../components/Welcome";
 import {SafeAreaView} from "react-native-safe-area-context";
 import GroupPreview from "../components/GroupPreview";
 import ViewMore from "../components/ViewMore";
+import CreateGroup from "../components/CreateGroup";
 
 const postPreviews = [
 	{
@@ -83,6 +84,7 @@ function Groups() {
 				data={groupPreviews}
 				showsHorizontalScrollIndicator={false}
 				horizontal={true}
+				ListFooterComponent={<CreateGroup/>}
 				ItemSeparatorComponent={VerticalSeparator}
 				renderItem={({item}) =>
 					<GroupPreview
