@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service
 class UserGroupService(@Autowired private val userGroupRepo: UserGroupRepo,
                         @Autowired private val userRepo: UserRepo) {
 
-    fun getGroupsOfUser(userId: Long): List<UserGroup>{
-        val user: User = userRepo.findById(userId).orElse(null)
-        return userGroupRepo.findAllByUser(user)
+    fun getGroupsOfUser(userId: Long): List<Group>{
+        val groups = mutableListOf<Group>()
+        userGroupRepo.findAllByUser(userRepo.findById(userId).orElse(null)).map {
+            groups.add(it.group)
+        }
+        return groups
     }
 }

@@ -15,10 +15,6 @@ class UserGroupController(
     @GetMapping("/user/group")
     fun getGroupsByUser(@RequestParam userId: Long) : String{
         val userGroup = userGroupService.getGroupsOfUser(userId)
-        val groups = mutableListOf<Group>()
-        userGroup.map {
-            groups.add(it.group)
-        }
-        return groups.toString()
+        return userGroup.toString()
     }
 }
