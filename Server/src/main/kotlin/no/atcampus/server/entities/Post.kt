@@ -18,8 +18,8 @@ import javax.persistence.Table
 @Table(name = "post")
 class Post (
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posts_post_id_sequence")
-    @SequenceGenerator(name = "posts_post_id_sequence", sequenceName = "posts_post_id_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_post_id_seq")
+    @SequenceGenerator(name = "post_post_id_seq", sequenceName = "post_post_id_seq", allocationSize = 1)
     @Column(name = "post_id")
     val id: Long? = null,
     @Column(name = "post_title")

@@ -9,8 +9,8 @@ import javax.persistence.*
 @Table(name = "groups")
 class Group (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "groups_group_id_sequence")
-    @SequenceGenerator(name = "groups_group_id_sequence", sequenceName = "groups_group_id_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "groups_group_id_seq")
+    @SequenceGenerator(name = "groups_group_id_seq", sequenceName = "groups_group_id_seq", allocationSize = 1)
     @Column(name = "group_id")
     val id: Long? = null,
     @Column(name = "group_name")

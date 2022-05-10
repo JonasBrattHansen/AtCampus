@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ProgramRepo : JpaRepository<Program, Long> {
+    fun findProgramByProgramName(name: String): Program
 }

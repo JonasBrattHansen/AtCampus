@@ -11,6 +11,6 @@ class Program(
     @Column(name = "program_id")
     val id: Long? = null,
     @Column(name = "program_name")
-    val schoolName: String
+    val programName: String
 ) {
 }
