@@ -1,3 +1,6 @@
+[Link to GitHub Pages](https://tomrarcher.github.io/atcampus-slate)
+[Link to Slate Github](https://github.com/tomrarcher/atcampus-slate)
+
 # AtCampus 
 
 ## Server
