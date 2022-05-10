@@ -30,4 +30,8 @@ class Group (
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(referencedColumnName = "group_id")
     val userGroup: MutableList<UserGroup> = mutableListOf()
-)
+){
+    override fun toString(): String {
+        return "Group(id=$id, name='$name', description='$description', image='$image', admin=$admin, school=$school, dateCreated=$dateCreated, userGroup=$userGroup)"
+    }
+}
