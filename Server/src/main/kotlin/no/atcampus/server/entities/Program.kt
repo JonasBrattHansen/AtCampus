@@ -13,4 +13,7 @@ class Program(
     @Column(name = "program_name")
     val programName: String
 ) {
+    override fun toString(): String {
+        return "Program(id=$id, programName='$programName')"
+    }
 }

@@ -18,5 +18,4 @@ class Comment (
     val id: Long? = null,
     @Column(name = "comment_body")
     val body: String,
-
 )
