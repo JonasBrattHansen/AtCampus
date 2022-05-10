@@ -1,9 +1,13 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-function PostPreview({image, title, preview, date}) {
+function PostPreview({image, title, preview, date, onPress, style}) {
 	return (
-		<View style={styles.container}>
+		<TouchableOpacity
+			activeOpacity={0.6}
+			style={[style, styles.container]}
+			onPress={onPress}
+		>
 			<Image
 				style={styles.image}
 				source={{uri: image}}
@@ -15,7 +19,7 @@ function PostPreview({image, title, preview, date}) {
 			</View>
 			
 			<Text style={styles.date}>{date}</Text>
-		</View>
+		</TouchableOpacity>
 	);
 }
 
