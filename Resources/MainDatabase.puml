@@ -1,5 +1,5 @@
 @startuml
-'https://plantuml.com/object-diagram
+'https://plantuml.com/object-diagram'
 
 entity Users{
     * user_id: long AG ?
@@ -64,7 +64,7 @@ entity Comments{
     comment_body: text NN
     comment_date_created: datetime NN
     comment_post_id: long FK NN
-    comment_user_group_id: long FK NN
+    comment_user_id: long FK NN
 }
 
 entity Program{
