@@ -48,17 +48,6 @@ function HomeStack(props) {
 				component={GroupsScreen}
 				options={{
 					headerTitle: "Your Groups",
-					headerRight: () => {
-						return <TouchableOpacity
-							activeOpacity={0.6}
-							onPress={() => {
-								console.log("Pressed");
-							}}
-							style={{marginRight: 20}}
-						>
-							<AntDesign name="plus" size={24} color="black" />
-						</TouchableOpacity>
-					}
 				}}
 			/>
 			<Tab.Screen name="Me" component={ProfileScreen} />
