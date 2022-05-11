@@ -6,16 +6,22 @@ import no.atcampus.server.entities.User
 import no.atcampus.server.repo.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Service
 import java.time.LocalDate
 import javax.persistence.EntityNotFoundException
 import kotlin.Exception
 
+@Service
 class GroupService(
     @Autowired private val userRepo: UserRepo,
     @Autowired private val groupRepo: GroupRepo,
     @Autowired private val schoolRepo: SchoolRepo,
     @Autowired private val userGroupRepo: UserGroupRepo
     ) {
+
+    fun getAllGroups(): MutableList<Group>{
+        return groupRepo.findAll()
+    }
 
     fun getGroupsByName(name: String): MutableList<Group> {
         return groupRepo.findGroupsByName(name)
