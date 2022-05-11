@@ -14,10 +14,10 @@ class Comment (
     @Column(name = "comment_body")
     val body: String,
     @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
+    @JoinColumn(name = "comment_post_id", referencedColumnName = "post_id")
     val post: Post,
     @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "comment_user_id", referencedColumnName = "user_id")
     val user: User,
     @Column(name = "comment_date")
     val date: LocalDate? = LocalDate.now()
