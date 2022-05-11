@@ -13,7 +13,8 @@ import kotlin.Exception
 class GroupService(
     @Autowired private val userRepo: UserRepo,
     @Autowired private val groupRepo: GroupRepo,
-    @Autowired private val schoolRepo: SchoolRepo
+    @Autowired private val schoolRepo: SchoolRepo,
+    @Autowired private val userGroupRepo: UserGroupRepo
     ) {
 
     fun getGroupsByName(name: String): MutableList<Group> {
@@ -23,7 +24,12 @@ class GroupService(
     fun getGroupsByUserId(id: Long): MutableList<Group>{
         val user = userRepo.findByIdOrNull(id)
         user?.let {
-            return groupRepo.findGroupsByUser(it)
+            val userGroups = userGroupRepo.findUserGroupsByUser(user)
+            val groups = mutableListOf<Group>()
+            userGroups.map {
+                groups.add(it.group)
+            }
+            return groups
         }
         throw EntityNotFoundException("Could not find user with id $id")
     }

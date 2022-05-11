@@ -5,6 +5,7 @@ import io.mockk.mockk
 import no.atcampus.server.GenerateTestData
 import no.atcampus.server.repo.GroupRepo
 import no.atcampus.server.repo.SchoolRepo
+import no.atcampus.server.repo.UserGroupRepo
 import no.atcampus.server.repo.UserRepo
 import org.junit.Test
 
@@ -14,7 +15,8 @@ class GroupServiceUnitTest {
     private val userRepo = mockk<UserRepo>()
     private val groupRepo = mockk<GroupRepo>()
     private val schoolRepo = mockk<SchoolRepo>()
-    private val groupService = GroupService(userRepo, groupRepo, schoolRepo)
+    private val userGroupRepo = mockk<UserGroupRepo>()
+    private val groupService = GroupService(userRepo, groupRepo, schoolRepo, userGroupRepo)
     private val testData = GenerateTestData()
 
     @Test

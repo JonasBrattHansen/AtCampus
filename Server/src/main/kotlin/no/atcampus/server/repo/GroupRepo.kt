@@ -10,5 +10,4 @@ import org.springframework.stereotype.Repository
 interface GroupRepo : JpaRepository<Group, Long>{
     fun findGroupsByName(name: String): MutableList<Group>
     fun findGroupsBySchool(school: School): MutableList<Group>
-    fun findGroupsByUser(user: User): MutableList<Group>
 }
