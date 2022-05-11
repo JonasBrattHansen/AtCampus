@@ -43,7 +43,7 @@ class CommentServiceUnitTest {
             mutableListOf(testData.comment)
         }
 
-        val comment = commentRepo.findCommentsByPost(testData.post)
+        val comment = commentService.findCommentsByPost(1)
         assert(comment.size == 1)
         assert(comment[0].body.startsWith("Det stemmer"))
     }

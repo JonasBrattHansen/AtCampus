@@ -28,7 +28,7 @@ class PostServiceUnitTest {
         assert(post.body.startsWith("DRITKULE!!!!!!"))
     }
 
-/*
+
     @Test
     fun testFindPostsByGroup(){
         every {
@@ -44,10 +44,9 @@ class PostServiceUnitTest {
         }
 
         val post = postService.findPostsByGroup(1)
-        assert(post.size == 1)
-        assert(post[0].group.id.toString() == "1")
+        assert(post[0].body.startsWith("DRITKULE!!!!!!"))
     }
-*/
+
 
     @Test
     fun testDeletePost(){
