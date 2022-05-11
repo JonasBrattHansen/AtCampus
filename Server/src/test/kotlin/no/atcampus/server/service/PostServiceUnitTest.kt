@@ -7,6 +7,7 @@ import no.atcampus.server.repo.GroupRepo
 import no.atcampus.server.repo.PostRepo
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
+import javax.persistence.EntityNotFoundException
 
 class PostServiceUnitTest {
 
