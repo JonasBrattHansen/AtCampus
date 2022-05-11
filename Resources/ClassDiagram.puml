@@ -13,8 +13,8 @@ interface GroupRepo{
 }
 
 interface UserGroupRepo{
-    findGroupsByUser(userId: Long): MutableList<Group>
-    findUsersByGroup(groupId: Long): MutableList<User>
+    findUserGroupByUser(user: User): MutableList<UserGroup>
+    findUserGroupByGroup(group: Group): MutableList<UserGroup>
 }
 
 interface ProgramRepo{
