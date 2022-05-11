@@ -13,7 +13,12 @@ class SchoolService(
 ) {
 
     fun findSchoolBySchoolName(name: String): School {
-        return schoolRepo.findSchoolBySchoolName(name)
+        val school = schoolRepo.findSchoolBySchoolName(name)
+
+        school?.let {
+            return school
+        }
+        throw EntityNotFoundException("Could not find a school with name $name")
     }
 
 

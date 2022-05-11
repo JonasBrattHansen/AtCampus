@@ -1,5 +1,4 @@
 package no.atcampus.server.service
-
 import io.mockk.every
 import io.mockk.mockk
 import no.atcampus.server.GenerateTestData

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface SchoolRepo : JpaRepository<School, Long> {
-    fun findSchoolBySchoolName(name : String) : School
+    fun findSchoolBySchoolName(name : String) : School?
 }
