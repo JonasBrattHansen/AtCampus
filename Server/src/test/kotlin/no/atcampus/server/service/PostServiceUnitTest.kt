@@ -28,12 +28,25 @@ class PostServiceUnitTest {
         assert(post.body.startsWith("DRITKULE!!!!!!"))
     }
 
-/*
+
     @Test
     fun testFindPostsByGroup(){
+        every {
+            groupRepo.findByIdOrNull(any())
+        } answers {
+            testData.group
+        }
 
+        every {
+            postRepo.findPostsByGroup(any())
+        } answers {
+            mutableListOf(testData.post)
+        }
+
+        val post = postRepo.findPostsByGroup(testData.group)
+        assert(post.size == 1)
+        assert(post[0].group.id.toString() == "1")
     }
-*/
 
 
     @Test
