@@ -12,7 +12,12 @@ class ProgramService(
     @Autowired private val programRepo: ProgramRepo
 ) {
     fun findProgramByName(name: String): Program {
-        return programRepo.findProgramByProgramName(name)
+        val program =  programRepo.findProgramByProgramName(name)
+
+        program?.let {
+            return program
+        }
+        throw EntityNotFoundException("Could not find a program with name $name")
     }
 
 
