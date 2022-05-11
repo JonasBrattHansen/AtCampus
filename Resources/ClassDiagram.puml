@@ -10,6 +10,7 @@ interface UserRepo{
 interface GroupRepo{
     findGroupsByName(name: String): MutableList<Group>
     findGroupsBySchool(school: School): MutableList<Group>
+    findGroupsByUser(user: User): MutableList<Group>
 }
 
 interface UserGroupRepo{
@@ -54,8 +55,7 @@ class GroupService{
     @Autowired schoolRepo: SchoolRepo
     class GroupDetails (Group minus ID and DateCreated)
     getGroupsByName(name: String): MutableList<Group>
-    getGroupsByUser(user: User): MutableList<Group>
-    getGroupsByProgram(programId: Long): MutableList<Group>
+    getGroupsByUserId(id: Long): MutableList<Group>
     getGroupsBySchool(schoolId: Long): MutableList<Group>
     updateGroupById(id: Long, group: GroupDetails): Group
     addGroup(group: GroupDetails): Group
