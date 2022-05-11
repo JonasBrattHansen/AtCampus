@@ -1,12 +1,7 @@
 package no.atcampus.server.entities
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.SequenceGenerator
-import javax.persistence.Table
+import java.time.LocalDate
+import javax.persistence.*
 
 @Entity
 @Table(name = "comment")
@@ -18,4 +13,16 @@ class Comment (
     val id: Long? = null,
     @Column(name = "comment_body")
     val body: String,
-)
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
+    val post: Post,
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    val user: User,
+    @Column(name = "comment_date")
+    val date: LocalDate? = LocalDate.now()
+){
+    override fun toString(): String {
+        return "Comment(id=$id, body='$body', post=$post, user=$user, date=$date)"
+    }
+}

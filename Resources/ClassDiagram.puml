@@ -1,0 +1,108 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface UserRepo{
+    findUserByEmail(email: String): User
+    findUsersBySchool(school: School): MutableList<User>
+    findUsersByProgram(program: Program): MutableList<User>
+}
+
+interface GroupRepo{
+    findGroupsByName(name: String): MutableList<Group>
+    findGroupsBySchool(school: School): MutableList<Group>
+}
+
+interface UserGroupRepo{
+    findGroupsByUser(userId: Long): MutableList<Group>
+    findUsersByGroup(groupId: Long): MutableList<User>
+}
+
+interface ProgramRepo{
+    findProgramByProgramName(name: String): Program
+}
+
+interface SchoolRepo{
+    findSchoolBySchoolName(name: String): School
+}
+
+interface PostRepo{
+    findPostsByGroup(group: Group): MutableList<Post>
+}
+
+interface CommentRepo{
+    findCommentsByPost(post: Post): MutableList<Comment>
+}
+
+class UserService{
+    @Autowired userRepo: UserRepo
+    @Autowired groupRepo: GroupRepo
+    @Autowired userGroupRepo: UserGroupRepo
+    class UserDetails (User minus ID and DateCreated)
+    getUserByEmail(email: String): User
+    getUsersByGroup(group: Group): MutableList<User>
+    getUserById(id: Long): User
+    updateUserById(id: Long, user: UserDetails): User
+    updateUserProfileImage(id: Long, imageUrl: String): User
+    addUser(user: UserDetails): User
+}
+
+class GroupService{
+    @Autowired userRepo: UserRepo
+    @Autowired groupRepo: GroupRepo
+    @Autowired userGroupRepo: UserGroupRepo
+    @Autowired programRepo: ProgramRepo
+    @Autowired schoolRepo: SchoolRepo
+    class GroupDetails (Group minus ID and DateCreated)
+    getGroupsByName(name: String): MutableList<Group>
+    getGroupsByUser(user: User): MutableList<Group>
+    getGroupsByProgram(programId: Long): MutableList<Group>
+    getGroupsBySchool(schoolId: Long): MutableList<Group>
+    updateGroupById(id: Long, group: GroupDetails): Group
+    addGroup(group: GroupDetails): Group
+}
+
+class SchoolService{
+    @Autowired schoolRepo: SchoolRepo
+    findSchoolByName(name: String): School
+    findSchoolById(id: Long): School
+}
+
+class ProgramService{
+    @Autowired programRepo: ProgramRepo
+    findProgramByName(name: String): Program
+    findProgramById(id: Long): Program
+}
+
+class PostService{
+    @Autowired groupRepo: GroupRepo
+    @Autowired postRepo: PostRepo
+    findPostsByGroup(groupId: Long): MutableList<Post>
+    findPostById(id: Long): Post
+    deletePost(id: Long): Post
+}
+
+class CommentService{
+    @Autowired commentRepo: CommentRepo
+    @Autowired postRepo: PostRepo
+    findCommentsByPost(postId: Long): MutableList<Comment>
+    findCommentsById(id: Long): Comment
+    deleteComment(id: Long): Comment
+}
+
+
+UserService --> UserRepo
+UserService --> GroupRepo
+UserService --> UserGroupRepo
+GroupService --> UserRepo
+GroupService --> GroupRepo
+GroupService --> UserGroupRepo
+GroupService --> ProgramRepo
+GroupService --> SchoolRepo
+ProgramService --> ProgramRepo
+SchoolService --> SchoolRepo
+CommentService --> PostRepo
+CommentService --> CommentRepo
+PostService --> PostRepo
+PostService --> GroupRepo
+
+@enduml
