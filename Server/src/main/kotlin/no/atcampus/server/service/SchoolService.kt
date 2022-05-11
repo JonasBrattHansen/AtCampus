@@ -12,7 +12,7 @@ class SchoolService(
     @Autowired private val schoolRepo: SchoolRepo
 ) {
 
-    fun findSchoolBySchoolName(name: String): School {
+    fun findSchoolByName(name: String): School {
         val school = schoolRepo.findSchoolBySchoolName(name)
 
         school?.let {

@@ -18,7 +18,7 @@ class SchoolServiceUnitTest {
         } answers {
             testData.school
         }
-        val school = schoolService.findSchoolBySchoolName("Høyskolen Kristiania")
+        val school = schoolService.findSchoolByName("Høyskolen Kristiania")
         assert(school.schoolName.startsWith("Høy"))
     }
 
