@@ -38,8 +38,33 @@ class CommentServiceUnitTest {
         }
 
         every {
-
+            commentRepo.findCommentsByPost(any())
+        } answers {
+            mutableListOf(testData.comment)
         }
+
+        val comment = commentRepo.findCommentsByPost(testData.post)
+        assert(comment.size == 1)
+        assert(comment[0].body.startsWith("Det stemmer"))
+    }
+
+    @Test
+    fun testDeleteComment(){
+
+        every {
+            commentRepo.findByIdOrNull(any())
+        } answers {
+            testData.comment
+        }
+
+        every {
+            commentRepo.deleteById(any())
+        } answers {
+            testData.comment
+        }
+
+        assert(commentService.deleteComment(1) == testData.comment)
+
     }
 
 }
