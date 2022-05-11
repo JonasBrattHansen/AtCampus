@@ -1,10 +1,11 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import SvgAtCampus from "../components/SvgAtCampus";
 
 export default function FrontPage({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>This is frontpage!</Text>
+      <SvgAtCampus/>
       <StatusBar style="auto" />
       <Button
         title="Login"
@@ -29,4 +30,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+    atCampus: {
+        width: 60,
+        height: 60,
+        marginRight: 10,
+    }
 });

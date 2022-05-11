@@ -3,7 +3,7 @@ import HomeStack from "./stacks/HomeStack";
 import AuthenticationStack from "./stacks/AuthenticationStack";
 
 export default function App() {
-	const isSignedIn = true;
+	const isSignedIn = false;
 	
     return (
         <NavigationContainer>
@@ -15,4 +15,3 @@ export default function App() {
         </NavigationContainer>
     );
 }
-
