@@ -2,6 +2,7 @@ package no.atcampus.server.service
 
 import no.atcampus.server.entities.Comment
 import no.atcampus.server.entities.Post
+import no.atcampus.server.entities.School
 import no.atcampus.server.repo.GroupRepo
 import no.atcampus.server.repo.PostRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,4 +40,5 @@ class PostService(
         }
         throw EntityNotFoundException("Could not find post with id $id")
     }
+
 }
