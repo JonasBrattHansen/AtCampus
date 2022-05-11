@@ -4,7 +4,8 @@ import ActivitiesScreen from "../screens/ActivitiesScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import GroupsScreen from "../screens/GroupsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import {Ionicons} from "@expo/vector-icons";
+import {AntDesign, Ionicons} from "@expo/vector-icons";
+import {TouchableOpacity} from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,14 +35,32 @@ function HomeStack(props) {
 					}
 					
 					return <Ionicons name={iconName} size={size} color={color}/>;
-				}
+				},
+				tabBarActiveTintColor: "#7c7fca",
 			})}
 		>
 			<Tab.Screen name="Home" component={HomeScreen} options={{
 				headerShown: false,
 			}}/>
 			<Tab.Screen name="Activities" component={ActivitiesScreen} />
-			<Tab.Screen name="Groups" component={GroupsScreen} />
+			<Tab.Screen
+				name="Groups"
+				component={GroupsScreen}
+				options={{
+					headerTitle: "Your Groups",
+					headerRight: () => {
+						return <TouchableOpacity
+							activeOpacity={0.6}
+							onPress={() => {
+								console.log("Pressed");
+							}}
+							style={{marginRight: 20}}
+						>
+							<AntDesign name="plus" size={24} color="black" />
+						</TouchableOpacity>
+					}
+				}}
+			/>
 			<Tab.Screen name="Me" component={ProfileScreen} />
 		</Tab.Navigator>
 	);

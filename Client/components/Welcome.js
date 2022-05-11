@@ -16,7 +16,7 @@ function Welcome({title, date, week, temperature}) {
 					style={styles.sun}
 					name={"sun"}
 					size={24}
-					color={"#FFB323"}
+					color={"#FFD66B"}
 				/>
 				<Text>{temperature}°C</Text>
 			</View>

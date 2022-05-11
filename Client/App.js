@@ -1,9 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import HomeStack from "./stacks/HomeStack";
 import AuthenticationStack from "./stacks/AuthenticationStack";
+import {StatusBar} from "react-native";
 
 export default function App() {
-	const isSignedIn = false;
+	const isSignedIn = true;
 	
     return (
         <NavigationContainer>
@@ -12,6 +13,8 @@ export default function App() {
 		        :
 		        <AuthenticationStack/>
 	        }
+	        
+	        <StatusBar barStyle={"dark-content"}/>
         </NavigationContainer>
     );
 }
