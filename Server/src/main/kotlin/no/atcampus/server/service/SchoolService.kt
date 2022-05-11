@@ -12,7 +12,7 @@ class SchoolService(
     @Autowired private val schoolRepo: SchoolRepo
 ) {
 
-    fun findSchoolBySchoolName(name: String): School {
+    fun findSchoolByName(name: String): School {
         val school = schoolRepo.findSchoolBySchoolName(name)
 
         school?.let {
@@ -20,8 +20,6 @@ class SchoolService(
         }
         throw EntityNotFoundException("Could not find a school with name $name")
     }
-
-
     fun findSchoolById(id: Long) : School {
         val school = schoolRepo.findByIdOrNull(id)
 
@@ -30,4 +28,31 @@ class SchoolService(
         }
         throw EntityNotFoundException("Could not find the program with id $id")
     }
+
+    fun deleteSchool(id : Long) : School{
+       val school = schoolRepo.findByIdOrNull(id)
+        school?.let {
+            schoolRepo.deleteById(id)
+            return school
+        }
+        throw EntityNotFoundException("Could not find school with id $id")
+    }
+
+    fun updateSchoolInfo(id: Long, updatedSchoolInfo: UpdatedSchoolInfo): School {
+        val school = schoolRepo.findByIdOrNull(id)
+
+        school?.let {
+            val updatedSchool = School(
+                id = id,
+                schoolName = updatedSchoolInfo.schoolName ?: school.schoolName
+            )
+
+            return schoolRepo.save(updatedSchool)
+        }
+        throw EntityNotFoundException("Could not find school with id $id")
+    }
+
+
 }
+
+data class UpdatedSchoolInfo(val id: Long, val schoolName: String?)

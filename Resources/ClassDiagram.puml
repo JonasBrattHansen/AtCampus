@@ -65,12 +65,16 @@ class SchoolService{
     @Autowired schoolRepo: SchoolRepo
     findSchoolByName(name: String): School
     findSchoolById(id: Long): School
+    updateSchool(id: Long): School
+    deleteSchool(id: Long): School
 }
 
 class ProgramService{
     @Autowired programRepo: ProgramRepo
     findProgramByName(name: String): Program
     findProgramById(id: Long): Program
+    updateProgram(id: Long): Program
+    deleteProgram(id: Long): Program
 }
 
 class PostService{

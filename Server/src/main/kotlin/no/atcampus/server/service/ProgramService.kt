@@ -20,7 +20,6 @@ class ProgramService(
         throw EntityNotFoundException("Could not find a program with name $name")
     }
 
-
     fun findProgramById(id: Long) : Program{
         val program = programRepo.findByIdOrNull(id)
 
@@ -29,4 +28,29 @@ class ProgramService(
         }
         throw EntityNotFoundException("Could not find the program with id $id")
     }
+
+    fun deleteProgram(id : Long) : Program {
+        val program = programRepo.findByIdOrNull(id)
+        program?.let {
+            programRepo.deleteById(id)
+            return program
+        }
+        throw EntityNotFoundException("Could not find program with id $id")
+
+    }
+
+    fun updateProgramInfo(id: Long, updatedProgramInfo: UpdatedProgramInfo): Program {
+        val program = programRepo.findByIdOrNull(id)
+        program?.let {
+            val updatedProgram = Program(
+                id = id,
+                programName = updatedProgramInfo.programName ?: program.programName
+            )
+
+            return programRepo.save(updatedProgram)
+        }
+        throw EntityNotFoundException("Could not find program with id $id")
+    }
+
 }
+data class UpdatedProgramInfo(val id: Long, val programName: String?)
