@@ -26,7 +26,20 @@ class CommentServiceUnitTest {
 
         val comment = commentService.findCommentsById(1)
         assert(comment.body.startsWith("Det stemmer!"))
+    }
 
+    @Test
+    fun testFindCommentsByPost(){
+
+        every {
+            postRepo.findByIdOrNull(any())
+        } answers {
+            testData.post
+        }
+
+        every {
+
+        }
     }
 
 }
