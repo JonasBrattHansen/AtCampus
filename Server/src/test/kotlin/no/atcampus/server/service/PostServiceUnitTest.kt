@@ -65,6 +65,23 @@ class PostServiceUnitTest {
         }
 
         assert(postService.deletePost(1) == testData.post)
+    }
 
+    @Test
+    fun updatePosts() {
+        every {
+            postRepo.findByIdOrNull(any())
+        } answers {
+            testData.post
+        }
+
+        every {
+            postRepo.save(any())
+        } answers {
+            firstArg()
+        }
+        val updatePosts = UpdatePosts(1, "update", "new updated body", testData.user, testData.group)
+        val updatedPostInfo = postService.updatePostInfo(1, updatePosts)
+        assert(updatedPostInfo.title == "update")
     }
 }
