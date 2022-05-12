@@ -35,5 +35,24 @@ class ProgramServiceUnitTest {
         assert(program.programName.startsWith("Informasjonsteknologi"))
     }
 
+    @Test
+    fun testDeletePost(){
+
+        every {
+            programRepo.findByIdOrNull(any())
+        } answers {
+            testData.program
+        }
+
+        every {
+            programRepo.deleteById(any())
+        } answers {
+            testData.program
+        }
+
+        assert(programService.deleteProgram(1) == testData.program)
+
+    }
+
 
 }

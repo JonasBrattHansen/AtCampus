@@ -32,4 +32,23 @@ class SchoolServiceUnitTest {
         val program = schoolService.findSchoolById(1)
         assert(program.schoolName.startsWith("Høy"))
     }
+
+    @Test
+    fun testDeletePost(){
+
+        every {
+            schoolRepo.findByIdOrNull(any())
+        } answers {
+            testData.school
+        }
+
+        every {
+            schoolRepo.deleteById(any())
+        } answers {
+            testData.school
+        }
+
+        assert(schoolService.deleteSchool(1) == testData.school)
+
+    }
 }
