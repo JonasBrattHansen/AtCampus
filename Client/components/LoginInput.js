@@ -7,7 +7,7 @@ export default function LoginInput({title}) {
             <View style={styles.info}>
                 <Text style={styles.title}>{title}</Text>
                 <View>
-                    <TextInput style={styles.input} value={"Please enter: " + title} requierd={true}  />
+                    <TextInput style={styles.input} placeholder={"Please enter: " + title} />
                 </View>
             </View>
         </View>
@@ -23,11 +23,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     title: {
+        marginLeft: 8,
         fontSize: 18,
         fontWeight: "bold",
     },
     input: {
-        height: 55,
+        height: 50,
         margin: 10,
         width: 320,
         borderWidth: 1,

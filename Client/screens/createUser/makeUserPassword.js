@@ -1,27 +1,29 @@
-import {Button, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Button, StyleSheet, Text, TouchableOpacity, View, ScrollView} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import LoginInput from "../../components/LoginInput";
 
 export default function MakeUserPassword({ navigation }) {
   return (
     <View style={styles.container}>
-        <View>
-            <Text style={styles.text}>Create your account</Text>
-        </View>
-        <LoginInput title={"New password"}/>
-        <LoginInput title={"Confirm password"}/>
-        <StatusBar style="auto" />
-        <View>
-            <TouchableOpacity
-                style={styles.button}
-                title="Next"
-                onPress={() => {
-                    navigation.navigate("makeUserComplete");
-                }}
-            >
-                <Text style={styles.next}>Next</Text>
-            </TouchableOpacity>
-        </View>
+        <ScrollView>
+            <View>
+                <Text style={styles.text}>Create your account</Text>
+            </View>
+            <LoginInput title={"New password"}/>
+            <LoginInput title={"Confirm password"}/>
+            <StatusBar style="auto" />
+            <View>
+                <TouchableOpacity
+                    style={styles.button}
+                    title="Next"
+                    onPress={() => {
+                        navigation.navigate("makeUserComplete");
+                    }}
+                >
+                    <Text style={styles.next}>Next</Text>
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
     </View>
   );
 }
@@ -33,9 +35,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     text: {
-        paddingBottom: 50,
-        padding: 10,
-        fontSize: 30,
+        paddingTop: 90,
+        paddingLeft: 20,
+        padding: 20,
+        fontSize: 25,
         fontWeight: "bold"
     },
     button: {
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
         width: 300,
         borderRadius: 20,
         padding: 10,
-        marginTop: 40,
+        marginTop: 150,
     },
     next: {
         color: "#ffffff",

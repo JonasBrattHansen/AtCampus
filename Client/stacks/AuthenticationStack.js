@@ -13,21 +13,40 @@ const FrontpageStack = createNativeStackNavigator();
 function AuthenticationStack(props) {
 	return (
 		<FrontpageStack.Navigator>
-			<FrontpageStack.Screen name="frontPage" component={FrontPage} />
-			<FrontpageStack.Screen name="login" component={Login} />
-			<FrontpageStack.Screen name="makeUserName" component={MakeUserName} />
-			<FrontpageStack.Screen name="makeUserInfo" component={MakeUserInfo} />
+			<FrontpageStack.Screen
+				name="Frontpage"
+				component={FrontPage} options={{
+				headerShown: false}}
+			/>
+			<FrontpageStack.Screen
+				name="Login"
+				component={Login}
+				options={{ title: 'Login', headerTitleAlign: 'center' }}
+			/>
+			<FrontpageStack.Screen
+				name="makeUserName"
+				component={MakeUserName}
+				options={{ title: 'Make user', headerTitleAlign: 'center' }}
+			/>
+			<FrontpageStack.Screen
+				name="makeUserInfo"
+				component={MakeUserInfo}
+				options={{ title: 'Make user', headerTitleAlign: 'center' }}
+			/>
 			<FrontpageStack.Screen
 				name="makeUserSchool"
 				component={MakeUserSchool}
+				options={{ title: 'Make user', headerTitleAlign: 'center' }}
 			/>
 			<FrontpageStack.Screen
 				name="makeUserPassword"
 				component={MakeUserPassword}
+				options={{ title: 'Make user', headerTitleAlign: 'center' }}
 			/>
 			<FrontpageStack.Screen
 				name="makeUserComplete"
 				component={MakeUserComplete}
+				options={{ title: 'Make user', headerTitleAlign: 'center'}}
 			/>
 		</FrontpageStack.Navigator>
 	);
