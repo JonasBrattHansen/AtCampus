@@ -80,8 +80,27 @@ class CommentServiceUnitTest {
         } answers {
             firstArg()
         }
-        val updateComments = UpdateComments(1, "test1", testData.post, testData.user)
-        val updatedCommentInfo = commentService.updateComments(1, updateComments.body)
-        assert(updatedCommentInfo == "test1")
+        val updateComments = CommentDetails(1, "test1", testData.post, testData.user)
+        val updatedCommentInfo = commentService.updateComments(1, updateComments)
+        assert(updatedCommentInfo.body == "test1")
     }
+
+    /*
+    @Test
+    fun testAddComment(){
+        val newComment = CommentDetails(1,
+            "test body", testData.post, testData.user
+        )
+
+        every {
+            commentRepo.save(any())
+        } answers {
+            testData.comment
+        }
+
+        val comment = commentService.addComment(newComment)
+        assert(comment.body.startsWith("test body"))
+    }
+
+     */
 }
