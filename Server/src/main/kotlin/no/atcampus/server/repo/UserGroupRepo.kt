@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserGroupRepo : JpaRepository<UserGroup, Long> {
-    fun findAllByUser(user: User) : List<UserGroup>
+    fun findUserGroupsByUser(user: User): MutableList<UserGroup>
+    fun findUserGroupsByGroup(group: Group): List<UserGroup>
 }

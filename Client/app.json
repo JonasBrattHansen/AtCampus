@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Client",
-    "slug": "Client",
+    "name": "atcampus",
+    "slug": "atcampus",
+    "owner": "atcampus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
