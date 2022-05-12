@@ -160,7 +160,7 @@ function GroupsScreen({navigation}) {
 				snapPoints={snapPoints}
 				onChange={handleSheetChanges}
 				backdropComponent={(backdropProps) => (
-					<BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} closeOnPress={true}/>
+					<BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} pressBehavior={"close"}/>
 				)}
 				enablePanDownToClose={true}
 			>
@@ -169,9 +169,17 @@ function GroupsScreen({navigation}) {
 					<Text style={styles.description}>Create or find a group to study with other students</Text>
 					
 					<SimpleButton text={"Find group"}/>
+					
 					<TouchableOpacity
 						activeOpacity={0.6}
 						style={styles.createGroup}
+						onPress={() => {
+							console.log("Attempt to close modal", bottomSheetRef.current, bottomSheetRef.current.close);
+							console.log("force", bottomSheetRef.current.forceClose());
+							
+							bottomSheetRef.current.close()
+							bottomSheetRef.current.forceClose();
+						}}
 					>
 						<Text style={styles.createGroupText}>
 							Create new group
@@ -190,13 +198,15 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		flex: 1,
-		alignItems: 'center',
-		padding: 30,
+		display: "flex",
+		alignItems: "center",
+		paddingHorizontal: 20,
+		paddingTop: 30,
 	},
 	title: {
 		fontSize: 24,
 		fontWeight: "bold",
-		marginBottom: 10,
+		marginBottom: 5,
 	},
 	description: {
 		fontSize: 16,
