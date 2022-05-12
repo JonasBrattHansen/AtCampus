@@ -66,17 +66,22 @@ class CommentServiceUnitTest {
         assert(commentService.deleteComment(1) == testData.comment)
 
     }
-/*
+
     @Test
     fun updateComments() {
         every {
-            commentRepo.findCommentsByPost(any())
+            commentRepo.findByIdOrNull(any())
         } answers {
-            testData.
+            testData.comment
         }
-        every { commentRepo. }
 
-
-    }*/
-
+        every {
+            commentRepo.save(any())
+        } answers {
+            firstArg()
+        }
+        val updateComments = UpdateComments(1, "test1", testData.post, testData.user)
+        val updatedCommentInfo = commentService.updateComments(1, updateComments.body)
+        assert(updatedCommentInfo == "test1")
+    }
 }

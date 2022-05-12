@@ -1,9 +1,6 @@
 package no.atcampus.server.service
 
-import no.atcampus.server.entities.Comment
-import no.atcampus.server.entities.Program
-import no.atcampus.server.entities.School
-import no.atcampus.server.entities.User
+import no.atcampus.server.entities.*
 import no.atcampus.server.repo.CommentRepo
 import no.atcampus.server.repo.PostRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,3 +51,5 @@ class CommentService(
             throw EntityNotFoundException("Could not update comments whit $text")
         }
     }
+
+data class UpdateComments(val id: Long, val body: String, val post: Post, val user: User )
