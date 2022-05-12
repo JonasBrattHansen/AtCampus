@@ -55,4 +55,4 @@ class SchoolService(
 
 }
 
-data class UpdatedSchoolInfo(val id: Long, val schoolName: String?)
+data class UpdatedSchoolInfo(val schoolName: String?)

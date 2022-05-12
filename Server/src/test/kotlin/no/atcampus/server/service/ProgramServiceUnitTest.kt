@@ -36,7 +36,7 @@ class ProgramServiceUnitTest {
     }
 
     @Test
-    fun testDeletePost(){
+    fun testDeleteProgram(){
 
         every {
             programRepo.findByIdOrNull(any())
@@ -51,6 +51,26 @@ class ProgramServiceUnitTest {
         }
 
         assert(programService.deleteProgram(1) == testData.program)
+
+    }
+
+    @Test
+    fun testUpdateProgram(){
+        every {
+            programRepo.findByIdOrNull(any())
+        } answers{
+            testData.program
+        }
+        every {
+            programRepo.save(any())
+        } answers {
+            testData.program
+        }
+
+        val programDetails = UpdatedProgramInfo( "Updated program")
+        val updatedProgram = programService.updateProgramInfo(1, programDetails)
+
+        assert(updatedProgram.programName.startsWith("Informasjonsteknologi"))
 
     }
 

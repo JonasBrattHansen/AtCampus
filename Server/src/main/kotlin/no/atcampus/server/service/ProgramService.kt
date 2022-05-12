@@ -53,4 +53,4 @@ class ProgramService(
     }
 
 }
-data class UpdatedProgramInfo(val id: Long, val programName: String?)
+data class UpdatedProgramInfo(val programName: String?)

@@ -34,7 +34,7 @@ class SchoolServiceUnitTest {
     }
 
     @Test
-    fun testDeletePost(){
+    fun testDeleteSchool(){
 
         every {
             schoolRepo.findByIdOrNull(any())
@@ -50,5 +50,23 @@ class SchoolServiceUnitTest {
 
         assert(schoolService.deleteSchool(1) == testData.school)
 
+    }
+
+
+    @Test
+    fun testUpdateSchool(){
+        every {
+            schoolRepo.findByIdOrNull(any())
+        } answers {
+            testData.school
+        }
+        every{
+            schoolRepo.save(any())
+        } answers {
+            testData.school
+        }
+        val updatedSchoolInfo = UpdatedSchoolInfo("Testname")
+        val updatedSchool = schoolService.updateSchoolInfo(1, updatedSchoolInfo)
+        assert(updatedSchool.schoolName.startsWith("Høyskolen"))
     }
 }
