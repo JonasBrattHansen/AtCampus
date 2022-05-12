@@ -1,5 +1,5 @@
-import React, {useCallback, useMemo, useRef} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import {BackHandler, FlatList, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import BottomSheet, {BottomSheetBackdrop, BottomSheetModal} from "@gorhom/bottom-sheet";
 import SimpleButton from "../components/SimpleButton";
 import {AntDesign} from "@expo/vector-icons";
@@ -116,6 +116,24 @@ function GroupsScreen({navigation}) {
 	function openSheet() {
 		bottomSheetRef.current?.present();
 	}
+	
+	useEffect(() => {
+		const backAction = () => {
+			console.log("attempt close after back button");
+			
+			bottomSheetRef.current.close();
+			bottomSheetRef.current.forceClose();
+			
+			return true;
+		};
+		
+		const backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			backAction,
+		);
+		
+		return () => backHandler.remove();
+	}, [])
 	
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
