@@ -1,8 +1,6 @@
 package no.atcampus.server.service
 
-import no.atcampus.server.entities.Comment
-import no.atcampus.server.entities.Post
-import no.atcampus.server.entities.School
+import no.atcampus.server.entities.*
 import no.atcampus.server.repo.GroupRepo
 import no.atcampus.server.repo.PostRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,4 +39,22 @@ class PostService(
         throw EntityNotFoundException("Could not find post with id $id")
     }
 
+    fun updatePostInfo(id: Long, updatePosts: UpdatePosts): Post {
+        val post = postRepo.findByIdOrNull(id)
+
+        post?.let {
+            val updatedPost = Post(
+                id = id,
+                title = updatePosts.postTitle ?: post.title,
+                body = updatePosts.postBody?: post.body,
+                user = updatePosts.user?: post.user,
+                group = updatePosts.group?: post.group
+            )
+
+            return postRepo.save(updatedPost)
+        }
+        throw EntityNotFoundException("Could not find post with id $id")
+    }
 }
+
+data class UpdatePosts(val id: Long?, val postTitle: String?, val postBody: String?, val user: User?, val group: Group?)
