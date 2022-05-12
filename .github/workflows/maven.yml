@@ -22,7 +22,9 @@ jobs:
         with:
           java-version: 11
       - name: Maven Package
+        working-directory: ./Server
         run: mvn -B clean package -no.atcampus.server.service
       - name: Maven Verify
+        working-directory: ./Server
         run: mvn -B clean verify
         
