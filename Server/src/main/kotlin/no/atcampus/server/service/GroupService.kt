@@ -48,7 +48,7 @@ class GroupService(
         throw EntityNotFoundException("Could not find school with id $id")
     }
 
-    fun updateGroupById(id: Long, groupDetails: GroupDetails){
+    fun updateGroupById(id: Long, groupDetails: GroupDetails): Group{
         val group = groupRepo.findByIdOrNull(id)
         group?.let {
             val updatedGroup = Group(
@@ -60,7 +60,7 @@ class GroupService(
                 school = groupDetails.school ?: group.school,
                 dateCreated = group.dateCreated ?: LocalDate.now()
             )
-            groupRepo.save(updatedGroup)
+            return groupRepo.save(updatedGroup)
         }
         throw EntityNotFoundException("Could not find group with id $id")
     }
