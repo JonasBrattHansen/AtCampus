@@ -1,6 +1,7 @@
 import {Button, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import LoginInput from "../../components/LoginInput";
+import DropDownSchoolInfo from "../../components/DropDownSchoolInfo";
 
 export default function MakeUserSchool({ navigation }) {
   return (
@@ -8,8 +9,7 @@ export default function MakeUserSchool({ navigation }) {
         <View>
             <Text style={styles.text}>Create your account</Text>
         </View>
-        <LoginInput title={"School"}/>
-        <LoginInput title={"Program"}/>
+        <DropDownSchoolInfo/>
         <StatusBar style="auto" />
         <View>
             <TouchableOpacity

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { View, Picker, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import {Picker} from "@react-native-picker/picker";
+
 
 const DropDownSchoolInfo = () => {
 
@@ -40,8 +42,10 @@ const DropDownSchoolInfo = () => {
                 style={{ height: 50, width: 150 }}
                 onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
             >
-                <Picker.Item label="Java" value="java" />
-                <Picker.Item label="JavaScript" value="js" />
+                {Object.entries(SchoolInfo.SchoolName).map((value, i) => {
+                    <Picker.Item key={i} label={value[i]} value={value[i]} />
+                })}
+
             </Picker>
         </View>
     );
@@ -54,3 +58,5 @@ const styles = StyleSheet.create({
         alignItems: "center"
     }
 });
+
+export default DropDownSchoolInfo
