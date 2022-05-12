@@ -1,11 +1,15 @@
 package no.atcampus.server.service
 
 import no.atcampus.server.entities.Comment
+import no.atcampus.server.entities.Program
+import no.atcampus.server.entities.School
+import no.atcampus.server.entities.User
 import no.atcampus.server.repo.CommentRepo
 import no.atcampus.server.repo.PostRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import javax.persistence.EntityNotFoundException
 
 @Service
@@ -40,4 +44,13 @@ class CommentService(
         throw EntityNotFoundException("Could not find comment with id $id")
     }
 
-}
+    fun updateComments(id: Long, text: String): String{
+            var comment = commentRepo.findByIdOrNull(id)
+            comment?.let {
+                comment.body = text
+                commentRepo.save(comment)
+                return text
+            }
+            throw EntityNotFoundException("Could not update comments whit $text")
+        }
+    }

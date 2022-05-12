@@ -66,5 +66,17 @@ class CommentServiceUnitTest {
         assert(commentService.deleteComment(1) == testData.comment)
 
     }
+/*
+    @Test
+    fun updateComments() {
+        every {
+            commentRepo.findCommentsByPost(any())
+        } answers {
+            testData.
+        }
+        every { commentRepo. }
+
+
+    }*/
 
 }
