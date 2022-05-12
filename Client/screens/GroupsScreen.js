@@ -1,5 +1,14 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import {BackHandler, FlatList, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import {
+	BackHandler,
+	FlatList,
+	Platform,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	View
+} from "react-native";
 import BottomSheet, {BottomSheetBackdrop, BottomSheetModal} from "@gorhom/bottom-sheet";
 import SimpleButton from "../components/SimpleButton";
 import {AntDesign} from "@expo/vector-icons";
@@ -7,6 +16,7 @@ import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
 import GroupPreview from "../components/GroupPreview";
 import PostPreview from "../components/PostPreview";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const postPreviews = [
 	{
@@ -106,7 +116,7 @@ function GroupsScreen({navigation}) {
 	const bottomSheetRef = useRef(null);
 	
 	// variables
-	const snapPoints = useMemo(() => ['35%'], []);
+	const snapPoints = useMemo(() => [Platform.OS === "ios" ? "35%" : "40%"], []);
 	
 	// callbacks
 	const handleSheetChanges = useCallback((index) => {
@@ -119,8 +129,6 @@ function GroupsScreen({navigation}) {
 	
 	useEffect(() => {
 		const backAction = () => {
-			console.log("attempt close after back button");
-			
 			bottomSheetRef.current.close();
 			bottomSheetRef.current.forceClose();
 			
@@ -133,7 +141,7 @@ function GroupsScreen({navigation}) {
 		);
 		
 		return () => backHandler.remove();
-	}, [])
+	}, []);
 	
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
@@ -143,7 +151,7 @@ function GroupsScreen({navigation}) {
 					onPress={() => {
 						openSheet();
 					}}
-					style={{marginRight: 20}}
+					style={{marginRight: 10}}
 				>
 					<AntDesign name="plus" size={24} color="black" />
 				</TouchableOpacity>
@@ -182,28 +190,35 @@ function GroupsScreen({navigation}) {
 				)}
 				enablePanDownToClose={true}
 			>
-				<View style={styles.contentContainer}>
+				<SafeAreaView style={styles.contentContainer}>
 					<Text style={styles.title}>Find your studymates</Text>
 					<Text style={styles.description}>Create or find a group to study with other students</Text>
 					
-					<SimpleButton text={"Find group"}/>
+					<SimpleButton
+						text={"Find group"}
+						onPress={() => {
+							bottomSheetRef.current.close();
+							bottomSheetRef.current.forceClose();
+							
+							navigation.navigate("Find Group");
+						}}
+					/>
 					
 					<TouchableOpacity
 						activeOpacity={0.6}
 						style={styles.createGroup}
 						onPress={() => {
-							console.log("Attempt to close modal", bottomSheetRef.current, bottomSheetRef.current.close);
-							console.log("force", bottomSheetRef.current.forceClose());
-							
 							bottomSheetRef.current.close()
 							bottomSheetRef.current.forceClose();
+							
+							navigation.navigate("Create Group");
 						}}
 					>
 						<Text style={styles.createGroupText}>
 							Create new group
 						</Text>
 					</TouchableOpacity>
-				</View>
+				</SafeAreaView>
 			</BottomSheetModal>
 		</View>
 	);
