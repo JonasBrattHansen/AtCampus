@@ -12,7 +12,7 @@ class Comment (
     @Column(name = "comment_id")
     val id: Long? = null,
     @Column(name = "comment_body")
-    val body: String,
+    var body: String,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "comment_post_id", referencedColumnName = "post_id")
     val post: Post,

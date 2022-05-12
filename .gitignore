@@ -7,5 +7,5 @@
 /Server/target/
 /.idea/AtCampus.iml
 /.idea/
-
+*.iml
 .DS_Store

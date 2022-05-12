@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.eidjord</groupId>
-    <artifactId>EnterpriseExam</artifactId>
+    <artifactId>AtCampus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>EnterpriseExam</name>
-    <description>EnterpriseExam</description>
+    <name>AtCampus</name>
+    <description>AtCampus API</description>
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.6.21</kotlin.version>
