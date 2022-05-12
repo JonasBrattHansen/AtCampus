@@ -63,10 +63,10 @@ class SchoolServiceUnitTest {
         every{
             schoolRepo.save(any())
         } answers {
-            testData.school
+            firstArg()
         }
         val updatedSchoolInfo = UpdatedSchoolInfo("Testname")
         val updatedSchool = schoolService.updateSchoolInfo(1, updatedSchoolInfo)
-        assert(updatedSchool.schoolName.startsWith("Høyskolen"))
+        assert(updatedSchool.schoolName == "Testname")
     }
 }

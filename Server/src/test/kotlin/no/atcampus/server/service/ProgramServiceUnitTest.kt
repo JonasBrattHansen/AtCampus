@@ -64,13 +64,13 @@ class ProgramServiceUnitTest {
         every {
             programRepo.save(any())
         } answers {
-            testData.program
+            firstArg()
         }
 
         val programDetails = UpdatedProgramInfo( "Updated program")
         val updatedProgram = programService.updateProgramInfo(1, programDetails)
 
-        assert(updatedProgram.programName.startsWith("Informasjonsteknologi"))
+        assert(updatedProgram.programName.startsWith("Updated"))
 
     }
 
