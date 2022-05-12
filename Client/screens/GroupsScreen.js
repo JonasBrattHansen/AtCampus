@@ -1,7 +1,6 @@
 import React, {useCallback, useMemo, useRef} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
-import { BlurView } from 'expo-blur';
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetBackdrop, BottomSheetModal} from "@gorhom/bottom-sheet";
 import SimpleButton from "../components/SimpleButton";
 import {AntDesign} from "@expo/vector-icons";
 import ViewMore from "../components/ViewMore";
@@ -107,7 +106,7 @@ function GroupsScreen({navigation}) {
 	const bottomSheetRef = useRef(null);
 	
 	// variables
-	const snapPoints = useMemo(() => ['40%'], []);
+	const snapPoints = useMemo(() => ['35%'], []);
 	
 	// callbacks
 	const handleSheetChanges = useCallback((index) => {
@@ -115,7 +114,7 @@ function GroupsScreen({navigation}) {
 	}, []);
 	
 	function openSheet() {
-		bottomSheetRef.current.expand();
+		bottomSheetRef.current?.present();
 	}
 	
 	React.useLayoutEffect(() => {
@@ -156,57 +155,35 @@ function GroupsScreen({navigation}) {
 				}
 			/>
 			
-			<TouchableWithoutFeedback style={styles.background} onPress={() => bottomSheetRef.current.close()}>
-				<BottomSheet
-					ref={bottomSheetRef}
-					snapPoints={snapPoints}
-					index={-1}
-					onChange={handleSheetChanges}
-					enablePanDownToClose={true}
-					style={styles.sheet}
-				>
-					<View style={styles.contentContainer}>
-						<Text style={styles.title}>Find your studymates</Text>
-						<Text style={styles.description}>Create or find a group to study with other students</Text>
-						
-						<SimpleButton text={"Find group"}/>
-						<TouchableOpacity
-							activeOpacity={0.6}
-							style={styles.createGroup}
-						>
-							<Text style={styles.createGroupText}>
-								Create new group
-							</Text>
-						</TouchableOpacity>
-					</View>
-				</BottomSheet>
-			</TouchableWithoutFeedback>
+			<BottomSheetModal
+				ref={bottomSheetRef}
+				snapPoints={snapPoints}
+				onChange={handleSheetChanges}
+				backdropComponent={(backdropProps) => (
+					<BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} closeOnPress={true}/>
+				)}
+				enablePanDownToClose={true}
+			>
+				<View style={styles.contentContainer}>
+					<Text style={styles.title}>Find your studymates</Text>
+					<Text style={styles.description}>Create or find a group to study with other students</Text>
+					
+					<SimpleButton text={"Find group"}/>
+					<TouchableOpacity
+						activeOpacity={0.6}
+						style={styles.createGroup}
+					>
+						<Text style={styles.createGroupText}>
+							Create new group
+						</Text>
+					</TouchableOpacity>
+				</View>
+			</BottomSheetModal>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	background: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		bottom: 0,
-		right: 0,
-		flex: 1,
-		backgroundColor: "#000",
-	},
-	blur: {
-		position: "absolute",
-		top: 0,
-		right: 0,
-		bottom: 0,
-		left: 0,
-		flex: 1,
-		zIndex: 0,
-	},
-	sheet: {
-		zIndex: 2,
-	},
 	container: {
 		flex: 1,
 		backgroundColor: "white",
@@ -214,7 +191,7 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		flex: 1,
 		alignItems: 'center',
-		padding: 20,
+		padding: 30,
 	},
 	title: {
 		fontSize: 24,
