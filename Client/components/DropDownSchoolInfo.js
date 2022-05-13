@@ -34,28 +34,65 @@ const DropDownSchoolInfo = () => {
         }
     ]
 
-    const [selectedValue, setSelectedValue] = useState("java");
+    const [valueSchool, setValueSchool] = useState("Høyskolen kristiania");
+    const [valueProgram, setValueProgram] = useState("");
+
+    function getProgramFromSchool(){
+        const school = SchoolInfo.find((element) => element.SchoolName === valueSchool)
+        return school.program
+    }
+
     return (
         <View style={styles.container}>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 150 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-            >
-                {Object.entries(SchoolInfo.SchoolName).map((value, i) => {
-                    <Picker.Item key={i} label={value[i]} value={value[i]} />
-                })}
-
-            </Picker>
+            <View style={styles.styleSchool}>
+                <Picker
+                    selectedValue={valueSchool}
+                    onValueChange={(itemValue, itemIndex) => setValueSchool(itemValue)}
+                >
+                    {SchoolInfo.map((value, i) => (
+                        <Picker.Item key={i} label={value.SchoolName} value={value.SchoolName} />
+                    ))}
+                </Picker>
+            </View>
+            <View style={styles.styleProgram}>
+                <Picker
+                    selectedValue={valueProgram}
+                    onValueChange={(itemValue, itemIndex) => setValueProgram(itemValue)}
+                >
+                    {getProgramFromSchool().map((value, i) => (
+                        <Picker.Item  key={i} label={value} value={value}   />
+                    )) }
+                </Picker>
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 40,
-        alignItems: "center"
+        display: "flex",
+        alignItems: "center",
+    },
+    styleSchool:{
+        padding: 0,
+        height: 50,
+        margin: 25,
+        width: 300,
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "#d3d3d3",
+        borderRadius: 10
+
+    },
+    styleProgram:{
+        padding: 0,
+        height: 50,
+        width: 300,
+        margin: 25,
+        borderWidth: 1,
+        overflow: "hidden",
+        borderColor: "#d3d3d3",
+        borderRadius: 10
     }
 });
 
