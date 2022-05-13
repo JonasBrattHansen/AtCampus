@@ -7,7 +7,6 @@ import no.atcampus.server.repo.GroupRepo
 import no.atcampus.server.repo.PostRepo
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
-import javax.persistence.EntityNotFoundException
 
 class PostServiceUnitTest {
 
@@ -80,8 +79,26 @@ class PostServiceUnitTest {
         } answers {
             firstArg()
         }
-        val updatePosts = UpdatePosts(1, "update", "new updated body", testData.user, testData.group)
+        val updatePosts = PostDetails(1, "update", "new updated body", testData.user, testData.group)
         val updatedPostInfo = postService.updatePostInfo(1, updatePosts)
         assert(updatedPostInfo.title == "update")
     }
+/*
+    @Test
+    fun testAddPost(){
+        val newPost = PostDetails(1,
+            "lKohort 9000", "This is a body", testData.user, testData.group
+        )
+
+        every {
+            postRepo.save(any())
+        } answers {
+            testData.post
+        }
+
+        val post = postService.addPost(newPost)
+        assert(post.title.startsWith("lKohort 9000"))
+    }
+
+ */
 }

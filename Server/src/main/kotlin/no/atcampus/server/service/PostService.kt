@@ -39,14 +39,24 @@ class PostService(
         throw EntityNotFoundException("Could not find post with id $id")
     }
 
-    fun updatePostInfo(id: Long, updatePosts: UpdatePosts): Post {
+    fun addPost(postDetails: PostDetails): Post{
+        val post = Post(
+            title = postDetails.title ?: throw Exception("PostDetails must include a title"),
+            body = postDetails.body ?: throw Exception("PostDetails must include a body"),
+            user = postDetails.user ?: throw Exception("PostDetails must include an user"),
+            group = postDetails.group ?: throw Exception("PostDetails must include a group"),
+        )
+        return postRepo.save(post)
+    }
+
+    fun updatePostInfo(id: Long, updatePosts: PostDetails): Post {
         val post = postRepo.findByIdOrNull(id)
 
         post?.let {
             val updatedPost = Post(
                 id = id,
-                title = updatePosts.postTitle ?: post.title,
-                body = updatePosts.postBody?: post.body,
+                title = updatePosts.title ?: post.title,
+                body = updatePosts.body?: post.body,
                 user = updatePosts.user?: post.user,
                 group = updatePosts.group?: post.group
             )
@@ -57,4 +67,4 @@ class PostService(
     }
 }
 
-data class UpdatePosts(val id: Long?, val postTitle: String?, val postBody: String?, val user: User?, val group: Group?)
+data class PostDetails(val id: Long?, val title: String?, val body: String?, val user: User?, val group: Group?)

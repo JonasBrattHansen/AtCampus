@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-function SimpleButton({text, onPress}) {
+function SimpleButton({text, onPress, style}) {
 	return (
 		<TouchableOpacity
-			style={styles.container}
+			style={[style, styles.container]}
 			activeOpacity={0.6}
 			onPress={onPress}
 		>
