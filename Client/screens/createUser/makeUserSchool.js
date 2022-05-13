@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     text: {
         padding: 10,
         fontSize: 30,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginBottom: 100
     },
     schoolInfo:{
     },
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
         width: 300,
         borderRadius: 20,
         padding: 10,
+        marginTop: 100
     },
     next: {
         color: "#ffffff",

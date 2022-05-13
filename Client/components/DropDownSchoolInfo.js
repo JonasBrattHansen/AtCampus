@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import {Picker} from "@react-native-picker/picker";
 
 
@@ -44,8 +44,8 @@ const DropDownSchoolInfo = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.styleSchool}>
-                <Picker
+            <Text style={styles.textSchool}>School</Text>
+                <Picker style={styles.styleSchool}
                     selectedValue={valueSchool}
                     onValueChange={(itemValue, itemIndex) => setValueSchool(itemValue)}
                 >
@@ -53,9 +53,8 @@ const DropDownSchoolInfo = () => {
                         <Picker.Item key={i} label={value.SchoolName} value={value.SchoolName} />
                     ))}
                 </Picker>
-            </View>
-            <View style={styles.styleProgram}>
-                <Picker
+            <Text style={styles.textProgram}>Program</Text>
+                <Picker style={styles.styleProgram}
                     selectedValue={valueProgram}
                     onValueChange={(itemValue, itemIndex) => setValueProgram(itemValue)}
                 >
@@ -63,7 +62,6 @@ const DropDownSchoolInfo = () => {
                         <Picker.Item  key={i} label={value} value={value}   />
                     )) }
                 </Picker>
-            </View>
         </View>
     );
 }
@@ -74,25 +72,28 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     styleSchool:{
-        padding: 0,
         height: 50,
-        margin: 25,
+        marginBottom: 20,
         width: 300,
-        overflow: "hidden",
-        borderWidth: 1,
-        borderColor: "#d3d3d3",
-        borderRadius: 10
 
     },
     styleProgram:{
-        padding: 0,
         height: 50,
         width: 300,
-        margin: 25,
-        borderWidth: 1,
-        overflow: "hidden",
-        borderColor: "#d3d3d3",
-        borderRadius: 10
+        marginBottom: 20,
+    },
+    textSchool:{
+        fontWeight: "bold",
+        fontSize: 20,
+        marginBottom: 10,
+        marginRight:230
+
+    },
+    textProgram:{
+        fontWeight: "bold",
+        fontSize: 20,
+        marginBottom: 10,
+        marginRight:210
     }
 });
 
