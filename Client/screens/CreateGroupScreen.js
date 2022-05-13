@@ -3,7 +3,6 @@ import {
 	Image,
 	Keyboard,
 	KeyboardAvoidingView,
-	Platform, ScrollView,
 	StyleSheet, TouchableOpacity,
 	TouchableWithoutFeedback,
 	View
@@ -12,6 +11,7 @@ import InputField from "../components/InputField";
 import SimpleButton from "../components/SimpleButton";
 
 import * as ImagePicker from 'expo-image-picker';
+import {Ionicons} from "@expo/vector-icons";
 
 function Separator() {
 	return <View style={styles.separator}/>
@@ -50,7 +50,7 @@ function CreateGroupScreen(props) {
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<View style={{flex: 1, backgroundColor: "white"}}>
-				<KeyboardAvoidingView contentContainerStyle={{backgroundColor: "white", alignItems: "center"}} behavior={"position"} keyboardVerticalOffset={100}>
+				<KeyboardAvoidingView contentContainerStyle={{backgroundColor: "white", alignItems: "center"}} behavior={"position"} keyboardVerticalOffset={80}>
 					<TouchableOpacity
 						style={styles.imageWrapper}
 						activeOpacity={0.6}
@@ -60,6 +60,10 @@ function CreateGroupScreen(props) {
 							source={{uri: image}}
 							style={styles.image}
 						/>}
+						
+						{!image &&
+							<Ionicons name="image-outline" size={55} color="rgba(32, 32, 32, 0.8)" />
+						}
 					</TouchableOpacity>
 					
 					<View style={styles.divider}/>
@@ -118,6 +122,9 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 	},
 	imageWrapper: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
 		width: 150,
 		height: 150,
 		borderRadius: 75,
