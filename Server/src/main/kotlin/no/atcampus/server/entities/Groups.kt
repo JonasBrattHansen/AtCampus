@@ -1,7 +1,4 @@
 package no.atcampus.server.entities
-
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.hibernate.mapping.Join
 import java.time.LocalDate
 import javax.persistence.*
 
