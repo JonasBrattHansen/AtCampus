@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     title: {
         padding: 10,
         margin: 20,
-        fontSize: 28,
+        fontSize: 25,
         fontWeight: "bold",
     },
     button: {
