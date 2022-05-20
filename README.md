@@ -1,4 +1,6 @@
-[Link to GitHub Pages](https://tomrarcher.github.io/atcampus-slate)
+[![Java CI with Maven](https://github.com/ToMrArcher/AtCampus/actions/workflows/maven.yml/badge.svg)](https://github.com/ToMrArcher/AtCampus/actions/workflows/maven.yml)
+
+[Link to GitHub Pages](https://tomrarcher.github.io/atcampus-slate) <br>
 [Link to Slate Github](https://github.com/tomrarcher/atcampus-slate)
 
 # AtCampus 
@@ -8,7 +10,7 @@
 ### Installing docker
 [Download here](https://docs.docker.com/get-docker/)
 
-### Docker setup
+### Docker setupcd .
 **Make sure to have docker running**
 ```console
 cd Server/src/main/resources/docker/

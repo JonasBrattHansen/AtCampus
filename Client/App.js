@@ -16,10 +16,8 @@ export default function App() {
 						:
 						<AuthenticationStack/>
 					}
-
 					<StatusBar barStyle={"dark-content"}/>
 				</NavigationContainer>
 			</BottomSheetModalProvider>
-
     );
 }

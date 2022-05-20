@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.eidjord</groupId>
-    <artifactId>EnterpriseExam</artifactId>
+    <artifactId>AtCampus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>EnterpriseExam</name>
-    <description>EnterpriseExam</description>
+    <name>AtCampus</name>
+    <description>AtCampus API</description>
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.6.21</kotlin.version>
@@ -25,6 +25,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
@@ -51,11 +56,6 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>3.19.1</version>
@@ -65,6 +65,11 @@
             <artifactId>testcontainers</artifactId>
             <version>1.17.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.6.7</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>

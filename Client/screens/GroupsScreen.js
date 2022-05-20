@@ -1,5 +1,14 @@
-import React, {useCallback, useMemo, useRef} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import {
+	BackHandler,
+	FlatList,
+	Platform,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	View
+} from "react-native";
 import BottomSheet, {BottomSheetBackdrop, BottomSheetModal} from "@gorhom/bottom-sheet";
 import SimpleButton from "../components/SimpleButton";
 import {AntDesign} from "@expo/vector-icons";
@@ -7,6 +16,7 @@ import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
 import GroupPreview from "../components/GroupPreview";
 import PostPreview from "../components/PostPreview";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const postPreviews = [
 	{
@@ -71,7 +81,7 @@ function Groups() {
 	return (
 		<View style={styles.groups}>
 			<ViewMore text={"Favorites"} style={{padding: 20}}/>
-			
+
 			<FlatList
 				contentContainerStyle={styles.groupPreviews}
 				data={groupPreviews}
@@ -87,7 +97,7 @@ function Groups() {
 					/>
 				}
 			/>
-			
+
 			<ViewMore text={"Your Groups"} style={{padding: 20}}/>
 		</View>
 	)
@@ -104,19 +114,35 @@ function VerticalSeparator() {
 function GroupsScreen({navigation}) {
 	// ref
 	const bottomSheetRef = useRef(null);
-	
+
 	// variables
-	const snapPoints = useMemo(() => ['35%'], []);
-	
+	const snapPoints = useMemo(() => [Platform.OS === "ios" ? "35%" : "40%"], []);
+
 	// callbacks
 	const handleSheetChanges = useCallback((index) => {
 		//console.log('handleSheetChanges', index);
 	}, []);
-	
+
 	function openSheet() {
 		bottomSheetRef.current?.present();
 	}
-	
+
+	useEffect(() => {
+		const backAction = () => {
+			bottomSheetRef.current.close();
+			bottomSheetRef.current.forceClose();
+
+			return true;
+		};
+
+		const backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			backAction,
+		);
+
+		return () => backHandler.remove();
+	}, []);
+
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
 			headerRight: () => {
@@ -125,14 +151,14 @@ function GroupsScreen({navigation}) {
 					onPress={() => {
 						openSheet();
 					}}
-					style={{marginRight: 20}}
+					style={{marginRight: 10}}
 				>
 					<AntDesign name="plus" size={24} color="black" />
 				</TouchableOpacity>
 			}
 		})
 	})
-	
+
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -154,30 +180,45 @@ function GroupsScreen({navigation}) {
 					/>
 				}
 			/>
-			
+
 			<BottomSheetModal
 				ref={bottomSheetRef}
 				snapPoints={snapPoints}
 				onChange={handleSheetChanges}
 				backdropComponent={(backdropProps) => (
-					<BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} closeOnPress={true}/>
+					<BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} pressBehavior={"close"}/>
 				)}
 				enablePanDownToClose={true}
 			>
-				<View style={styles.contentContainer}>
+				<SafeAreaView style={styles.contentContainer}>
 					<Text style={styles.title}>Find your studymates</Text>
 					<Text style={styles.description}>Create or find a group to study with other students</Text>
-					
-					<SimpleButton text={"Find group"}/>
+
+					<SimpleButton
+						text={"Find group"}
+						onPress={() => {
+							bottomSheetRef.current.close();
+							bottomSheetRef.current.forceClose();
+
+							navigation.navigate("Find Group");
+						}}
+					/>
+
 					<TouchableOpacity
 						activeOpacity={0.6}
 						style={styles.createGroup}
+						onPress={() => {
+							bottomSheetRef.current.close()
+							bottomSheetRef.current.forceClose();
+
+							navigation.navigate("Create Group");
+						}}
 					>
 						<Text style={styles.createGroupText}>
 							Create new group
 						</Text>
 					</TouchableOpacity>
-				</View>
+				</SafeAreaView>
 			</BottomSheetModal>
 		</View>
 	);
@@ -190,13 +231,15 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		flex: 1,
-		alignItems: 'center',
-		padding: 30,
+		display: "flex",
+		alignItems: "center",
+		paddingHorizontal: 20,
+		paddingTop: 30,
 	},
 	title: {
 		fontSize: 24,
 		fontWeight: "bold",
-		marginBottom: 10,
+		marginBottom: 5,
 	},
 	description: {
 		fontSize: 16,

@@ -1,13 +1,10 @@
 package no.atcampus.server.entities
-
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.hibernate.mapping.Join
 import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
 @Table(name = "groups")
-class Group (
+class GroupEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "groups_group_id_seq")
     @SequenceGenerator(name = "groups_group_id_seq", sequenceName = "groups_group_id_seq", allocationSize = 1)
@@ -21,15 +18,15 @@ class Group (
     val image: String,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "group_admin", referencedColumnName = "user_id")
-    val admin: User,
+    val admin: UserEntity,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "group_school", referencedColumnName = "school_id")
-    val school: School,
+    val schoolEntity: SchoolEntity,
     @Column(name = "group_date_created")
     val dateCreated: LocalDate? = LocalDate.now(),
 
-){
+    ){
     override fun toString(): String {
-        return "Group(id=$id, name='$name', description='$description', image='$image', admin=$admin, school=$school, dateCreated=$dateCreated)"
+        return "Group(id=$id, name='$name', description='$description', image='$image', admin=$admin, school=$schoolEntity, dateCreated=$dateCreated)"
     }
 }

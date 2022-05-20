@@ -2,10 +2,10 @@ import React from 'react';
 import HomeScreen from "../screens/HomeScreen";
 import ActivitiesScreen from "../screens/ActivitiesScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import GroupsScreen from "../screens/GroupsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
-import {TouchableOpacity} from "react-native";
+import GroupStack from "./GroupStack";
+import ProfileStack from "./ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -45,12 +45,18 @@ function HomeStack(props) {
 			<Tab.Screen name="Activities" component={ActivitiesScreen} />
 			<Tab.Screen
 				name="Groups"
-				component={GroupsScreen}
+				component={GroupStack}
 				options={{
-					headerTitle: "Your Groups",
+					headerShown: false,
 				}}
 			/>
-			<Tab.Screen name="Me" component={ProfileScreen} />
+			<Tab.Screen
+				name="Me"
+				component={ProfileStack}
+				options={{
+					headerShown: false,
+				}}
+			/>
 		</Tab.Navigator>
 	);
 }

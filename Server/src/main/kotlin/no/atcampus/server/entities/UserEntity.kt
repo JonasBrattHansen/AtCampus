@@ -1,13 +1,11 @@
-package no.atcampus.server.entities;
+package no.atcampus.server.entities
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.hibernate.annotations.Cascade
 import java.time.LocalDate
-import javax.persistence.*;
+import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-class User (
+class UserEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
     @SequenceGenerator(name = "users_user_id_seq", sequenceName = "users_user_id_seq", allocationSize = 1)
@@ -25,18 +23,24 @@ class User (
     val phoneNumber: String,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_school", referencedColumnName = "school_id")
-    val school: School,
+    val schoolEntity: SchoolEntity,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_program", referencedColumnName = "program_id")
-    val program: Program,
+    val programEntity: ProgramEntity,
     @Column(name = "user_profile_image")
     val userProfileImage: String?,
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+    )
+    val roles: MutableList<RoleEntity>? = mutableListOf(),
     @Column(name = "user_date_created")
     val dateCreated: LocalDate? = LocalDate.now(),
 
-){
+    ){
     override fun toString(): String {
-        return "User(id=$id, firstName='$firstName', lastName='$lastName', email='$email', password='$password', phoneNumber='$phoneNumber', school=$school, program=$program, userProfileImage=$userProfileImage, dateCreated=$dateCreated)"
+        return "UserEntity(id=$id, firstName='$firstName', lastName='$lastName', email='$email', password='$password', phoneNumber='$phoneNumber', schoolEntity=$schoolEntity, programEntity=$programEntity, userProfileImage=$userProfileImage, roles=$roles, dateCreated=$dateCreated)"
     }
-
 }
