@@ -4,9 +4,10 @@ import io.mockk.mockk
 import no.atcampus.server.GenerateTestData
 import no.atcampus.server.repo.ProgramRepo
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.repository.findByIdOrNull
 
-class ProgramServiceUnitTest {
+class ProgramEntityServiceUnitTest {
 
     private val programRepo = mockk<ProgramRepo>()
     private val programService = ProgramService(programRepo)
@@ -16,9 +17,9 @@ class ProgramServiceUnitTest {
     @Test
     fun testGetProgramByName(){
         every {
-            programRepo.findProgramByProgramName(any())
+            programRepo.findProgramEntityByProgramName(any())
         } answers {
-            testData.program
+            testData.programEntity
         }
         val program = programService.findProgramByName("Informasjonsteknologi - Programmering")
         assert(program.programName.startsWith("Informasjonsteknologi"))
@@ -29,7 +30,7 @@ class ProgramServiceUnitTest {
         every {
             programRepo.findByIdOrNull(any())
         } answers {
-            testData.program
+            testData.programEntity
         }
         val program = programService.findProgramById(1)
         assert(program.programName.startsWith("Informasjonsteknologi"))
@@ -41,16 +42,16 @@ class ProgramServiceUnitTest {
         every {
             programRepo.findByIdOrNull(any())
         } answers {
-            testData.program
+            testData.programEntity
         }
 
         every {
             programRepo.deleteById(any())
         } answers {
-            testData.program
+            testData.programEntity
         }
 
-        assert(programService.deleteProgram(1) == testData.program)
+        assert(programService.deleteProgram(1) == testData.programEntity)
 
     }
 
@@ -59,12 +60,12 @@ class ProgramServiceUnitTest {
         every {
             programRepo.findByIdOrNull(any())
         } answers{
-            testData.program
+            testData.programEntity
         }
         every {
             programRepo.save(any())
         } answers {
-            testData.program
+            testData.programEntity
         }
 
         val programDetails = UpdatedProgramInfo( "Updated program")

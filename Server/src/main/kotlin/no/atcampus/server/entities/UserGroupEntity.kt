@@ -14,7 +14,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "user_group")
-class UserGroup (
+class UserGroupEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_group_user_group_id_seq")
     @SequenceGenerator(name = "user_group_user_group_id_seq", sequenceName = "user_group_user_group_id_seq", allocationSize = 1)
@@ -22,16 +22,16 @@ class UserGroup (
     val id: Long? = null,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    val user: User,
+    val userEntity: UserEntity,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
-    val group: Group,
+    val groupEntity: GroupEntity,
     @Column(name = "is_favorite")
     val favorite: Boolean? = false,
     @Column(name = "date_joined")
     val dateJoined: LocalDate? = LocalDate.now()
 ){
     override fun toString(): String {
-        return "UserGroup(id=$id, user=$user, group=$group, favorite=$favorite, dateJoined=$dateJoined)"
+        return "UserGroup(id=$id, user=$userEntity, group=$groupEntity, favorite=$favorite, dateJoined=$dateJoined)"
     }
 }

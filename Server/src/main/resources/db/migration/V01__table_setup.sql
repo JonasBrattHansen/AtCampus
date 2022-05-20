@@ -8,6 +8,11 @@ CREATE TABLE schools (
     school_name varchar(100) NOT NULL
 );
 
+CREATE TABLE roles (
+    role_id bigserial PRIMARY KEY,
+    role_name varchar(40) NOT NULL
+);
+
 CREATE TABLE users (
     user_id bigserial PRIMARY KEY,
     user_first_name varchar(30) NOT NULL,
@@ -19,6 +24,11 @@ CREATE TABLE users (
     user_program bigint NOT NULL references programs(program_id),
     user_profile_image varchar(255),
     user_date_created date not null default current_date
+);
+
+CREATE TABLE user_roles (
+    user_id bigint references users(user_id),
+    role_id bigint references roles(role_id)
 );
 
 CREATE TABLE groups (

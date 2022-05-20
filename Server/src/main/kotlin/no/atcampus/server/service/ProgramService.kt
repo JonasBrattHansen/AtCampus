@@ -1,6 +1,6 @@
 package no.atcampus.server.service
 
-import no.atcampus.server.entities.Program
+import no.atcampus.server.entities.ProgramEntity
 import no.atcampus.server.repo.ProgramRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -11,8 +11,8 @@ import javax.persistence.EntityNotFoundException
 class ProgramService(
     @Autowired private val programRepo: ProgramRepo
 ) {
-    fun findProgramByName(name: String): Program {
-        val program =  programRepo.findProgramByProgramName(name)
+    fun findProgramByName(name: String): ProgramEntity {
+        val program =  programRepo.findProgramEntityByProgramName(name)
 
         program?.let {
             return program
@@ -20,7 +20,7 @@ class ProgramService(
         throw EntityNotFoundException("Could not find a program with name $name")
     }
 
-    fun findProgramById(id: Long) : Program{
+    fun findProgramById(id: Long) : ProgramEntity{
         val program = programRepo.findByIdOrNull(id)
 
         program?.let {
@@ -29,7 +29,7 @@ class ProgramService(
         throw EntityNotFoundException("Could not find the program with id $id")
     }
 
-    fun deleteProgram(id : Long) : Program {
+    fun deleteProgram(id : Long) : ProgramEntity {
         val program = programRepo.findByIdOrNull(id)
         program?.let {
             programRepo.deleteById(id)
@@ -39,15 +39,15 @@ class ProgramService(
 
     }
 
-    fun updateProgramInfo(id: Long, updatedProgramInfo: UpdatedProgramInfo): Program {
+    fun updateProgramInfo(id: Long, updatedProgramInfo: UpdatedProgramInfo): ProgramEntity {
         val program = programRepo.findByIdOrNull(id)
         program?.let {
-            val updatedProgram = Program(
+            val updatedProgramEntity = ProgramEntity(
                 id = id,
                 programName = updatedProgramInfo.programName ?: program.programName
             )
 
-            return programRepo.save(updatedProgram)
+            return programRepo.save(updatedProgramEntity)
         }
         throw EntityNotFoundException("Could not find program with id $id")
     }

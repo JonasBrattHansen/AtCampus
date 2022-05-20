@@ -1,14 +1,14 @@
 package no.atcampus.server.service
 
-import no.atcampus.server.entities.Group
-import no.atcampus.server.entities.Program
-import no.atcampus.server.entities.School
-import no.atcampus.server.entities.User
-import no.atcampus.server.repo.GroupRepo
-import no.atcampus.server.repo.UserGroupRepo
-import no.atcampus.server.repo.UserRepo
+import no.atcampus.server.entities.UserEntity
+import no.atcampus.server.repo.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import javax.persistence.EntityNotFoundException
@@ -17,24 +17,43 @@ import javax.persistence.EntityNotFoundException
 class UserService(
     @Autowired private val userRepo: UserRepo,
     @Autowired private val groupRepo: GroupRepo,
-    @Autowired private val userGroupRepo: UserGroupRepo
-) {
+    @Autowired private val userGroupRepo: UserGroupRepo,
+    @Autowired private val schoolRepo: SchoolRepo,
+    @Autowired private val programRepo: ProgramRepo,
+    @Autowired private val roleRepo: RoleRepo,
+    @Autowired private val passwordEncoder: PasswordEncoder
+) : UserDetailsService {
 
-    fun getUserByEmail(email: String): User?{
-        val user = userRepo.findUserByEmail(email)
+    override fun loadUserByUsername(username: String): UserDetails {
+        val user = getUserByEmail(username)
+        return User(user.email, user.password, user.roles?.map {roleEntity -> SimpleGrantedAuthority(roleEntity.name) })
+    }
+
+    fun getUserByEmail(email: String): UserEntity{
+        val user = userRepo.findUserEntityByEmail(email)
         user?.let {
             return user
         }
         throw EntityNotFoundException("Could not find the user with email $email")
     }
 
-    fun getUsersByGroup(group: Group): List<User>{
-        val users = userGroupRepo.findUserGroupsByGroup(group)
-        val userList = users.map { user -> userRepo.getById(user.id!!) }
-        return userList
+    // Not tested
+    fun getAllUsers(): List<UserEntity>{
+        return userRepo.findAll()
     }
 
-    fun getUserById(id: Long): User{
+    fun getUsersByGroup(groupId: Long): MutableList<UserEntity> {
+        val group = groupRepo.findByIdOrNull(groupId)
+        group?.let {
+            val users = userGroupRepo.findUserGroupEntitiesByGroupEntity(group)
+            return users.map { user ->
+                userRepo.getById(user.id!!)
+            }.toMutableList()
+        }
+        throw EntityNotFoundException("Could not find the group with group id $groupId")
+    }
+
+    fun getUserById(id: Long): UserEntity{
         val user = userRepo.findByIdOrNull(id)
         user?.let {
             return user
@@ -42,58 +61,67 @@ class UserService(
         throw EntityNotFoundException("Could not find the user with id $id")
     }
 
-    fun updateUserById(id: Long, userDetail: UserDetail): User{
-        val user = userRepo.findById(id)
+    fun updateUserById(id: Long, userDetail: UserDetail): UserEntity{
+        val user = userRepo.findByIdOrNull(id)
 
-        val updatedUser = User(
-            id = user.get().id,
-            firstName = userDetail.firstName ?: user.get().firstName,
-            lastName = userDetail.lastName ?: user.get().lastName,
-            email = userDetail.email ?: user.get().email,
-            password = userDetail.password ?: user.get().password,
-            phoneNumber = userDetail.phoneNumber ?: user.get().phoneNumber,
-            school = userDetail.school ?: user.get().school,
-            program = userDetail.program ?: user.get().program,
-            userProfileImage = userDetail.userProfileImage ?: user.get().userProfileImage,
-            dateCreated = userDetail.dateCreated ?: user.get().dateCreated
-        )
-        userRepo.save(updatedUser)
-        return updatedUser
+        user?.let {
+            val updatedUserEntity = UserEntity(
+                id = user.id,
+                firstName = userDetail.firstName ?: user.firstName,
+                lastName = userDetail.lastName ?: user.lastName,
+                email = userDetail.email ?: user.email,
+                password = userDetail.password ?: user.password,
+                phoneNumber = userDetail.phoneNumber ?: user.phoneNumber,
+                schoolEntity = schoolRepo.findByIdOrNull(userDetail.school ?: 0) ?: user.schoolEntity,
+                programEntity = programRepo.findByIdOrNull(userDetail.program ?: 0) ?: user.programEntity,
+                userProfileImage = userDetail.userProfileImage ?: user.userProfileImage,
+                dateCreated = userDetail.dateCreated ?: user.dateCreated
+            )
+            userRepo.save(updatedUserEntity)
+            return updatedUserEntity
+        }
+
+        throw EntityNotFoundException("Could not find user with id $id")
+
     }
 
-    fun updateUserProfileImage(id: Long, imageUrl: String): User{
+    fun updateUserProfileImage(id: Long, imageUrl: String): UserEntity{
         val user = userRepo.findById(id)
 
-        val updatedUser = User(
+        val updatedUserEntity = UserEntity(
             id = user.get().id,
             firstName = user.get().firstName,
             lastName = user.get().lastName,
             email = user.get().email,
             password = user.get().password,
             phoneNumber = user.get().phoneNumber,
-            school = user.get().school,
-            program = user.get().program,
+            schoolEntity = user.get().schoolEntity,
+            programEntity = user.get().programEntity,
             userProfileImage = imageUrl,
             dateCreated = user.get().dateCreated
         )
-        userRepo.save(updatedUser)
-        return updatedUser
+        userRepo.save(updatedUserEntity)
+        return updatedUserEntity
     }
 
-    fun addUser(user: UserDetail): User{
-        val newUser = User(
+    fun registerUser(user: UserDetail): UserEntity{
+        val newUserEntity = UserEntity(
             firstName = user.firstName ?: throw Exception("UserDetails must include firstname"),
             lastName = user.lastName ?: throw Exception("UserDetails must include lastname"),
             email = user.email ?: throw Exception("UserDetails must include email"),
-            password = user.password ?: throw Exception("UserDetails must include password"),
+            password = passwordEncoder.encode(user.password) ?: throw Exception("UserDetails must include password"),
             phoneNumber = user.phoneNumber ?: throw Exception("UserDetails must include phoneNumber"),
-            school = user.school ?: throw Exception("UserDetails must include school"),
-            program = user.program ?: throw Exception("UserDetails must include program"),
+            schoolEntity = schoolRepo.findByIdOrNull(user.school) ?: throw Exception("UserDetails must include school"),
+            programEntity = programRepo.findByIdOrNull(user.program) ?: throw Exception("UserDetails must include program"),
             userProfileImage = user.userProfileImage ?: throw Exception("UserDetails must include userProfileImage"),
             dateCreated = user.dateCreated ?: throw Exception("UserDetails must include dateCreated"),
         )
-        userRepo.save(newUser)
-        return newUser
+        val userRole = roleRepo.getRoleEntityByName("USER")
+        userRole?.let {
+            newUserEntity.roles?.add(it)
+        }
+        userRepo.save(newUserEntity)
+        return newUserEntity
     }
 
 
@@ -107,8 +135,8 @@ data class UserDetail(
     val email: String?,
     val password: String?,
     val phoneNumber: String?,
-    val school: School?,
-    val program: Program?,
+    val school: Long?,
+    val program: Long?,
     val userProfileImage: String?,
     val dateCreated: LocalDate?,
 )

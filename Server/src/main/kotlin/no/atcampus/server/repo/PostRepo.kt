@@ -1,12 +1,12 @@
 package no.atcampus.server.repo
 
-import no.atcampus.server.entities.Group
-import no.atcampus.server.entities.Post
+import no.atcampus.server.entities.GroupEntity
+import no.atcampus.server.entities.PostEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PostRepo: JpaRepository<Post, Long>{
+interface PostRepo: JpaRepository<PostEntity, Long>{
 
-    fun findPostsByGroup(group: Group): MutableList<Post>
+    fun findPostEntityByGroupEntity(groupEntity: GroupEntity): MutableList<PostEntity>
 }

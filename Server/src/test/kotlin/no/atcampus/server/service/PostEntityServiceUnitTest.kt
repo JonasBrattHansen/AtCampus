@@ -5,14 +5,16 @@ import io.mockk.mockk
 import no.atcampus.server.GenerateTestData
 import no.atcampus.server.repo.GroupRepo
 import no.atcampus.server.repo.PostRepo
+import no.atcampus.server.repo.UserRepo
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
 
-class PostServiceUnitTest {
+class PostEntityServiceUnitTest {
 
     private val groupRepo = mockk<GroupRepo>()
     private val postRepo = mockk<PostRepo>()
-    private val postService = PostService(groupRepo, postRepo)
+    private val userRepo = mockk<UserRepo>()
+    private val postService = PostService(groupRepo, postRepo, userRepo)
     private val testData = GenerateTestData()
 
     @Test
@@ -21,7 +23,7 @@ class PostServiceUnitTest {
         every {
             postRepo.findByIdOrNull(any())
         } answers {
-            testData.post
+            testData.postEntity
         }
 
         val post = postService.findPostById(1)
@@ -34,13 +36,13 @@ class PostServiceUnitTest {
         every {
             groupRepo.findByIdOrNull(any())
         } answers {
-            testData.group
+            testData.groupEntity
         }
 
         every {
-            postRepo.findPostsByGroup(any())
+            postRepo.findPostEntityByGroupEntity(any())
         } answers {
-            mutableListOf(testData.post)
+            mutableListOf(testData.postEntity)
         }
 
         val post = postService.findPostsByGroup(1)
@@ -54,51 +56,74 @@ class PostServiceUnitTest {
         every {
             postRepo.findByIdOrNull(any())
         } answers {
-            testData.post
+            testData.postEntity
         }
 
         every {
             postRepo.deleteById(any())
         } answers {
-            testData.post
+            testData.postEntity
         }
 
-        assert(postService.deletePost(1) == testData.post)
+        assert(postService.deletePost(1) == testData.postEntity)
     }
+
 
     @Test
     fun updatePosts() {
         every {
             postRepo.findByIdOrNull(any())
         } answers {
-            testData.post
+            testData.postEntity
         }
 
+        every {
+            userRepo.findByIdOrNull(any())
+        }answers {
+            testData.userEntity
+        }
+        every {
+            groupRepo.findByIdOrNull(any())
+        }answers {
+            testData.groupEntity
+        }
         every {
             postRepo.save(any())
         } answers {
             firstArg()
         }
-        val updatePosts = PostDetails(1, "update", "new updated body", testData.user, testData.group)
+        val updatePosts = PostDetails(1, "update", "new updated body", 1, 1)
         val updatedPostInfo = postService.updatePostInfo(1, updatePosts)
         assert(updatedPostInfo.title == "update")
     }
-/*
+
+
     @Test
     fun testAddPost(){
         val newPost = PostDetails(1,
-            "lKohort 9000", "This is a body", testData.user, testData.group
+            "Kohort 9000", "This is a body", 1, 1
         )
 
         every {
             postRepo.save(any())
         } answers {
-            testData.post
+            testData.postEntity
+        }
+        every {
+            userRepo.findByIdOrNull(any())
+        }answers {
+            testData.userEntity
+        }
+        every {
+            groupRepo.findByIdOrNull(any())
+        }answers {
+            testData.groupEntity
         }
 
         val post = postService.addPost(newPost)
-        assert(post.title.startsWith("lKohort 9000"))
+        assert(post.title.startsWith("Kohort 9000"))
     }
 
- */
+
+
 }
