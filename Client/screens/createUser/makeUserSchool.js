@@ -63,13 +63,7 @@ export default function MakeUserSchool({ navigation }) {
         <Text style={styles.textSchool} >School</Text>
         <TouchableOpacity style={styles.modalSchool} onPress={() => setIsModalSchoolVisible(true)}>
             <View
-                style={{
-                    paddingVertical: 15,
-                    paddingHorizontal: 10,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                }}>
+                style={styles.schoolInfoWrap}>
                 <Text>{valueSchool}</Text>
                 <AntDesign name="caretdown" size={15} color="black"/>
             </View>
@@ -78,13 +72,7 @@ export default function MakeUserSchool({ navigation }) {
         <Text style={styles.textProgram}>Program</Text>
         <TouchableOpacity style={styles.modalProgram} onPress={() => setIsModalProgramVisible(true)}>
             <View
-                style={{
-                    paddingVertical: 15,
-                    paddingHorizontal: 10,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                }}>
+                style={styles.schoolInfoWrap}>
                 <Text>{valueProgram}</Text>
                 <AntDesign name="caretdown" size={15} color="black"/>
             </View>
@@ -141,7 +129,7 @@ export default function MakeUserSchool({ navigation }) {
                 </View>
             </View>
         </Modal>
-        <LoginButton navigation={navigation} title={"Next"} />
+        <LoginButton navigation={navigation} title={"Next"} path={"makeUserPassword"}/>
     </View>
   );
 }
@@ -153,10 +141,46 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     title: {
-        padding: 10,
-        margin: 20,
+        padding: 20,
+        marginBottom:20,
         fontSize: 25,
         fontWeight: "bold",
+    },
+    modalSchool: {
+        borderColor: "#d3d3d3",
+        margin: 10,
+        borderRadius: 10,
+        borderWidth:1
+    },
+    modalProgram: {
+        borderColor: "#d3d3d3",
+        margin: 10,
+        borderRadius: 10,
+        borderWidth:1,
+    },
+    textSchool:{
+        fontWeight: "bold",
+        fontSize: 20,
+        margin: 10,
+        marginLeft: 15
+
+    },
+    textProgram:{
+        fontWeight: "bold",
+        fontSize: 20,
+        margin: 10,
+        marginLeft: 15
+    },
+    schoolInfoWrap:{
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    backgroundModal: {
+        backgroundColor: "#5b5b5b",
+        height: "100%"
     },
     button: {
         alignSelf: "center",
@@ -176,6 +200,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: "110%",
         borderColor: "#d3d3d3",
+        marginTop: 20,
         marginBottom: 20,
         borderRadius: 10,
     },
@@ -183,34 +208,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: "110%",
         borderColor: "#d3d3d3",
+        marginTop: 20,
         marginBottom: 20,
         borderRadius: 10,
-
-    },
-    textSchool:{
-        fontWeight: "bold",
-        fontSize: 20,
-        margin: 10,
-        marginTop:20
-
-    },
-    textProgram:{
-        fontWeight: "bold",
-        fontSize: 20,
-        margin: 10
-    },
-    modalSchool: {
-        borderColor: "#d3d3d3",
-        margin: 10,
-        borderRadius: 10,
-        borderWidth:1
-    },
-    modalProgram: {
-        borderColor: "#d3d3d3",
-        margin: 10,
-        borderRadius: 10,
-        borderWidth:1,
-        marginBottom: 100
 
     },
     modalViewSchool: {
@@ -227,10 +227,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
-    },
-    backgroundModal: {
-        backgroundColor: "#5b5b5b",
-        height: "100%"
-
     }
 });

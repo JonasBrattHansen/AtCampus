@@ -1,28 +1,21 @@
 import {Button, StyleSheet, Text, TouchableOpacity, View, ScrollView} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import LoginInput from "../../components/LoginInput";
+import LoginButton from "../../components/LoginButton";
+import {useState} from "react";
 
-export default function MakeUserInfo({ navigation }) {
+export default function MakeUserInfo({ navigation, getEmail, getPhoneNr }) {
+
   return (
     <View style={styles.container}>
         <ScrollView>
             <View>
-                <Text style={styles.text}>Create your account</Text>
+                <Text style={styles.title}>Create your account</Text>
             </View>
-            <LoginInput title={"Email"}/>
-            <LoginInput title={"Phone number"}/>
+            <LoginInput setEmail={() => getEmail} title={"Email"}/>
+            <LoginInput setPhoneNr={() => getPhoneNr} title={"Phone number"}/>
             <StatusBar style="auto" />
-            <View>
-                <TouchableOpacity
-                    style={styles.button}
-                    title="Next"
-                    onPress={() => {
-                        navigation.navigate("makeUserSchool");
-                    }}
-                >
-                    <Text style={styles.next}>Next</Text>
-                </TouchableOpacity>
-            </View>
+           <LoginButton navigation={navigation} title={"Next"} path={"makeUserSchool"}/>
         </ScrollView>
     </View>
   );
@@ -34,25 +27,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         justifyContent: "center",
     },
-    text: {
-        paddingTop: 90,
-        paddingLeft: 20,
+    title: {
+        marginTop: 40,
         padding: 20,
         fontSize: 25,
         fontWeight: "bold"
     },
-    button: {
-        alignSelf: "center",
-        alignItems: "center",
-        backgroundColor: "#7C7FCA",
-        width: 300,
-        borderRadius: 20,
-        padding: 10,
-        marginTop: 150,
-    },
-    next: {
-        color: "#ffffff",
-        fontWeight: "bold",
-        fontSize: 15
-    }
 });

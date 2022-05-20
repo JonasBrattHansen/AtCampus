@@ -1,14 +1,14 @@
 import {View, StyleSheet, Text, TouchableOpacity} from "react-native";
 
+const LoginButton = ({navigation, title, path, setState, setStateTwo}) => {
 
-const LoginButton = ({navigation, title}) => {
     return(
         <View>
             <TouchableOpacity
                 style={styles.button}
                 title={title}
                 onPress={() => {
-                    navigation.navigate("makeUserPassword");}}
+                    navigation.navigate(path);}}
             >
                 <Text style={styles.next}>Next</Text>
             </TouchableOpacity>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         margin: 10,
-        marginTop:70,
+        marginTop:150,
     },
     next: {
         color: "#ffffff",
