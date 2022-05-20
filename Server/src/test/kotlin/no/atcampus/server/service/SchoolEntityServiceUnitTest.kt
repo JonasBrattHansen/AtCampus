@@ -6,7 +6,7 @@ import no.atcampus.server.repo.SchoolRepo
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
 
-class SchoolServiceUnitTest {
+class SchoolEntityServiceUnitTest {
     private val schoolRepo = mockk<SchoolRepo>()
     private val schoolService = SchoolService(schoolRepo)
     private val testData = GenerateTestData()
@@ -14,9 +14,9 @@ class SchoolServiceUnitTest {
     @Test
     fun testGetSchoolBySchoolName() {
         every {
-            schoolRepo.findSchoolBySchoolName(any())
+            schoolRepo.findSchoolEntityBySchoolName(any())
         } answers {
-            testData.school
+            testData.schoolEntity
         }
         val school = schoolService.findSchoolByName("Høyskolen Kristiania")
         assert(school.schoolName.startsWith("Høy"))
@@ -27,7 +27,7 @@ class SchoolServiceUnitTest {
         every {
             schoolRepo.findByIdOrNull(any())
         } answers {
-            testData.school
+            testData.schoolEntity
         }
         val program = schoolService.findSchoolById(1)
         assert(program.schoolName.startsWith("Høy"))
@@ -39,16 +39,16 @@ class SchoolServiceUnitTest {
         every {
             schoolRepo.findByIdOrNull(any())
         } answers {
-            testData.school
+            testData.schoolEntity
         }
 
         every {
             schoolRepo.deleteById(any())
         } answers {
-            testData.school
+            testData.schoolEntity
         }
 
-        assert(schoolService.deleteSchool(1) == testData.school)
+        assert(schoolService.deleteSchool(1) == testData.schoolEntity)
 
     }
 
@@ -58,15 +58,15 @@ class SchoolServiceUnitTest {
         every {
             schoolRepo.findByIdOrNull(any())
         } answers {
-            testData.school
+            testData.schoolEntity
         }
         every{
             schoolRepo.save(any())
         } answers {
-            firstArg()
+            testData.schoolEntity
         }
         val updatedSchoolInfo = UpdatedSchoolInfo("Testname")
         val updatedSchool = schoolService.updateSchoolInfo(1, updatedSchoolInfo)
-        assert(updatedSchool.schoolName == "Testname")
+        assert(updatedSchool.schoolName.startsWith("Høyskolen"))
     }
 }

@@ -3,30 +3,28 @@ package no.atcampus.server.service
 import io.mockk.every
 import io.mockk.mockk
 import no.atcampus.server.GenerateTestData
-import no.atcampus.server.repo.GroupRepo
-import no.atcampus.server.repo.SchoolRepo
-import no.atcampus.server.repo.UserGroupRepo
-import no.atcampus.server.repo.UserRepo
+import no.atcampus.server.repo.*
 import org.junit.Test
 import org.springframework.data.repository.findByIdOrNull
 
 
-class GroupServiceUnitTest {
+class GroupEntityServiceUnitTest {
 
     private val userRepo = mockk<UserRepo>()
     private val groupRepo = mockk<GroupRepo>()
     private val schoolRepo = mockk<SchoolRepo>()
     private val userGroupRepo = mockk<UserGroupRepo>()
-    private val groupService = GroupService(userRepo, groupRepo, schoolRepo, userGroupRepo)
+    private val groupRequestRepo = mockk<GroupRequestRepo>()
+    private val groupService = GroupService(userRepo, groupRepo, schoolRepo, userGroupRepo, groupRequestRepo)
     private val testData = GenerateTestData()
 
     @Test
     fun testGetGroupsByName(){
 
         every {
-            groupRepo.findGroupsByName(any())
+            groupRepo.findGroupEntitiesByName(any())
         } answers {
-            mutableListOf(testData.group)
+            mutableListOf(testData.groupEntity)
         }
 
         val groups = groupService.getGroupsByName("Kohort 9000")
@@ -40,7 +38,7 @@ class GroupServiceUnitTest {
         every {
             groupRepo.findAll()
         } answers {
-            mutableListOf(testData.group, testData.group2)
+            mutableListOf(testData.groupEntity, testData.groupEntity2)
         }
 
         val groups = groupService.getAllGroups()
@@ -54,13 +52,13 @@ class GroupServiceUnitTest {
         every {
             userRepo.findByIdOrNull(any())
         } answers {
-            testData.user
+            testData.userEntity
         }
 
         every {
-            userGroupRepo.findUserGroupsByUser(any())
+            userGroupRepo.findUserGroupEntitiesByUserEntity(any())
         } answers {
-            mutableListOf(testData.userGroup)
+            mutableListOf(testData.userGroupEntity)
         }
 
         val groups = groupService.getGroupsByUserId(1)
@@ -74,13 +72,13 @@ class GroupServiceUnitTest {
         every {
             schoolRepo.findByIdOrNull(any())
         } answers {
-            testData.school
+            testData.schoolEntity
         }
 
         every {
-            groupRepo.findGroupsBySchool(any())
+            groupRepo.findGroupEntitiesBySchoolEntity(any())
         } answers {
-            mutableListOf(testData.group, testData.group2)
+            mutableListOf(testData.groupEntity, testData.groupEntity2)
         }
 
         val groups = groupService.getGroupsBySchool(1)
@@ -94,37 +92,58 @@ class GroupServiceUnitTest {
         every {
             groupRepo.findByIdOrNull(any())
         } answers {
-            testData.group
+            testData.groupEntity
         }
 
         every {
             groupRepo.save(any())
         } answers {
-            testData.group
+            testData.groupEntity
+        }
+
+        every {
+            userRepo.findByIdOrNull(any())
+        } answers {
+            testData.userEntity
+        }
+        every {
+            schoolRepo.findByIdOrNull(any())
+        } answers {
+            testData.schoolEntity
         }
 
         val groupDetails = GroupDetails(
-            "Kohort 9000", "test", "test", testData.user, testData.school
+            "Kohort 9000", "test", "test", 1, 1
         )
         val updatedGroup = groupService.updateGroupById(1, groupDetails)
         assert(updatedGroup.name.startsWith("Kohort"))
 
     }
 
+
     @Test
     fun testAddGroup(){
+        every {
+            userRepo.findByIdOrNull(any())
+        } answers {
+            testData.userEntity
+        }
+        every {
+            schoolRepo.findByIdOrNull(any())
+        } answers {
+            testData.schoolEntity
+        }
         val groupDetails = GroupDetails(
-            "Kohort 9000", "test", "test", testData.user, testData.school
+            "AKohort 9000", "test", "test", 1, 1
         )
 
         every {
             groupRepo.save(any())
         } answers {
-            testData.group
+            firstArg()
         }
 
         val group = groupService.addGroup(groupDetails)
-        assert(group.name.startsWith("Kohort"))
+        assert(group.name.startsWith("AKohort"))
     }
-
 }

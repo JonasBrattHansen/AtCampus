@@ -4,6 +4,7 @@ import CreateGroupScreen from "../screens/CreateGroupScreen";
 import {TouchableOpacity} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import GroupsScreen from "../screens/GroupsScreen";
+import FindGroupScreen from "../screens/FindGroupScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -11,11 +12,8 @@ function GroupStack() {
 	return (
 		<Stack.Navigator>
 			<Stack.Screen
-				name="Groups"
+				name="Your Groups"
 				component={GroupsScreen}
-				options={{
-					headerTitle: "Your Groups",
-				}}
 			/>
 			<Stack.Screen
 				name={"Create Group"}
@@ -33,7 +31,7 @@ function GroupStack() {
 			/>
 			<Stack.Screen
 				name={"Find Group"}
-				component={CreateGroupScreen}
+				component={FindGroupScreen}
 				options={({navigation}) => ({
 					headerLeft: () => {
 						return <TouchableOpacity

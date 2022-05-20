@@ -13,7 +13,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "group_request")
-class GroupRequest (
+class GroupRequestEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_request_group_request_id_seq")
     @SequenceGenerator(name = "group_request_group_request_id_seq", sequenceName = "group_request_group_request_id_seq", allocationSize = 1)
@@ -21,8 +21,8 @@ class GroupRequest (
     val id: Long? = null,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    val user: User,
+    val userEntity: UserEntity,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
-    val group: Group
+    val groupEntity: GroupEntity
 )

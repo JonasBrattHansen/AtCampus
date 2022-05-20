@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import ProfileScreen from "../screens/ProfileScreen";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import GroupStack from "./GroupStack";
+import ProfileStack from "./ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,13 @@ function HomeStack(props) {
 					headerShown: false,
 				}}
 			/>
-			<Tab.Screen name="Me" component={ProfileScreen} />
+			<Tab.Screen
+				name="Me"
+				component={ProfileStack}
+				options={{
+					headerShown: false,
+				}}
+			/>
 		</Tab.Navigator>
 	);
 }

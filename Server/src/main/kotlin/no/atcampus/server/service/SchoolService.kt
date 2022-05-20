@@ -1,6 +1,6 @@
 package no.atcampus.server.service
 
-import no.atcampus.server.entities.School
+import no.atcampus.server.entities.SchoolEntity
 import no.atcampus.server.repo.SchoolRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -12,15 +12,15 @@ class SchoolService(
     @Autowired private val schoolRepo: SchoolRepo
 ) {
 
-    fun findSchoolByName(name: String): School {
-        val school = schoolRepo.findSchoolBySchoolName(name)
+    fun findSchoolByName(name: String): SchoolEntity {
+        val school = schoolRepo.findSchoolEntityBySchoolName(name)
 
         school?.let {
             return school
         }
         throw EntityNotFoundException("Could not find a school with name $name")
     }
-    fun findSchoolById(id: Long) : School {
+    fun findSchoolById(id: Long) : SchoolEntity {
         val school = schoolRepo.findByIdOrNull(id)
 
         school?.let {
@@ -29,7 +29,7 @@ class SchoolService(
         throw EntityNotFoundException("Could not find the program with id $id")
     }
 
-    fun deleteSchool(id : Long) : School{
+    fun deleteSchool(id : Long) : SchoolEntity{
        val school = schoolRepo.findByIdOrNull(id)
         school?.let {
             schoolRepo.deleteById(id)
@@ -38,16 +38,16 @@ class SchoolService(
         throw EntityNotFoundException("Could not find school with id $id")
     }
 
-    fun updateSchoolInfo(id: Long, updatedSchoolInfo: UpdatedSchoolInfo): School {
+    fun updateSchoolInfo(id: Long, updatedSchoolInfo: UpdatedSchoolInfo): SchoolEntity {
         val school = schoolRepo.findByIdOrNull(id)
 
         school?.let {
-            val updatedSchool = School(
+            val updatedSchoolEntity = SchoolEntity(
                 id = id,
                 schoolName = updatedSchoolInfo.schoolName ?: school.schoolName
             )
 
-            return schoolRepo.save(updatedSchool)
+            return schoolRepo.save(updatedSchoolEntity)
         }
         throw EntityNotFoundException("Could not find school with id $id")
     }

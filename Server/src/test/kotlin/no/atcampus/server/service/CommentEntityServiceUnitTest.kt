@@ -5,14 +5,16 @@ import io.mockk.mockk
 import no.atcampus.server.GenerateTestData
 import no.atcampus.server.repo.CommentRepo
 import no.atcampus.server.repo.PostRepo
+import no.atcampus.server.repo.UserRepo
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
 
-class CommentServiceUnitTest {
+class CommentEntityServiceUnitTest {
 
+    private val userRepo = mockk<UserRepo>()
     private val commentRepo = mockk<CommentRepo>()
     private val postRepo = mockk<PostRepo>()
-    private val commentService = CommentService(commentRepo, postRepo)
+    private val commentService = CommentService(commentRepo, postRepo, userRepo)
     private val testData = GenerateTestData()
 
     @Test
@@ -21,7 +23,7 @@ class CommentServiceUnitTest {
         every {
             commentRepo.findByIdOrNull(any())
         } answers {
-            testData.comment
+            testData.commentEntity
         }
 
         val comment = commentService.findCommentsById(1)
@@ -34,13 +36,13 @@ class CommentServiceUnitTest {
         every {
             postRepo.findByIdOrNull(any())
         } answers {
-            testData.post
+            testData.postEntity
         }
 
         every {
-            commentRepo.findCommentsByPost(any())
+            commentRepo.findCommentEntitiesByPostEntity(any())
         } answers {
-            mutableListOf(testData.comment)
+            mutableListOf(testData.commentEntity)
         }
 
         val comment = commentService.findCommentsByPost(1)
@@ -54,16 +56,16 @@ class CommentServiceUnitTest {
         every {
             commentRepo.findByIdOrNull(any())
         } answers {
-            testData.comment
+            testData.commentEntity
         }
 
         every {
             commentRepo.deleteById(any())
         } answers {
-            testData.comment
+            testData.commentEntity
         }
 
-        assert(commentService.deleteComment(1) == testData.comment)
+        assert(commentService.deleteComment(1) == testData.commentEntity)
 
     }
 
@@ -72,7 +74,7 @@ class CommentServiceUnitTest {
         every {
             commentRepo.findByIdOrNull(any())
         } answers {
-            testData.comment
+            testData.commentEntity
         }
 
         every {
@@ -80,27 +82,46 @@ class CommentServiceUnitTest {
         } answers {
             firstArg()
         }
-        val updateComments = CommentDetails(1, "test1", testData.post, testData.user)
+        every {
+            postRepo.findByIdOrNull(any())
+        } answers {
+            testData.postEntity
+        }
+        every {
+            userRepo.findByIdOrNull(any())
+        } answers {
+            testData.userEntity
+        }
+        val updateComments = CommentDetails(1, "test1", 1, 1)
         val updatedCommentInfo = commentService.updateComments(1, updateComments)
         assert(updatedCommentInfo.body == "test1")
     }
 
-    /*
+
     @Test
     fun testAddComment(){
         val newComment = CommentDetails(1,
-            "test body", testData.post, testData.user
+            "test body", 1, 1
         )
 
         every {
             commentRepo.save(any())
         } answers {
-            testData.comment
+            firstArg()
+        }
+        every {
+            postRepo.findByIdOrNull(any())
+        } answers {
+            testData.postEntity
+        }
+        every {
+            userRepo.findByIdOrNull(any())
+        } answers {
+            testData.userEntity
         }
 
         val comment = commentService.addComment(newComment)
         assert(comment.body.startsWith("test body"))
     }
 
-     */
 }

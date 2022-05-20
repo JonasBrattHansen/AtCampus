@@ -1,13 +1,13 @@
 package no.atcampus.server.repo
 
-import no.atcampus.server.entities.Group
-import no.atcampus.server.entities.User
-import no.atcampus.server.entities.UserGroup
+import no.atcampus.server.entities.GroupEntity
+import no.atcampus.server.entities.UserEntity
+import no.atcampus.server.entities.UserGroupEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UserGroupRepo : JpaRepository<UserGroup, Long> {
-    fun findUserGroupsByUser(user: User): MutableList<UserGroup>
-    fun findUserGroupsByGroup(group: Group): List<UserGroup>
+interface UserGroupRepo : JpaRepository<UserGroupEntity, Long> {
+    fun findUserGroupEntitiesByUserEntity(userEntity: UserEntity): MutableList<UserGroupEntity>
+    fun findUserGroupEntitiesByGroupEntity(groupEntity: GroupEntity): List<UserGroupEntity>
 }

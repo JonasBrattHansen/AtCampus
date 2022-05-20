@@ -10,7 +10,7 @@
 ### Installing docker
 [Download here](https://docs.docker.com/get-docker/)
 
-### Docker setup
+### Docker setupcd .
 **Make sure to have docker running**
 ```console
 cd Server/src/main/resources/docker/
