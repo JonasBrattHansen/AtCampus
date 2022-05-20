@@ -7,21 +7,22 @@ export default function LoginInput({title}) {
     const {
         setFirstname,
         setLastname,
+        setEmail,
+        setPhoneNr
     } = useContext(CreateUserContext)
 
         function getInfo(value){
             setInfo(value)
-
             if(title === "First name"){
                 setFirstname(info)
-                console.log(info)
+
             }else if(title === "Last name"){
                 setLastname(info)
-                console.log(info)
+
             }else if(title === "Email"){
-                console.log(info)
+                setEmail(info)
             }else{
-                console.log(info)
+                setPhoneNr(info)
             }
         }
 

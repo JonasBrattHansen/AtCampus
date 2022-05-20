@@ -1,6 +1,6 @@
 import {View, StyleSheet, Text, TouchableOpacity} from "react-native";
 
-const LoginButton = ({navigation, title, path, setState, setStateTwo}) => {
+const LoginButton = ({navigation, title, path}) => {
 
     return(
         <View>
@@ -10,7 +10,7 @@ const LoginButton = ({navigation, title, path, setState, setStateTwo}) => {
                 onPress={() => {
                     navigation.navigate(path);}}
             >
-                <Text style={styles.next}>Next</Text>
+                <Text style={styles.next}>{title}</Text>
             </TouchableOpacity>
         </View>
     )

@@ -1,9 +1,10 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, TouchableOpacityComponent, View} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import {Picker} from "@react-native-picker/picker";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import LoginButton from "../../components/LoginButton";
 import {AntDesign} from "@expo/vector-icons";
+import {CreateUserContext} from "../../global/CreateUserContext";
 
 export default function MakeUserSchool({ navigation }) {
 
@@ -41,13 +42,19 @@ export default function MakeUserSchool({ navigation }) {
     const [isModalSchoolVisible, setIsModalSchoolVisible] = useState(false)
     const [isModalProgramVisible, setIsModalProgramVisible] = useState(false)
 
+    const {
+        setSchool,
+        setProgram,
+    } = useContext(CreateUserContext)
+
     function getProgramFromSchool(){
         const school = SchoolInfo.find((element) => element.SchoolName === valueSchool)
         return school.program
     }
 
-    function setProgram(itemValue){
+    function getProgram(itemValue){
         setValueSchool(itemValue)
+        setSchool(itemValue)
         const firstProgram = SchoolInfo.find((element) => element.SchoolName === itemValue)
         setValueProgram(firstProgram.program[0])
     }
@@ -90,7 +97,7 @@ export default function MakeUserSchool({ navigation }) {
                     <View style={styles.styleSchool}>
                         <Picker
                             selectedValue={valueSchool}
-                            onValueChange={(itemValue, itemIndex) => {setProgram(itemValue)}}
+                            onValueChange={(itemValue, itemIndex) => {getProgram(itemValue)}}
                         >
                             {SchoolInfo.map((value, i) => (
                                 <Picker.Item key={i} label={value.SchoolName} value={value.SchoolName} />
@@ -116,7 +123,7 @@ export default function MakeUserSchool({ navigation }) {
                     <View style={styles.styleProgram}>
                         <Picker
                             selectedValue={valueProgram}
-                            onValueChange={(itemValue, itemIndex) => setValueProgram(itemValue)}
+                            onValueChange={(itemValue, itemIndex) => {setValueProgram(itemValue); setProgram(itemValue)}}
                         >
                             {getProgramFromSchool().map((value, i) => (
                                 <Picker.Item  key={i} label={value} value={value}   />
