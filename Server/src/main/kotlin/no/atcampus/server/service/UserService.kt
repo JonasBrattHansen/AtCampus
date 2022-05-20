@@ -111,10 +111,10 @@ class UserService(
             email = user.email ?: throw Exception("UserDetails must include email"),
             password = passwordEncoder.encode(user.password) ?: throw Exception("UserDetails must include password"),
             phoneNumber = user.phoneNumber ?: throw Exception("UserDetails must include phoneNumber"),
-            schoolEntity = schoolRepo.findByIdOrNull(user.school) ?: throw Exception("UserDetails must include school"),
-            programEntity = programRepo.findByIdOrNull(user.program) ?: throw Exception("UserDetails must include program"),
+            schoolEntity = schoolRepo.findByIdOrNull(user.school ?: 0) ?: throw Exception("UserDetails must include school"),
+            programEntity = programRepo.findByIdOrNull(user.program ?: 0) ?: throw Exception("UserDetails must include program"),
             userProfileImage = user.userProfileImage ?: throw Exception("UserDetails must include userProfileImage"),
-            dateCreated = user.dateCreated ?: throw Exception("UserDetails must include dateCreated"),
+            dateCreated = LocalDate.now() ?: throw Exception("UserDetails must include dateCreated"),
         )
         val userRole = roleRepo.getRoleEntityByName("USER")
         userRole?.let {
