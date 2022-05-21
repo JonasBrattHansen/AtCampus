@@ -7,6 +7,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import javax.persistence.EntityNotFoundException
 
+//TODO: Legg til mulighet å legge til en ny skole
 @Service
 class SchoolService(
     @Autowired private val schoolRepo: SchoolRepo
@@ -38,6 +39,7 @@ class SchoolService(
         throw EntityNotFoundException("Could not find school with id $id")
     }
 
+    //TODO: Kanskje rename updatedSchoolInfo til SchoolDetails, som de andre filene
     fun updateSchoolInfo(id: Long, updatedSchoolInfo: UpdatedSchoolInfo): SchoolEntity {
         val school = schoolRepo.findByIdOrNull(id)
 

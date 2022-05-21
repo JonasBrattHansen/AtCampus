@@ -21,7 +21,7 @@ entity School{
     school_name: varchar(100) NN
 }
 
-entity Group{
+entity Groups{
     * group_id: Long AG ?
     --
     group_name: varchar(100) NN
@@ -49,39 +49,52 @@ entity GroupRequests{
     date_joined: datetime NN
 }
 
-entity Posts{
-    * posts_id: Long AG ?
+entity Post{
+    * post_id: Long AG ?
     --
     post_title: varchar(70) NN
     post_body: text NN
     post_date_created: datetime NN
-    post_user_group: long FK NN
+    user_id Long FK
+    group_id Long FK
 }
 
 entity Comments{
     * comment_id: Long AG ?
     --
     comment_body: text NN
-    comment_date_created: datetime NN
+    comment_date: datetime NN
     comment_post_id: long FK NN
     comment_user_id: long FK NN
 }
 
-entity Program{
+entity Programs{
     * program_id: Long AG ?
     --
     program_name: varchar(80) NN
 }
 
+entity Roles{
+    * role_id: Long AG ?
+    --
+    role_name varchar(40) NN
+}
+
+entity User_roles{
+    user_id Long FK
+    role_id Long FK
+}
 
 Users }o--|| School
-Users }o--|| Program
-Users ||--o{ Group
+Users }o--|| Programs
+Users}o--|| User_roles
+Users ||--o{ Groups
 Users ||--o{ UserGroup
-Group ||--o{ UserGroup
+Groups ||--o{ UserGroup
 Users ||--o{ GroupRequests
-Group ||--o{ GroupRequests
-Posts }o--|| UserGroup
-Comments }o--|| Posts
+Groups ||--o{ GroupRequests
+Post }o--|| UserGroup
+Comments }o--|| Post
+Roles }o--|| User_roles
 
 @enduml

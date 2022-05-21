@@ -22,6 +22,7 @@ class GroupService(
         return groupRepo.findAll()
     }
 
+    //TODO: Probably not needed
     fun getAllUserGroups(): MutableList<UserGroupEntity>{
         return userGroupRepo.findAll()
     }
@@ -35,6 +36,7 @@ class GroupService(
     }
 
     // No Error handling
+    //TODO: Need to add more checking, with the UserRequestRepo
     fun addUserToGroup(userId: Long, groupId: Long): GroupEntity{
         val user = userRepo.findById(userId)
         val group = groupRepo.findById(groupId)

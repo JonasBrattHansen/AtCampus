@@ -43,6 +43,7 @@ class CommentService(
         throw EntityNotFoundException("Could not find comment with id $id")
     }
 
+    //TODO: Rename to updateComment, since you only update one comment.
     fun updateComments(id: Long, updateComment: CommentDetails): CommentEntity {
         val comment = commentRepo.findByIdOrNull(id)
         comment?.let {

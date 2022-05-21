@@ -38,6 +38,7 @@ class UserService(
     }
 
     // Not tested
+    //TODO: Maybe change to mutablelist?
     fun getAllUsers(): List<UserEntity>{
         return userRepo.findAll()
     }
@@ -85,6 +86,7 @@ class UserService(
 
     }
 
+    //TODO: Can be deleted, works with updateUserById
     fun updateUserProfileImage(id: Long, imageUrl: String): UserEntity{
         val user = userRepo.findById(id)
 

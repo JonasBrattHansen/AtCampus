@@ -14,7 +14,6 @@ class PostService(
     @Autowired private val groupRepo: GroupRepo,
     @Autowired private val postRepo: PostRepo,
     @Autowired private val userRepo: UserRepo,
-
 ) {
 
     fun findPostsByGroup(groupId: Long): MutableList<PostEntity>{
@@ -53,6 +52,7 @@ class PostService(
         return postRepo.save(postEntity)
     }
 
+    //TODO: Burde endre updatePosts til updatePost, når det er singel. Kanskje også gi den samme navn som klassen.
     fun updatePostInfo(id: Long, updatePosts: PostDetails): PostEntity {
         val post = postRepo.findByIdOrNull(id)
 

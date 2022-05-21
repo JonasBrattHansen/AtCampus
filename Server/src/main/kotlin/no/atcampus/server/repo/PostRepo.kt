@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface PostRepo: JpaRepository<PostEntity, Long>{
 
+    //TODO: Rename to findPostEntitiesByGroupEntity . Might only return one entity no matter how many, depending on how spring boot works.
     fun findPostEntityByGroupEntity(groupEntity: GroupEntity): MutableList<PostEntity>
 }

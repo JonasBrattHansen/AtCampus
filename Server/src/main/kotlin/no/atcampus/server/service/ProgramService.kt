@@ -39,6 +39,8 @@ class ProgramService(
 
     }
 
+    //TODO: Kanskje rename til updateProgram, for å få samme konvensjon som de andre update metodene i andre services
+    //TODO: Kanskje rename updateProgramInfo og UpdatedProgramInfo klassen til ProgramDetails, som de andre klassene
     fun updateProgramInfo(id: Long, updatedProgramInfo: UpdatedProgramInfo): ProgramEntity {
         val program = programRepo.findByIdOrNull(id)
         program?.let {
