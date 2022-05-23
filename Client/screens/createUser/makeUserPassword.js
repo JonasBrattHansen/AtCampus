@@ -34,19 +34,15 @@ export default function MakeUserPassword({ navigation }) {
        }
    }
 
-  function checkPassword(){
+  function onPress(){
         if (password === passwordAgain ){
-            if(password.length > 8){
-                if(password.match(/[0-9]/)){
-                    navigation.navigate("makeUserComplete")
-                }else{
-                    alert("It needs to contain a number")
-                }
+            if(password.length > 8 && password.match(/[0-9]/)){
+                navigation.navigate("makeUserComplete")
             }else{
-                alert("It needs to contain minimum 8 letters")
+                alert("It needs to contain minimum 8 letters and a number")
             }
         }else{
-            alert(`Password and confirm password dose not match. `)
+            alert(`Password and confirm password dose not match.`)
         }
   }
 
@@ -76,13 +72,7 @@ export default function MakeUserPassword({ navigation }) {
                 </View>
             </View>
             <View>
-                <TouchableOpacity
-                    style={styles.button}
-                    title="Next"
-                    onPress={checkPassword}
-                >
-                    <Text style={styles.next}>Next</Text>
-                </TouchableOpacity>
+               <LoginButton title={"next"} onPress={onPress}/>
             </View>
         </ScrollView>
     </View>

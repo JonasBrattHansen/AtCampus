@@ -18,7 +18,7 @@ export default function MakeUserName({ navigation, }) {
         if (firstname !== "" && lastname !== ""){
             navigation.navigate("makeUserInfo")
         }else{
-            alert("Cant be empty")
+            alert("Firstname and lastname cant be empty")
         }
     }
 
