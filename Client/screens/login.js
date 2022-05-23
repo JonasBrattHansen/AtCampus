@@ -11,8 +11,22 @@ import {
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {useDispatch} from "react-redux";
+import {login} from "../actions/auth";
 
 export default function Login({navigation}) {
+	const dispatch = useDispatch();
+	
+	function test() {
+		dispatch(login("test@mail.com", "pirate"))
+			.then(yes => {
+				console.log("yes", yes);
+			})
+			.catch(no => {
+				console.log("no", no);
+			});
+	}
+	
     return (
         <KeyboardAvoidingView style={styles.container}  >
             <ScrollView>
@@ -21,7 +35,9 @@ export default function Login({navigation}) {
                     <TextInput style={styles.input}  placeholder={"Email"}/>
                     <TextInput style={styles.input} placeholder={"Password"}/>
                 </SafeAreaView>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => test()}
+                >
                     <Text style={styles.forgot}>Forgot password?</Text>
                 </TouchableOpacity>
                 <Text style={styles.textService}>

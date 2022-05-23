@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import PostPreview from "../components/PostPreview";
 import Welcome from "../components/Welcome";
@@ -6,6 +6,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import GroupPreview from "../components/GroupPreview";
 import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
+import {getAllGroups} from "../services/GroupService";
 
 const postPreviews = [
 	{
@@ -74,14 +75,14 @@ function VerticalSeparator() {
 	return <View style={styles.verticalSeparator}/>
 }
 
-function Groups() {
+function Groups({groups}) {
 	return (
 		<View style={styles.groups}>
 			<ViewMore text={"My Groups"} style={{padding: 20}}/>
 			
 			<FlatList
 				contentContainerStyle={styles.groupPreviews}
-				data={groupPreviews}
+				data={groups}
 				showsHorizontalScrollIndicator={false}
 				horizontal={true}
 				ListFooterComponent={<CreateGroup/>}
@@ -101,6 +102,23 @@ function Groups() {
 }
 
 function HomeScreen(props) {
+	const [groups, setGroups] = useState([]);
+	
+	useEffect(() => {
+		getAllGroups()
+			.then(res => {
+				const groups = res?.data;
+				
+				console.log("Groups", groups);
+				
+				setGroups(groups);
+			})
+			.catch(err => {
+				console.log("Failed to get all groups", err);
+			})
+	}, []);
+	
+	
 	return (
 		<SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
 			<View style={styles.welcome}>
@@ -115,7 +133,7 @@ function HomeScreen(props) {
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
 				data={postPreviews}
-				ListHeaderComponent={Groups}
+				ListHeaderComponent={<Groups groups={groups}/>}
 				ItemSeparatorComponent={Separator}
 				renderItem={({item}) =>
 					<PostPreview
