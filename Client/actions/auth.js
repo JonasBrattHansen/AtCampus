@@ -46,7 +46,7 @@ export const login = (username, password) => dispatch => {
 		.then(response => {
 			dispatch({
 				type: LOGIN_SUCCESS,
-				payload: response,
+				payload: "yes",
 			})
 			
 			console.log("Response from login", response);

@@ -6,7 +6,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import GroupPreview from "../components/GroupPreview";
 import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
-import {getAllGroups} from "../services/GroupService";
+import {getAllGroups, getAllPostsByGroup} from "../services/GroupService";
 
 const postPreviews = [
 	{
@@ -103,6 +103,7 @@ function Groups({groups}) {
 
 function HomeScreen(props) {
 	const [groups, setGroups] = useState([]);
+	const [posts, setPosts] = useState([]);
 	
 	useEffect(() => {
 		getAllGroups()
@@ -110,6 +111,13 @@ function HomeScreen(props) {
 				const groups = res?.data;
 				
 				console.log("Groups", groups);
+				
+				getAllPostsByGroup(groups[0]?.id)
+					.then(res => {
+						const posts = res?.data;
+						
+						setPosts(posts);
+					})
 				
 				setGroups(groups);
 			})
@@ -132,7 +140,7 @@ function HomeScreen(props) {
 	
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
-				data={postPreviews}
+				data={posts}
 				ListHeaderComponent={<Groups groups={groups}/>}
 				ItemSeparatorComponent={Separator}
 				renderItem={({item}) =>
@@ -142,9 +150,9 @@ function HomeScreen(props) {
 							marginVertical: 2,
 						}}
 						key={item.id}
-						image={item.image}
+						image={item.userEntity?.userProfileImage}
 						title={item.title}
-						preview={item.preview}
+						preview={item.body}
 						date={item.date}
 					/>
 				}
