@@ -1,14 +1,15 @@
 import {View, StyleSheet, Text, TouchableOpacity} from "react-native";
+import {CreateUserContext} from "../global/CreateUserContext";
+import {useContext} from "react";
 
-const LoginButton = ({navigation, title, path}) => {
+const LoginButton = ({ title, onPress}) => {
 
     return(
         <View>
             <TouchableOpacity
                 style={styles.button}
                 title={title}
-                onPress={() => {
-                    navigation.navigate(path);}}
+                onPress={onPress}
             >
                 <Text style={styles.next}>{title}</Text>
             </TouchableOpacity>

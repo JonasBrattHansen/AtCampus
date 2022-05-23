@@ -38,7 +38,7 @@ export default function MakeUserComplete({ navigation }) {
             style={styles.button}
             title="Complete"
             onPress={() => {
-              navigation.navigate("frontPage");}}
+              navigation.navigate("Frontpage")}}
         >
           <Text style={styles.next}>Complete</Text>
         </TouchableOpacity>

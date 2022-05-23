@@ -9,9 +9,20 @@ export default function MakeUserInfo({ navigation, getEmail, getPhoneNr }) {
     const {
         setEmail,
         setPhoneNr,
+        email,
+        phoneNr
     } = useContext(CreateUserContext)
 
-  return (
+    function onPress(){
+        if (email !== "" && phoneNr !== ""){
+            navigation.navigate("makeUserSchool")
+        }else{
+            alert("Cant be empty")
+        }
+    }
+
+
+    return (
     <View style={styles.container}>
         <StatusBar style="auto" />
         <ScrollView>
@@ -20,7 +31,7 @@ export default function MakeUserInfo({ navigation, getEmail, getPhoneNr }) {
             </View>
             <LoginInput setEmail={() => getEmail} title={"Email"} onChangeText={(val => setEmail(val))} keyboardType={"default"} />
             <LoginInput setPhoneNr={() => getPhoneNr} title={"Phone number"} onChangeText={(val) => setPhoneNr(val)} keyboardType={"numeric"}/>
-           <LoginButton navigation={navigation} title={"Next"} path={"makeUserSchool"}/>
+           <LoginButton navigation={navigation} title={"Next"} onPress={onPress}/>
         </ScrollView>
     </View>
   );

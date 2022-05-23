@@ -10,7 +10,17 @@ export default function MakeUserName({ navigation, }) {
     const {
         setFirstname,
         setLastname,
+        firstname,
+        lastname
     } = useContext(CreateUserContext)
+
+    function onPress(){
+        if (firstname !== "" && lastname !== ""){
+            navigation.navigate("makeUserInfo")
+        }else{
+            alert("Cant be empty")
+        }
+    }
 
   return (
           <View style={styles.container}>
@@ -21,7 +31,7 @@ export default function MakeUserName({ navigation, }) {
               <LoginInput title={"First name"} onChangeText={val => setFirstname(val)} keyboardType={"default"}/>
               <LoginInput title={"Last name"} onChangeText={val => setLastname(val)} keyboardType={"default"} />
               <StatusBar style="auto" />
-             <LoginButton  navigation={navigation} title={"Next"} path={"makeUserInfo"} />
+             <LoginButton  navigation={navigation} title={"Next"} onPress={onPress} />
               </ScrollView>
           </View>
   );

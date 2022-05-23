@@ -1,11 +1,13 @@
 import {Button, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import LoginButton from "../../components/LoginButton";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Entypo} from "@expo/vector-icons";
+import {CreateUserContext} from "../../global/CreateUserContext";
 
 export default function MakeUserPassword({ navigation }) {
-    const [password, setPassword] = useState()
+    const [passwordAgain, setPasswordAgain] = useState()
+    const {password, setPassword} = useContext(CreateUserContext)
 
     const [securePassword, setSecurePassword] = useState(false)
     const [securePasswordAgain, setSecurePasswordAgain] = useState(false)
@@ -32,6 +34,22 @@ export default function MakeUserPassword({ navigation }) {
        }
    }
 
+  function checkPassword(){
+        if (password === passwordAgain ){
+            if(password.length > 8){
+                if(password.match(/[0-9]/)){
+                    navigation.navigate("makeUserComplete")
+                }else{
+                    alert("It needs to contain a number")
+                }
+            }else{
+                alert("It needs to contain minimum 8 letters")
+            }
+        }else{
+            alert(`Password and confirm password dose not match. `)
+        }
+  }
+
   return (
     <View style={styles.container}>
         <StatusBar style="auto" />
@@ -42,22 +60,30 @@ export default function MakeUserPassword({ navigation }) {
             <View>
                 <Text style={styles.info}>Password</Text>
                 <View style={styles.input}>
-                    <TextInput style={{width:280}} secureTextEntry={securePassword} placeholder={"Please enter: Password"}/>
+                    <TextInput style={{width:280}} secureTextEntry={securePassword} placeholder={"Please enter: Password"} onChangeText={(value) => setPassword(value) } />
                     <TouchableOpacity style={{width:50}} onPress={visiblePassword} >
-                        <Entypo  name={eye} size={15}  color="black" />
+                        <Entypo  name={eye} size={25}  color="black" />
                     </TouchableOpacity>
                 </View>
             </View>
             <View>
                 <Text style={styles.info}>Confirm password</Text>
                 <View  style={styles.input}>
-                    <TextInput style={{width:280}} secureTextEntry={securePasswordAgain} placeholder={"Please enter: Password again"} />
+                    <TextInput style={{width:280}} secureTextEntry={securePasswordAgain} placeholder={"Please enter: Password again"}  onChangeText={(value) => setPasswordAgain(value)}/>
                     <TouchableOpacity style={{width:50}} onPress={visiblePasswordAgain}>
-                        <Entypo  name={eyeAgain} size={15}  color="black" />
+                        <Entypo  name={eyeAgain} size={25}  color="black" />
                     </TouchableOpacity>
                 </View>
             </View>
-            <LoginButton navigation={navigation} title={"Next"} path={"makeUserComplete"}/>
+            <View>
+                <TouchableOpacity
+                    style={styles.button}
+                    title="Next"
+                    onPress={checkPassword}
+                >
+                    <Text style={styles.next}>Next</Text>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
     </View>
   );
@@ -93,4 +119,19 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center"
     },
+    button: {
+        alignSelf: "center",
+        alignItems: "center",
+        backgroundColor: "#7C7FCA",
+        width: 300,
+        borderRadius: 20,
+        padding: 10,
+        margin: 10,
+        marginTop:150,
+    },
+    next: {
+        color: "#ffffff",
+        fontWeight: "bold",
+        fontSize: 15
+    }
 });

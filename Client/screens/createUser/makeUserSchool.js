@@ -37,8 +37,7 @@ export default function MakeUserSchool({ navigation }) {
         }
     ]
 
-    const [valueSchool, setValueSchool] = useState("Høyskolen kristiania");
-    const [valueProgram, setValueProgram] = useState("Frontend og mobilutvikling");
+
     const [isModalSchoolVisible, setIsModalSchoolVisible] = useState(false)
     const [isModalProgramVisible, setIsModalProgramVisible] = useState(false)
 
@@ -50,17 +49,19 @@ export default function MakeUserSchool({ navigation }) {
     } = useContext(CreateUserContext)
 
     function getProgramFromSchool(){
-        const school = SchoolInfo.find((element) => element.SchoolName === valueSchool)
-        return school.program
+        const schoolInfo = SchoolInfo.find((element) => element.SchoolName === school)
+        return schoolInfo.program
     }
 
     function getProgram(itemValue){
-        setValueSchool(itemValue)
         setSchool(itemValue)
         const firstProgram = SchoolInfo.find((element) => element.SchoolName === itemValue)
-        setValueProgram(firstProgram.program[0])
+        setProgram(firstProgram.program[0])
     }
 
+    function onPress(){
+        navigation.navigate("makeUserPassword")
+    }
 
   return (
     <View style={styles.container}>
@@ -73,7 +74,7 @@ export default function MakeUserSchool({ navigation }) {
         <TouchableOpacity style={styles.modalSchool} onPress={() => setIsModalSchoolVisible(true)}>
             <View
                 style={styles.schoolInfoWrap}>
-                <Text>{valueSchool}</Text>
+                <Text>{school}</Text>
                 <AntDesign name="caretdown" size={15} color="black"/>
             </View>
         </TouchableOpacity>
@@ -82,7 +83,7 @@ export default function MakeUserSchool({ navigation }) {
         <TouchableOpacity style={styles.modalProgram} onPress={() => setIsModalProgramVisible(true)}>
             <View
                 style={styles.schoolInfoWrap}>
-                <Text>{valueProgram}</Text>
+                <Text>{program}</Text>
                 <AntDesign name="caretdown" size={15} color="black"/>
             </View>
         </TouchableOpacity>
@@ -98,7 +99,7 @@ export default function MakeUserSchool({ navigation }) {
                     <Text style={styles.textSchool} >School</Text>
                     <View style={styles.styleSchool}>
                         <Picker
-                            selectedValue={valueSchool}
+                            selectedValue={school}
                             onValueChange={(itemValue, itemIndex) => {getProgram(itemValue)}}
                         >
                             {SchoolInfo.map((value, i) => (
@@ -124,8 +125,8 @@ export default function MakeUserSchool({ navigation }) {
                     <Text style={styles.textProgram}>Program</Text>
                     <View style={styles.styleProgram}>
                         <Picker
-                            selectedValue={valueProgram}
-                            onValueChange={(itemValue, itemIndex) => {setValueProgram(itemValue); setProgram(itemValue)}}
+                            selectedValue={program}
+                            onValueChange={(itemValue, itemIndex) => {setProgram(itemValue)}}
                         >
                             {getProgramFromSchool().map((value, i) => (
                                 <Picker.Item  key={i} label={value} value={value}   />
@@ -138,7 +139,7 @@ export default function MakeUserSchool({ navigation }) {
                 </View>
             </View>
         </Modal>
-        <LoginButton navigation={navigation} title={"Next"} path={"makeUserPassword"}/>
+        <LoginButton navigation={navigation} title={"Next"} onPress={onPress}/>
     </View>
   );
 }
