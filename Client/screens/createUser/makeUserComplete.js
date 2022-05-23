@@ -15,8 +15,6 @@ export default function MakeUserComplete({ navigation }) {
     program,
   } = useContext(CreateUserContext)
 
-
-
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -48,8 +46,6 @@ export default function MakeUserComplete({ navigation }) {
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {

@@ -45,6 +45,8 @@ export default function MakeUserSchool({ navigation }) {
     const {
         setSchool,
         setProgram,
+        school,
+        program
     } = useContext(CreateUserContext)
 
     function getProgramFromSchool(){

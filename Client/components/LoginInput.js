@@ -1,37 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TextInput } from "react-native";
-import {CreateUserContext} from "../global/CreateUserContext";
 
-export default function LoginInput({title}) {
-    const [info, setInfo] = useState("")
-    const {
-        setFirstname,
-        setLastname,
-        setEmail,
-        setPhoneNr
-    } = useContext(CreateUserContext)
-
-        function getInfo(value){
-            setInfo(value)
-            if(title === "First name"){
-                setFirstname(info)
-
-            }else if(title === "Last name"){
-                setLastname(info)
-
-            }else if(title === "Email"){
-                setEmail(info)
-            }else{
-                setPhoneNr(info)
-            }
-        }
+export default function LoginInput({title, onChangeText, keyboardType}) {
 
     return (
         <View style={styles.container}>
             <View>
                 <Text style={styles.info}>{title}</Text>
                 <View style={styles.input}>
-                    <TextInput onChangeText={value => getInfo(value)} placeholder={"Please enter: " + title} />
+                    <TextInput onChangeText={onChangeText} placeholder={"Please enter: " + title} keyboardType={keyboardType} />
                 </View>
             </View>
         </View>
