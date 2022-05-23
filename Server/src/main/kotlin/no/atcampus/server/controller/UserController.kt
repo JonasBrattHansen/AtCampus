@@ -1,7 +1,9 @@
 package no.atcampus.server.controller
 import no.atcampus.server.entities.GroupEntity
+import no.atcampus.server.entities.PostEntity
 import no.atcampus.server.entities.UserEntity
 import no.atcampus.server.service.GroupService
+import no.atcampus.server.service.PostService
 import no.atcampus.server.service.UserDetail
 import no.atcampus.server.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api")
 class UserController(@Autowired private val userService: UserService,
-@Autowired private val groupService: GroupService) {
+@Autowired private val groupService: GroupService,
+@Autowired private val postService: PostService
+) {
 
     @GetMapping("/user/all")
     fun getAllUsers() : ResponseEntity<List<UserEntity>>{
@@ -48,5 +52,10 @@ class UserController(@Autowired private val userService: UserService,
     @GetMapping("/user/{id}/group")
     fun getAllGroupsFromUser(@PathVariable id: Long): ResponseEntity<MutableList<GroupEntity>>{
         return ResponseEntity.ok().body(groupService.getGroupsByUserId(id))
+    }
+
+    @GetMapping("/user/{id}/post")
+    fun getAllGroupPostsByUser(@PathVariable id: Long): ResponseEntity<MutableList<PostEntity>>{
+        return ResponseEntity.ok().body(postService.getAllRecentPostsByUser(id))
     }
 }

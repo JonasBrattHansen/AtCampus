@@ -9,13 +9,13 @@ insert into roles values (nextval('roles_role_id_seq'), 'USER');
 insert into roles values (nextval('roles_role_id_seq'), 'ADMIN');
 
 insert into users
-values (nextval('users_user_id_seq'), 'Martin', 'Olaussen', 'test@mail.com', '$2a$10$gXGktr8WhQavYsRRah732u3zoeIbbKFQmttADK2jPl6GgeX82I0Z.', '45677321', 1, 1,'testimage'); /* Password is pirate */
+values (nextval('users_user_id_seq'), 'Martin', 'Olaussen', 'test@mail.com', '$2a$10$gXGktr8WhQavYsRRah732u3zoeIbbKFQmttADK2jPl6GgeX82I0Z.', '45677321', 1, 1,'https://cdn.discordapp.com/attachments/744902958663336059/778253299563364352/eivind.png'); /* Password is pirate */
 
 insert into users
-values (nextval('users_user_id_seq'), 'Syvert', 'Eidjord', 'syvert@edjord.com', '$2a$12$z6vnEayVBe.opce7Pan0cOOGwXHqSsRENoebp1D1ijha6HMKsqLum', '43121234', 1, 1,'testimage'); /* Password is password */
+values (nextval('users_user_id_seq'), 'Syvert', 'Eidjord', 'syvert@edjord.com', '$2a$12$z6vnEayVBe.opce7Pan0cOOGwXHqSsRENoebp1D1ijha6HMKsqLum', '43121234', 1, 1,'https://i.pinimg.com/originals/77/84/7b/77847b6f7f83d2c523209030aca5b4d5.jpg'); /* Password is password */
 
 insert into groups
-values (nextval('groups_group_id_seq'), 'testgroup', 'this is a test description', 'testimage', 1, 1);
+values (nextval('groups_group_id_seq'), 'testgroup', 'this is a test description', 'https://i.pinimg.com/originals/b3/ca/dd/b3caddada347387d77999cab63012c6e.jpg', 1, 1);
 
 insert into user_roles
 values (1, 1);
@@ -36,13 +36,13 @@ insert into user_group
 values (nextval('user_group_user_group_id_seq'), 2, 1, true);
 
 insert into post
-values (nextval('post_post_id_seq'), 'test post title', 'this is a test body', 1, 1);
+values (nextval('post_post_id_seq'), 'Amazing post by me', 'Bruv', 1, 1);
 
 insert into post
-values (nextval('post_post_id_seq'), 'test post title 2', 'this is a test body 2', 2, 1);
+values (nextval('post_post_id_seq'), 'Shut up', 'and dance with me', 2, 1);
 
 insert into comment
-values (nextval('comment_comment_id_seq'), 'this is a comment test body', 1, 1);
+values (nextval('comment_comment_id_seq'), 'It was not an amazing post', 1, 1);
 
 insert into comment
-values (nextval('comment_comment_id_seq'), 'this is a comment test body2', 2, 2);
+values (nextval('comment_comment_id_seq'), 'No u.', 2, 2);
