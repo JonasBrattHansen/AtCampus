@@ -70,6 +70,7 @@ class PostService(
         }
         throw EntityNotFoundException("Could not find post with id $id")
     }
+
     
     fun getAllRecentPostsByUser(userId: Long): MutableList<PostEntity>{
         
