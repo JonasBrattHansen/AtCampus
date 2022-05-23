@@ -7,6 +7,8 @@ import GroupPreview from "../components/GroupPreview";
 import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
 import {getAllGroups, getAllPostsByGroup} from "../services/GroupService";
+import {useSelector} from "react-redux";
+import {getUserIdByEmail} from "../services/UserService";
 
 const postPreviews = [
 	{
@@ -76,6 +78,7 @@ function VerticalSeparator() {
 }
 
 function Groups({groups}) {
+
 	return (
 		<View style={styles.groups}>
 			<ViewMore text={"My Groups"} style={{padding: 20}}/>
@@ -104,26 +107,14 @@ function Groups({groups}) {
 function HomeScreen(props) {
 	const [groups, setGroups] = useState([]);
 	const [posts, setPosts] = useState([]);
+
+	const { username } = useSelector(state => {
+		console.log(state.auth)
+		return state.auth
+	});
 	
 	useEffect(() => {
-		getAllGroups()
-			.then(res => {
-				const groups = res?.data;
-				
-				console.log("Groups", groups);
-				
-				getAllPostsByGroup(groups[0]?.id)
-					.then(res => {
-						const posts = res?.data;
-						
-						setPosts(posts);
-					})
-				
-				setGroups(groups);
-			})
-			.catch(err => {
-				console.log("Failed to get all groups", err);
-			})
+		getUserIdByEmail(username)
 	}, []);
 	
 	

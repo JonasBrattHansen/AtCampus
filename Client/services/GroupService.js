@@ -10,6 +10,6 @@ export const getAllPostsByGroup = (groupId) => {
 	return instance.get(`/api/group/${groupId}/post`);
 }
 
-export default {
-	getAllGroups,
+export const getAllUserGroups = (userId) => {
+	return instance.get(`/api/user/${userId}/group`)
 }

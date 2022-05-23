@@ -42,14 +42,13 @@ export const register = (username, email, password) => (dispatch) => {
 }
 
 export const login = (username, password) => dispatch => {
+
 	return AuthService.login(username, password)
 		.then(response => {
 			dispatch({
 				type: LOGIN_SUCCESS,
-				payload: "yes",
+				payload: {username},
 			})
-			
-			console.log("Response from login", response);
 		})
 		.catch(err => {
 			const message = (error.response &&
