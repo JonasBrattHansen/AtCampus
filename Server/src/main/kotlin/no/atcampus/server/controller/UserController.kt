@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(@Autowired private val userService: UserService,
 @Autowired private val groupService: GroupService) {
 
-
     @GetMapping("/user/all")
     fun getAllUsers() : ResponseEntity<List<UserEntity>>{
         return ResponseEntity.ok().body(userService.getAllUsers())
@@ -45,7 +44,6 @@ class UserController(@Autowired private val userService: UserService,
     fun updateUser(@PathVariable id: Long, @RequestBody userDetail: UserDetail): UserEntity{
         return userService.updateUserById(id, userDetail)
     }
-
 
     @GetMapping("/user/{id}/group")
     fun getAllGroupsFromUser(@PathVariable id: Long): ResponseEntity<MutableList<GroupEntity>>{

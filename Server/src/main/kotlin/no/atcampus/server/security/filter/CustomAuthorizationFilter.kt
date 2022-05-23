@@ -37,6 +37,5 @@ class CustomAuthorizationFilter: OncePerRequestFilter() {
                 filterChain.doFilter(request, response)
             }
         }
-
     }
 }

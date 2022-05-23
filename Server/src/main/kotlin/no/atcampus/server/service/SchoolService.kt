@@ -15,12 +15,12 @@ class SchoolService(
 
     fun findSchoolByName(name: String): SchoolEntity {
         val school = schoolRepo.findSchoolEntityBySchoolName(name)
-
         school?.let {
             return school
         }
         throw EntityNotFoundException("Could not find a school with name $name")
     }
+
     fun findSchoolById(id: Long) : SchoolEntity {
         val school = schoolRepo.findByIdOrNull(id)
 
@@ -48,13 +48,10 @@ class SchoolService(
                 id = id,
                 schoolName = updatedSchoolInfo.schoolName ?: school.schoolName
             )
-
             return schoolRepo.save(updatedSchoolEntity)
         }
         throw EntityNotFoundException("Could not find school with id $id")
     }
-
-
 }
 
 data class UpdatedSchoolInfo(val schoolName: String?)

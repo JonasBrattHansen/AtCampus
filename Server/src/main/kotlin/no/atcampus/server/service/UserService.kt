@@ -125,9 +125,6 @@ class UserService(
         userRepo.save(newUserEntity)
         return newUserEntity
     }
-
-
-
 }
 
 data class UserDetail(

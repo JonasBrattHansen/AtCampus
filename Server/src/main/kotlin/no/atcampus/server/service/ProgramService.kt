@@ -36,7 +36,6 @@ class ProgramService(
             return program
         }
         throw EntityNotFoundException("Could not find program with id $id")
-
     }
 
     //TODO: Kanskje rename til updateProgram, for å få samme konvensjon som de andre update metodene i andre services
@@ -48,11 +47,10 @@ class ProgramService(
                 id = id,
                 programName = updatedProgramInfo.programName ?: program.programName
             )
-
             return programRepo.save(updatedProgramEntity)
         }
         throw EntityNotFoundException("Could not find program with id $id")
     }
-
 }
+
 data class UpdatedProgramInfo(val programName: String?)
