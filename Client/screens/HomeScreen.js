@@ -108,26 +108,24 @@ function HomeScreen(props) {
 	const [groups, setGroups] = useState([]);
 	const [posts, setPosts] = useState([]);
 
-	const { username } = useSelector(state => {
-		console.log(state.auth)
-		return state.auth
-	});
+	const { username } = useSelector(state => state.auth);
 	
 	useEffect( () => {
-		getUserIdByEmail(username).then(
-			(res) => {
-				getAllUserGroups(res).then( groups =>
-					{
-						console.log(groups.data)
-						setGroups(groups.data)
-					}
-				).catch((err) => {
-					console.log("Whopsie dopsie, I just did an oopsie")
-					console.log(err)
-				})
-			}
-		)
-
+		getUserIdByEmail(username)
+			.then(userId => {
+				getAllUserGroups(userId)
+					.then(response => {
+						const groups = response?.data;
+						
+						setGroups(groups)
+					})
+					.catch((err) => {
+						console.log("Failed to get all groups", err)
+					})
+			})
+			.catch(err => {
+				console.log("Failed to get userId", err);
+			})
 	}, []);
 	
 	

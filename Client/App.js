@@ -5,6 +5,7 @@ import {StatusBar} from "react-native";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {Provider, useSelector} from "react-redux";
 import store from "./store";
+import Toast from 'react-native-toast-message';
 
 function Juice() {
 	const {isLoggedIn} = useSelector(state => state.auth);
@@ -28,6 +29,8 @@ export default function App() {
     return (
     	<Provider store={store}>
 		    <Juice/>
+		    
+		    <Toast/>
 	    </Provider>
     );
 }

@@ -3,7 +3,7 @@ import AxiosService from "./AxiosService";
 const instance = AxiosService.getInstance();
 
 const register = (firstName, lastName, email, phoneNumber, school, program, password, image) => {
-	return instance.post("/api/register", {
+	return instance.post("register", {
 		firstName,
 		lastName,
 		email,
@@ -15,8 +15,12 @@ const register = (firstName, lastName, email, phoneNumber, school, program, pass
 	});
 }
 
+const refresh = (refreshToken) => {
+	return instance.post("refresh", refreshToken);
+}
+
 const login = (email, password) => {
-	return instance.post("/api/login", {
+	return instance.post("login", {
 		email,
 		password,
 	})
@@ -25,4 +29,5 @@ const login = (email, password) => {
 export default {
 	register,
 	login,
+	refresh,
 }

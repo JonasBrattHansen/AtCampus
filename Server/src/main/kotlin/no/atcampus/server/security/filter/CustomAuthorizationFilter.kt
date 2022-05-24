@@ -15,19 +15,17 @@ class CustomAuthorizationFilter: OncePerRequestFilter() {
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token: String? = if(request.cookies != null){
-            request.cookies.firstOrNull { it.name == "access_token" }?.value
-        }else{
-            null
-        }
+        val bearer: String? = request.getHeader("Authorization");
+        
         when{
-            token.isNullOrEmpty() -> filterChain.doFilter(request, response)
+            bearer.isNullOrEmpty() -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/login") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/register") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/user/**") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/groups/**") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/post/**") -> filterChain.doFilter(request, response)
             else -> {
+                val token = bearer.substring(7)
                 val decodedJwt = JwtUtil.decodeToken(token)
                 val email = decodedJwt.subject
                 val authority =

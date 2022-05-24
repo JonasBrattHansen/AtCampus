@@ -3,6 +3,9 @@ package no.atcampus.server.service
 import io.mockk.every
 import io.mockk.mockk
 import no.atcampus.server.GenerateTestData
+import no.atcampus.server.entities.ProgramEntity
+import no.atcampus.server.entities.SchoolEntity
+import no.atcampus.server.entities.UserEntity
 import no.atcampus.server.repo.*
 import org.junit.Test
 import org.springframework.data.repository.findByIdOrNull
@@ -136,14 +139,14 @@ class GroupEntityServiceUnitTest {
         val groupDetails = GroupDetails(
             "AKohort 9000", "test", "test", 1, 1
         )
-
+        
         every {
             groupRepo.save(any())
         } answers {
             firstArg()
         }
 
-        val group = groupService.addGroup(groupDetails)
+        val group = groupService.addGroup("martinolaussen@gmail.com", groupDetails)
         assert(group.name.startsWith("AKohort"))
     }
 }

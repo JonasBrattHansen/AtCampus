@@ -14,7 +14,7 @@ export default class AxiosService {
 	static generate() {
 		AxiosService.__instance = axios.create({
 			withCredentials: true,
-			baseURL: "https://fierce-plains-44298.herokuapp.com",
+			baseURL: "https://fierce-plains-44298.herokuapp.com/api/",
 		})
 	}
 }

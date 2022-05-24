@@ -35,7 +35,6 @@ class SecurityConfig(
             .logout()
                 .logoutUrl("/api/logout")
                 .invalidateHttpSession(true)
-                .deleteCookies("access_token")
                 .logoutRequestMatcher(AntPathRequestMatcher("/logout")).permitAll()
             .and()
             .authorizeRequests()

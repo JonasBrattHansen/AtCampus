@@ -85,14 +85,17 @@ class GroupService(
         throw EntityNotFoundException("Could not find group with id $id")
     }
 
-    fun addGroup(groupDetails: GroupDetails): GroupEntity{
+    fun addGroup(email: String, groupDetails: GroupDetails): GroupEntity{
+        val userEntity = userRepo.findUserEntityByEmail(email);
+        
         val groupEntity = GroupEntity(
             name = groupDetails.name ?: throw Exception("GroupDetails must include name"),
             description = groupDetails.description ?: throw Exception("GroupDetails must include description"),
-            image = groupDetails.image ?: throw Exception("GroupDetails must include image"),
-            admin = userRepo.findByIdOrNull(groupDetails.admin) ?: throw Exception("GroupDetails must include admin"),
-            schoolEntity = schoolRepo.findByIdOrNull(groupDetails.school) ?: throw Exception("GroupDetails must include school")
+            image = groupDetails.image ?: "https://631ae89fcd069a398187-ee282e5b70d98fac94cba689ef7806d7.ssl.cf1.rackcdn.com/default_group_normal.png", //throw Exception("GroupDetails must include image"),
+            admin = userEntity ?: throw Exception("GroupDetails must include user"), //userRepo.findByIdOrNull(groupDetails.admin) ?: throw Exception("GroupDetails must include admin"),
+            schoolEntity = userEntity.schoolEntity ?: throw Exception("GroupDetails must include school")
         )
+        
         return groupRepo.save(groupEntity)
     }
 

@@ -42,9 +42,12 @@ export const register = (username, email, password) => (dispatch) => {
 }
 
 export const login = (username, password) => dispatch => {
-
 	return AuthService.login(username, password)
 		.then(response => {
+			const tokens = response.data;
+			
+			console.log("Tokens", tokens);
+			
 			dispatch({
 				type: LOGIN_SUCCESS,
 				payload: {username},
