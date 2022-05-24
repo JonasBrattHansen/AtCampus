@@ -5,5 +5,5 @@ const instance = AxiosService.getInstance();
 
 export async function getUserIdByEmail(email){
     let userDetails = await instance.get(`/api/user/email/${email}`)
-    return await getAllUserGroups(userDetails?.id)
+    return userDetails?.id
 }

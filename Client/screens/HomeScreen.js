@@ -6,7 +6,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import GroupPreview from "../components/GroupPreview";
 import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
-import {getAllGroups, getAllPostsByGroup} from "../services/GroupService";
+import {getAllGroups, getAllPostsByGroup, getAllUserGroups} from "../services/GroupService";
 import {useSelector} from "react-redux";
 import {getUserIdByEmail} from "../services/UserService";
 
@@ -113,8 +113,21 @@ function HomeScreen(props) {
 		return state.auth
 	});
 	
-	useEffect(() => {
-		getUserIdByEmail(username)
+	useEffect( () => {
+		getUserIdByEmail(username).then(
+			(res) => {
+				getAllUserGroups(res).then( groups =>
+					{
+						console.log(groups.data)
+						setGroups(groups.data)
+					}
+				).catch((err) => {
+					console.log("Whopsie dopsie, I just did an oopsie")
+					console.log(err)
+				})
+			}
+		)
+
 	}, []);
 	
 	
