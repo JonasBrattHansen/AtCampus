@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import PostPreview from "../components/PostPreview";
 import Welcome from "../components/Welcome";
@@ -6,6 +6,9 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import GroupPreview from "../components/GroupPreview";
 import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
+import {getAllGroups, getAllPostsByGroup, getAllUserGroups} from "../services/GroupService";
+import {useSelector} from "react-redux";
+import {getUserIdByEmail} from "../services/UserService";
 
 const postPreviews = [
 	{
@@ -74,14 +77,15 @@ function VerticalSeparator() {
 	return <View style={styles.verticalSeparator}/>
 }
 
-function Groups() {
+function Groups({groups}) {
+
 	return (
 		<View style={styles.groups}>
 			<ViewMore text={"My Groups"} style={{padding: 20}}/>
 			
 			<FlatList
 				contentContainerStyle={styles.groupPreviews}
-				data={groupPreviews}
+				data={groups}
 				showsHorizontalScrollIndicator={false}
 				horizontal={true}
 				ListFooterComponent={<CreateGroup/>}
@@ -101,6 +105,30 @@ function Groups() {
 }
 
 function HomeScreen(props) {
+	const [groups, setGroups] = useState([]);
+	const [posts, setPosts] = useState([]);
+
+	const { username } = useSelector(state => state.auth);
+	
+	useEffect( () => {
+		getUserIdByEmail(username)
+			.then(userId => {
+				getAllUserGroups(userId)
+					.then(response => {
+						const groups = response?.data;
+						
+						setGroups(groups)
+					})
+					.catch((err) => {
+						console.log("Failed to get all groups", err)
+					})
+			})
+			.catch(err => {
+				console.log("Failed to get userId", err);
+			})
+	}, []);
+	
+	
 	return (
 		<SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
 			<View style={styles.welcome}>
@@ -114,8 +142,8 @@ function HomeScreen(props) {
 	
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
-				data={postPreviews}
-				ListHeaderComponent={Groups}
+				data={posts}
+				ListHeaderComponent={<Groups groups={groups}/>}
 				ItemSeparatorComponent={Separator}
 				renderItem={({item}) =>
 					<PostPreview
@@ -124,9 +152,9 @@ function HomeScreen(props) {
 							marginVertical: 2,
 						}}
 						key={item.id}
-						image={item.image}
+						image={item.userEntity?.userProfileImage}
 						title={item.title}
-						preview={item.preview}
+						preview={item.body}
 						date={item.date}
 					/>
 				}

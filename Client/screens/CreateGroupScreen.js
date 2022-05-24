@@ -12,6 +12,8 @@ import SimpleButton from "../components/SimpleButton";
 
 import * as ImagePicker from 'expo-image-picker';
 import {Ionicons} from "@expo/vector-icons";
+import {createGroup} from "../services/GroupService";
+import Toast from "react-native-toast-message";
 
 function Separator() {
 	return <View style={styles.separator}/>
@@ -20,7 +22,7 @@ function Separator() {
 function CreateGroupScreen(props) {
 	const [image, setImage] = useState(null);
 	const [groupName, setGroupName] = useState("");
-	const [subject, setSubject] = useState("");
+	//const [subject, setSubject] = useState("");
 	const [description, setDescription] = useState("");
 	
 	const groupNameRef = useRef();
@@ -43,8 +45,30 @@ function CreateGroupScreen(props) {
 		}
 	};
 	
-	function createGroup() {
-		console.log("Create group", groupName, subject, description, image);
+	function makeGroup() {
+		createGroup(groupName, description, image, 1, 1)
+			.then(response => {
+				const group = response.data;
+				
+				Toast.show({
+					type: 'success',
+					text1: 'Successfully created group',
+					text2: group.name,
+				});
+			})
+			.catch(err => {
+				console.log("Failed to create group", err);
+				
+				Toast.show({
+					type: 'error',
+					text1: 'Failed to create group',
+				});
+			})
+			.finally(() => {
+				setImage(null);
+				setGroupName("");
+				setDescription("");
+			})
 	}
 	
 	return (
@@ -80,7 +104,7 @@ function CreateGroupScreen(props) {
 							onChangeText={val => setGroupName(val)}
 						/>
 						
-						<Separator/>
+						{/*<Separator/>
 						
 						<InputField
 							innerRef={subjectRef}
@@ -91,7 +115,7 @@ function CreateGroupScreen(props) {
 							returnKeyType={"next"}
 							value={subject}
 							onChangeText={val => setSubject(val)}
-						/>
+						/>*/}
 						
 						<Separator/>
 						
@@ -107,7 +131,7 @@ function CreateGroupScreen(props) {
 					</View>
 					
 					<View style={styles.buttonWrapper}>
-						<SimpleButton text={"Next"} onPress={() => createGroup()}/>
+						<SimpleButton text={"Create"} onPress={() => makeGroup()}/>
 					</View>
 				</KeyboardAvoidingView>
 			</View>

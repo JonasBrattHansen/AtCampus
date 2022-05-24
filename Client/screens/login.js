@@ -11,19 +11,45 @@ import {
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {login} from "../actions/auth";
 
 export default function Login({navigation}) {
+	const dispatch = useDispatch();
+	
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	
+	function attemptLogin() {
+		dispatch(login(email, password))
+	}
+	
     return (
         <KeyboardAvoidingView style={styles.container}  >
             <ScrollView>
                 <StatusBar style="auto" />
+	            
                 <SafeAreaView>
-                    <TextInput style={styles.input}  placeholder={"Email"}/>
-                    <TextInput style={styles.input} placeholder={"Password"}/>
+                    <TextInput
+	                    style={styles.input}
+	                    placeholder={"Email"}
+	                    value={email}
+	                    onChangeText={text => setEmail(text)}
+                    />
+	                
+                    <TextInput
+	                    style={styles.input}
+	                    placeholder={"Password"}
+	                    value={password}
+	                    onChangeText={text => setPassword(text)}
+                    />
                 </SafeAreaView>
+	            
                 <TouchableOpacity>
                     <Text style={styles.forgot}>Forgot password?</Text>
                 </TouchableOpacity>
+	            
                 <Text style={styles.textService}>
                     By continuing, you agree to our
                     <TouchableOpacity>
@@ -34,8 +60,12 @@ export default function Login({navigation}) {
                         <Text style={styles.policy}> Privacy Policy.</Text>
                     </TouchableOpacity>
                 </Text>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText} >Logg in</Text>
+	            
+                <TouchableOpacity
+	                style={styles.button}
+	                onPress={() => attemptLogin()}
+                >
+                    <Text style={styles.buttonText}>Logg in</Text>
                 </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>

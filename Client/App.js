@@ -3,21 +3,34 @@ import HomeStack from "./stacks/HomeStack";
 import AuthenticationStack from "./stacks/AuthenticationStack";
 import {StatusBar} from "react-native";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+import {Provider, useSelector} from "react-redux";
+import store from "./store";
+import Toast from 'react-native-toast-message';
+
+function Juice() {
+	const {isLoggedIn} = useSelector(state => state.auth);
+	
+	return (
+		<BottomSheetModalProvider>
+			<NavigationContainer>
+				{isLoggedIn ?
+					<HomeStack/>
+					:
+					<AuthenticationStack/>
+				}
+				
+				<StatusBar barStyle={"dark-content"}/>
+			</NavigationContainer>
+		</BottomSheetModalProvider>
+	)
+}
 
 export default function App() {
-	const isSignedIn = true;
-	
     return (
-    	<BottomSheetModalProvider>
-	        <NavigationContainer>
-		        {isSignedIn ?
-			        <HomeStack/>
-			        :
-			        <AuthenticationStack/>
-		        }
-		        
-		        <StatusBar barStyle={"dark-content"}/>
-	        </NavigationContainer>
-	    </BottomSheetModalProvider>
+    	<Provider store={store}>
+		    <Juice/>
+		    
+		    <Toast/>
+	    </Provider>
     );
 }
