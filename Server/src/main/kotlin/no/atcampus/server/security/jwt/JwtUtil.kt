@@ -17,7 +17,7 @@ object JwtUtil {
     fun createToken(user: User, issuer: String): String{
         return JWT.create()
             .withSubject(user.username)
-            .withExpiresAt(Date(System.currentTimeMillis() + 10 * 1000))
+            .withExpiresAt(Date(System.currentTimeMillis() + 10 * 60 * 1000))
             .withIssuer(issuer)
             .withClaim("authorities", user.authorities.map { it.authority })
             .sign(algorithm)
