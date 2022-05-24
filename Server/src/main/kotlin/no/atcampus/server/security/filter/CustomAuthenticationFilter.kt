@@ -9,10 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import java.io.PrintWriter
 import java.util.stream.Collectors
 import javax.servlet.FilterChain
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -33,8 +31,7 @@ class CustomAuthenticationFilter(@Autowired private val authManager: Authenticat
     ) {
         val token = JwtUtil.createToken(authResult.principal as User, request?.requestURL.toString())
         val refreshToken = JwtUtil.createRefreshToken(authResult.principal as User, request?.requestURL.toString())
-        
-        //val cookie = Cookie("access_token", token)
+
         response.contentType = APPLICATION_JSON_VALUE
         
         val json = jacksonObjectMapper().writeValueAsString(TokenResponse(token, refreshToken))

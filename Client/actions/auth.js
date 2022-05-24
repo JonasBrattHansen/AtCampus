@@ -48,8 +48,6 @@ export const check = () => dispatch => {
 			if (response) {
 				const {token, username} = response;
 				
-				console.log("We have token", token, username);
-				
 				dispatch({
 					type: LOGIN_SUCCESS,
 					payload: {username},
