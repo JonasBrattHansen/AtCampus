@@ -14,6 +14,7 @@ class PostService(
     @Autowired private val groupRepo: GroupRepo,
     @Autowired private val postRepo: PostRepo,
     @Autowired private val userRepo: UserRepo,
+    @Autowired private val groupService: GroupService
 ) {
 
     fun findPostsByGroup(groupId: Long): MutableList<PostEntity>{
@@ -68,6 +69,18 @@ class PostService(
             return postRepo.save(updatedPostEntity)
         }
         throw EntityNotFoundException("Could not find post with id $id")
+    }
+
+    
+    fun getAllRecentPostsByUser(userId: Long): MutableList<PostEntity>{
+        
+        val groups = groupService.getGroupsByUserId(userId)
+        val allPosts = groups.flatMap { groupEntity -> postRepo.findPostEntityByGroupEntity(groupEntity) }
+        allPosts?.let {
+            return allPosts.toMutableList()
+        }
+
+        throw EntityNotFoundException("Could not find post with id $userId")
     }
 }
 

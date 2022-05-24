@@ -14,7 +14,6 @@ class CommentService(
     @Autowired private val commentRepo: CommentRepo,
     @Autowired private val postRepo: PostRepo,
     @Autowired private val userRepo: UserRepo
-
     ) {
 
     fun findCommentsByPost(postId: Long): MutableList<CommentEntity> {
@@ -66,9 +65,6 @@ class CommentService(
         )
         return commentRepo.save(commentEntity)
     }
-
 }
-
-
 
 data class CommentDetails(val id: Long?, val body: String?, val post: Long?, val user: Long? )

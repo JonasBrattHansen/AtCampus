@@ -46,7 +46,6 @@ class GroupService(
         return group.get()
     }
 
-
     fun getGroupsByUserId(id: Long): MutableList<GroupEntity>{
         val user = userRepo.findByIdOrNull(id)
         user?.let {
@@ -107,8 +106,6 @@ class GroupService(
         )
         return groupRequestRepo.save(groupRequest)
     }
-
-
 }
 
 data class GroupDetails (

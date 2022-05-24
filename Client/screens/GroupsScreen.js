@@ -81,7 +81,7 @@ function Groups() {
 	return (
 		<View style={styles.groups}>
 			<ViewMore text={"Favorites"} style={{padding: 20}}/>
-			
+
 			<FlatList
 				contentContainerStyle={styles.groupPreviews}
 				data={groupPreviews}
@@ -97,7 +97,7 @@ function Groups() {
 					/>
 				}
 			/>
-			
+
 			<ViewMore text={"Your Groups"} style={{padding: 20}}/>
 		</View>
 	)
@@ -114,35 +114,35 @@ function VerticalSeparator() {
 function GroupsScreen({navigation}) {
 	// ref
 	const bottomSheetRef = useRef(null);
-	
+
 	// variables
 	const snapPoints = useMemo(() => [Platform.OS === "ios" ? "35%" : "40%"], []);
-	
+
 	// callbacks
 	const handleSheetChanges = useCallback((index) => {
 		//console.log('handleSheetChanges', index);
 	}, []);
-	
+
 	function openSheet() {
 		bottomSheetRef.current?.present();
 	}
-	
+
 	useEffect(() => {
 		const backAction = () => {
 			bottomSheetRef.current.close();
 			bottomSheetRef.current.forceClose();
-			
+
 			return true;
 		};
-		
+
 		const backHandler = BackHandler.addEventListener(
 			"hardwareBackPress",
 			backAction,
 		);
-		
+
 		return () => backHandler.remove();
 	}, []);
-	
+
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
 			headerRight: () => {
@@ -158,7 +158,7 @@ function GroupsScreen({navigation}) {
 			}
 		})
 	})
-	
+
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -180,7 +180,7 @@ function GroupsScreen({navigation}) {
 					/>
 				}
 			/>
-			
+
 			<BottomSheetModal
 				ref={bottomSheetRef}
 				snapPoints={snapPoints}
@@ -193,24 +193,24 @@ function GroupsScreen({navigation}) {
 				<SafeAreaView style={styles.contentContainer}>
 					<Text style={styles.title}>Find your studymates</Text>
 					<Text style={styles.description}>Create or find a group to study with other students</Text>
-					
+
 					<SimpleButton
 						text={"Find group"}
 						onPress={() => {
 							bottomSheetRef.current.close();
 							bottomSheetRef.current.forceClose();
-							
+
 							navigation.navigate("Find Group");
 						}}
 					/>
-					
+
 					<TouchableOpacity
 						activeOpacity={0.6}
 						style={styles.createGroup}
 						onPress={() => {
 							bottomSheetRef.current.close()
 							bottomSheetRef.current.forceClose();
-							
+
 							navigation.navigate("Create Group");
 						}}
 					>

@@ -14,7 +14,8 @@ class PostEntityServiceUnitTest {
     private val groupRepo = mockk<GroupRepo>()
     private val postRepo = mockk<PostRepo>()
     private val userRepo = mockk<UserRepo>()
-    private val postService = PostService(groupRepo, postRepo, userRepo)
+    private val groupService = mockk<GroupService>()
+    private val postService = PostService(groupRepo, postRepo, userRepo, groupService)
     private val testData = GenerateTestData()
 
     @Test
