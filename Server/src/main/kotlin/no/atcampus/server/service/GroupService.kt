@@ -100,6 +100,7 @@ class GroupService(
     }
 
 
+
     fun addGroupRequestToGroup(userId: Long, groupId: Long): GroupRequestEntity{
         val groupRequest = GroupRequestEntity(
             userEntity = userRepo.findByIdOrNull(userId) ?: throw Exception("Must include userId"),
