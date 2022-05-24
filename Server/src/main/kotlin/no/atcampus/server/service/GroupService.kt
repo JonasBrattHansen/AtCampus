@@ -95,10 +95,8 @@ class GroupService(
             admin = userEntity ?: throw Exception("GroupDetails must include user"), //userRepo.findByIdOrNull(groupDetails.admin) ?: throw Exception("GroupDetails must include admin"),
             schoolEntity = userEntity.schoolEntity ?: throw Exception("GroupDetails must include school")
         )
-        
         return groupRepo.save(groupEntity)
     }
-
 
 
     fun addGroupRequestToGroup(userId: Long, groupId: Long): GroupRequestEntity{
