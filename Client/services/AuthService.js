@@ -1,4 +1,5 @@
 import AxiosService from "./AxiosService";
+import * as SecureStore from 'expo-secure-store';
 
 const instance = AxiosService.getInstance();
 
@@ -26,8 +27,20 @@ const login = (email, password) => {
 	})
 }
 
+const check = async () => {
+	const token = await SecureStore.getItemAsync("token");
+	const username = await SecureStore.getItemAsync("username");
+	
+	if (token && username) {
+		return {token, username}
+	}
+	
+	return null
+}
+
 export default {
 	register,
 	login,
 	refresh,
+	check
 }

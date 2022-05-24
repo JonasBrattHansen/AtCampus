@@ -8,6 +8,7 @@ import {
 } from "./type";
 
 import AuthService from "../services/AuthService";
+import * as SecureStore from 'expo-secure-store';
 
 export const register = (username, email, password) => (dispatch) => {
 	return AuthService.register(username, email, password)
@@ -23,7 +24,7 @@ export const register = (username, email, password) => (dispatch) => {
 			
 			console.log("Response from register", response);
 		})
-		.catch(err => {
+		.catch(error => {
 			const message = (error.response &&
 				error.response.data &&
 				error.response.data.message) ||
@@ -41,19 +42,38 @@ export const register = (username, email, password) => (dispatch) => {
 		});
 }
 
+export const check = () => dispatch => {
+	return AuthService.check()
+		.then(response => {
+			if (response) {
+				const {token, username} = response;
+				
+				console.log("We have token", token, username);
+				
+				dispatch({
+					type: LOGIN_SUCCESS,
+					payload: {username},
+				})
+			}
+		})
+}
+
 export const login = (username, password) => dispatch => {
 	return AuthService.login(username, password)
 		.then(response => {
 			const tokens = response.data;
+			const {token, refreshToken} = tokens;
 			
-			console.log("Tokens", tokens);
+			SecureStore.setItemAsync("token", token);
+			SecureStore.setItemAsync("refresh_token", refreshToken);
+			SecureStore.setItemAsync("username", username);
 			
 			dispatch({
 				type: LOGIN_SUCCESS,
 				payload: {username},
 			})
 		})
-		.catch(err => {
+		.catch(error => {
 			const message = (error.response &&
 				error.response.data &&
 				error.response.data.message) ||

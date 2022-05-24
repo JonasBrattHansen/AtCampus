@@ -3,12 +3,19 @@ import HomeStack from "./stacks/HomeStack";
 import AuthenticationStack from "./stacks/AuthenticationStack";
 import {StatusBar} from "react-native";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
-import {Provider, useSelector} from "react-redux";
+import {Provider, useDispatch, useSelector} from "react-redux";
 import store from "./store";
 import Toast from 'react-native-toast-message';
+import {useEffect} from "react";
+import {check} from "./actions/auth";
 
 function Juice() {
 	const {isLoggedIn} = useSelector(state => state.auth);
+	const dispatch = useDispatch();
+	
+	useEffect(() => {
+		dispatch(check())
+	}, []);
 	
 	return (
 		<BottomSheetModalProvider>
