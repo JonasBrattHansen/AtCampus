@@ -8,6 +8,7 @@ import no.atcampus.server.service.UserService
 import no.atcampus.server.service.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -35,7 +36,9 @@ class GroupController(
 
     @PostMapping("/create")
     fun createGroup(@RequestBody groupDetails: GroupDetails): ResponseEntity<GroupEntity>{
-        return ResponseEntity.ok(groupService.addGroup(groupDetails))
+        val user = SecurityContextHolder.getContext().authentication.principal as String;
+    
+        return ResponseEntity.ok(groupService.addGroup(user, groupDetails))
     }
 
     @GetMapping("/{groupId}/user")
