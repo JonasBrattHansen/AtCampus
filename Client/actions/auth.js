@@ -10,17 +10,17 @@ import {
 import AuthService from "../services/AuthService";
 import * as SecureStore from 'expo-secure-store';
 
-export const register = (username, email, password) => (dispatch) => {
-	return AuthService.register(username, email, password)
+export const register = (firstName, lastName, email,  phoneNumber, password, school, program, image) => (dispatch) => {
+	return AuthService.register(firstName, lastName, email,  phoneNumber, password, school, program, image)
 		.then(response => {
-			// dispatch({
-			// 	type: REGISTER_SUCCESS,
-			// });
-			//
-			// dispatch({
-			// 	type: SET_MESSAGE,
-			// 	payload: response,
-			// })
+			dispatch({
+				type: REGISTER_SUCCESS,
+			});
+
+			 dispatch({
+			 	type: SET_MESSAGE,
+			 	payload: response,
+			 })
 			
 			console.log("Response from register", response);
 		})
