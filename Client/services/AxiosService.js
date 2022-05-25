@@ -18,7 +18,7 @@ export default class AxiosService {
 	static generate() {
 		const instance = axios.create({
 			withCredentials: true,
-			baseURL: "http://192.168.1.102:8080/api/",
+			baseURL: "https://fierce-plains-44298.herokuapp.com/api/",
 		})
 		
 		instance.interceptors.request.use(async config => {
