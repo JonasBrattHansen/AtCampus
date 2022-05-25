@@ -90,8 +90,15 @@ export const login = (username, password) => dispatch => {
 }
 
 export const logout = () => dispatch => {
-	// AuthService.logout();
-	// dispatch({
-	// 	type: LOGOUT,
-	// })
+	AuthService.logout()
+		.then(() =>{
+			dispatch({
+				type: LOGOUT,
+			})
+		})
+		.catch(error =>{
+			console.log(error)
+		})
+	;
+
 }

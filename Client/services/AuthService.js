@@ -38,9 +38,15 @@ const check = async () => {
 	return null
 }
 
+const logout = async () =>{
+	 await SecureStore.deleteItemAsync("token")
+	 await SecureStore.deleteItemAsync("refresh_token")
+}
+
 export default {
 	register,
 	login,
 	refresh,
-	check
+	check,
+	logout
 }

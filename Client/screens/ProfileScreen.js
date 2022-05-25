@@ -10,6 +10,8 @@ import {
 	View
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import {login, logout} from "../actions/auth";
+import {useDispatch} from "react-redux";
 
 function ProfileScreenInput({title, value, returnKeyType, onSubmitEditing, keyboardType, blurOnSubmit, innerRef, onChangeText}) {
 	return (
@@ -50,9 +52,11 @@ const inputStyles = StyleSheet.create({
 	}
 })
 
+
 function ProfileScreen({navigation}) {
+	const dispatch = useDispatch();
+
 	const [image, setImage] = useState(null);
-	
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [school, setSchool] = useState("");
@@ -61,7 +65,12 @@ function ProfileScreen({navigation}) {
 	const lastNameRef = useRef();
 	const schoolRef = useRef();
 	const emailRef = useRef();
-	
+
+	function onLogOut() {
+		dispatch(logout())
+	}
+
+
 	async function onChangeProfilePicture() {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -144,13 +153,19 @@ function ProfileScreen({navigation}) {
 					>
 						<Text style={styles.imageButtonText}>Save changes</Text>
 					</TouchableOpacity>
-					
 					<TouchableOpacity
 						style={styles.imageButton}
 						activeOpacity={0.6}
 						onPress={() => navigation.navigate("Change Password")}
 					>
 						<Text style={styles.imageButtonText}>Change password</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						activeOpacity={0.6}
+						style={styles.imageButton}
+						onPress={() => onLogOut()}
+						>
+						<Text style={styles.imageButtonText}>Log out</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
