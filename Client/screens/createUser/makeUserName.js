@@ -4,6 +4,7 @@ import LoginInput from "../../components/LoginInput";
 import LoginButton from "../../components/LoginButton";
 import {CreateUserContext} from "../../global/CreateUserContext";
 import {useContext} from "react";
+import CreateAccountTitle from "../../components/CreateAccountTitle";
 
 
 export default function MakeUserName({ navigation, }) {
@@ -16,18 +17,16 @@ export default function MakeUserName({ navigation, }) {
 
     function onPress(){
         if (firstname !== "" && lastname !== ""){
-            navigation.navigate("makeUserInfo")
-        }else{
             alert("Firstname and lastname cant be empty")
+        }else{
+            navigation.navigate("makeUserInfo")
         }
     }
 
   return (
           <View style={styles.container}>
               <ScrollView>
-              <View>
-                  <Text style={styles.title}>Create your account</Text>
-              </View>
+              <CreateAccountTitle/>
               <LoginInput title={"First name"} onChangeText={val => setFirstname(val)} keyboardType={"default"}/>
               <LoginInput title={"Last name"} onChangeText={val => setLastname(val)} keyboardType={"default"} />
               <StatusBar style="auto" />
@@ -43,10 +42,4 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         justifyContent: "center",
   },
-    title: {
-      marginTop: 40,
-        padding: 20,
-        fontSize: 25,
-        fontWeight: "bold"
-    },
 });

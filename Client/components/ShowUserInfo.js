@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     widthText:{
-        width: 70
+        width: 100
     },
     widthValue: {
         textAlign: "right",

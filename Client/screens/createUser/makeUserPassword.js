@@ -4,15 +4,16 @@ import LoginButton from "../../components/LoginButton";
 import React, {useContext, useState} from "react";
 import {Entypo} from "@expo/vector-icons";
 import {CreateUserContext} from "../../global/CreateUserContext";
+import CreateAccountTitle from "../../components/CreateAccountTitle";
 
 export default function MakeUserPassword({ navigation }) {
     const [passwordAgain, setPasswordAgain] = useState()
     const {password, setPassword} = useContext(CreateUserContext)
 
-    const [securePassword, setSecurePassword] = useState(false)
-    const [securePasswordAgain, setSecurePasswordAgain] = useState(false)
-    const [eye, setEye] = useState("eye")
-    const [eyeAgain, setEyeAgain] = useState("eye")
+    const [securePassword, setSecurePassword] = useState(true)
+    const [securePasswordAgain, setSecurePasswordAgain] = useState(true)
+    const [eye, setEye] = useState("eye-with-line")
+    const [eyeAgain, setEyeAgain] = useState("eye-with-line")
 
    function visiblePassword(){
         if (securePassword){
@@ -38,11 +39,12 @@ export default function MakeUserPassword({ navigation }) {
         if (password === passwordAgain ){
             if(password.length > 8 && password.match(/[0-9]/)){
                 navigation.navigate("makeUserComplete")
+                alert(`Password and confirm password dose not match.`)
             }else{
                 alert("It needs to contain minimum 8 letters and a number")
             }
         }else{
-            alert(`Password and confirm password dose not match.`)
+            navigation.navigate("makeUserComplete")
         }
   }
 
@@ -50,10 +52,8 @@ export default function MakeUserPassword({ navigation }) {
     <View style={styles.container}>
         <StatusBar style="auto" />
         <ScrollView>
-            <View>
-                <Text style={styles.title}>Create your account</Text>
-            </View>
-            <View>
+           <CreateAccountTitle/>
+            <View style={styles.viewContainer}>
                 <Text style={styles.info}>Password</Text>
                 <View style={styles.input}>
                     <TextInput style={{width:280}} secureTextEntry={securePassword} placeholder={"Please enter: Password"} onChangeText={(value) => setPassword(value) } />
@@ -62,7 +62,7 @@ export default function MakeUserPassword({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View>
+            <View style={styles.viewContainer}>
                 <Text style={styles.info}>Confirm password</Text>
                 <View  style={styles.input}>
                     <TextInput style={{width:280}} secureTextEntry={securePasswordAgain} placeholder={"Please enter: Password again"}  onChangeText={(value) => setPasswordAgain(value)}/>
@@ -72,7 +72,7 @@ export default function MakeUserPassword({ navigation }) {
                 </View>
             </View>
             <View>
-               <LoginButton title={"next"} onPress={onPress}/>
+               <LoginButton title={"Next"} onPress={onPress}/>
             </View>
         </ScrollView>
     </View>
@@ -85,21 +85,18 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         justifyContent: "center",
     },
-    title: {
-        marginTop: 40,
-        marginBottom: 40,
-        padding: 20,
-        fontSize: 25,
-        fontWeight: "bold"
-    },
     info: {
-        padding:10,
-        marginLeft: 10,
+        marginBottom: 10,
         fontSize: 18,
         fontWeight: "bold",
     },
+    viewContainer:{
+        display: "flex",
+        borderRadius: 20,
+        padding: 10,
+    },
     input: {
-        margin: 10,
+        width: "100%",
         borderWidth: 1,
         borderRadius: 10,
         borderColor: "#d3d3d3",
@@ -109,19 +106,4 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center"
     },
-    button: {
-        alignSelf: "center",
-        alignItems: "center",
-        backgroundColor: "#7C7FCA",
-        width: 300,
-        borderRadius: 20,
-        padding: 10,
-        margin: 10,
-        marginTop:150,
-    },
-    next: {
-        color: "#ffffff",
-        fontWeight: "bold",
-        fontSize: 15
-    }
 });

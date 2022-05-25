@@ -17,19 +17,19 @@ import {login} from "../actions/auth";
 
 export default function Login({navigation}) {
 	const dispatch = useDispatch();
-	
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	
+
 	function attemptLogin() {
 		dispatch(login(email, password))
 	}
-	
+
     return (
         <KeyboardAvoidingView style={styles.container}  >
             <ScrollView>
                 <StatusBar style="auto" />
-	            
+
                 <SafeAreaView>
                     <TextInput
 	                    style={styles.input}
@@ -37,7 +37,7 @@ export default function Login({navigation}) {
 	                    value={email}
 	                    onChangeText={text => setEmail(text)}
                     />
-	                
+
                     <TextInput
 	                    style={styles.input}
 	                    placeholder={"Password"}
@@ -45,11 +45,11 @@ export default function Login({navigation}) {
 	                    onChangeText={text => setPassword(text)}
                     />
                 </SafeAreaView>
-	            
+
                 <TouchableOpacity>
                     <Text style={styles.forgot}>Forgot password?</Text>
                 </TouchableOpacity>
-	            
+
                 <Text style={styles.textService}>
                     By continuing, you agree to our
                     <TouchableOpacity>
@@ -60,7 +60,7 @@ export default function Login({navigation}) {
                         <Text style={styles.policy}> Privacy Policy.</Text>
                     </TouchableOpacity>
                 </Text>
-	            
+
                 <TouchableOpacity
 	                style={styles.button}
 	                onPress={() => attemptLogin()}

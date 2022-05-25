@@ -11,6 +11,7 @@ const CreateUserProvider = ({children}) => {
     const [school, setSchool] = useState("Høyskolen kristiania")
     const [program, setProgram] = useState("Frontend og mobilutvikling")
     const [password, setPassword] = useState("")
+    const [image, setImage] = useState("https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png")
 
     return(
         <CreateUserContext.Provider value={{
@@ -20,7 +21,8 @@ const CreateUserProvider = ({children}) => {
             email, setEmail,
             school, setSchool,
             program, setProgram,
-            password, setPassword
+            password, setPassword,
+            image, setImage
         }}>
             {children}
         </CreateUserContext.Provider>

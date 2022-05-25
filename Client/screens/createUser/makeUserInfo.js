@@ -4,6 +4,7 @@ import LoginInput from "../../components/LoginInput";
 import LoginButton from "../../components/LoginButton";
 import {useContext, useState} from "react";
 import {CreateUserContext} from "../../global/CreateUserContext";
+import CreateAccountTitle from "../../components/CreateAccountTitle";
 
 export default function MakeUserInfo({ navigation, getEmail, getPhoneNr }) {
     const {
@@ -15,20 +16,17 @@ export default function MakeUserInfo({ navigation, getEmail, getPhoneNr }) {
 
     function onPress(){
         if (email !== "" && phoneNr !== ""){
-            navigation.navigate("makeUserSchool")
-        }else{
             alert("Email and Phone number cant be empty")
+        }else{
+            navigation.navigate("makeUserSchool")
         }
     }
-
 
     return (
     <View style={styles.container}>
         <StatusBar style="auto" />
         <ScrollView>
-            <View>
-                <Text style={styles.title}>Create your account</Text>
-            </View>
+          <CreateAccountTitle/>
             <LoginInput setEmail={() => getEmail} title={"Email"} onChangeText={(val => setEmail(val))} keyboardType={"default"} />
             <LoginInput setPhoneNr={() => getPhoneNr} title={"Phone number"} onChangeText={(val) => setPhoneNr(val)} keyboardType={"numeric"}/>
            <LoginButton navigation={navigation} title={"Next"} onPress={onPress}/>
@@ -42,11 +40,5 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         justifyContent: "center",
-    },
-    title: {
-        marginTop: 40,
-        padding: 20,
-        fontSize: 25,
-        fontWeight: "bold"
     },
 });

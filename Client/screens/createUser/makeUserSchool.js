@@ -5,6 +5,7 @@ import {useContext, useState} from "react";
 import LoginButton from "../../components/LoginButton";
 import {AntDesign} from "@expo/vector-icons";
 import {CreateUserContext} from "../../global/CreateUserContext";
+import CreateAccountTitle from "../../components/CreateAccountTitle";
 
 export default function MakeUserSchool({ navigation }) {
 
@@ -37,7 +38,6 @@ export default function MakeUserSchool({ navigation }) {
         }
     ]
 
-
     const [isModalSchoolVisible, setIsModalSchoolVisible] = useState(false)
     const [isModalProgramVisible, setIsModalProgramVisible] = useState(false)
 
@@ -66,80 +66,81 @@ export default function MakeUserSchool({ navigation }) {
   return (
     <View style={styles.container}>
         <StatusBar style="auto" />
-        <View>
-            <Text style={styles.title}>Create your account</Text>
+        <CreateAccountTitle/>
+            <View style={styles.viewContainer}>
+                <Text style={styles.textSchool} >School</Text>
+                <TouchableOpacity style={styles.modalSchool} onPress={() => setIsModalSchoolVisible(true)}>
+                    <View
+                        style={styles.schoolInfoWrap}>
+                        <Text>{school}</Text>
+                        <AntDesign name="caretdown" size={15} color="black"/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.viewContainer}>
+                <Text style={styles.textProgram}>Program</Text>
+                <TouchableOpacity style={styles.modalProgram} onPress={() => setIsModalProgramVisible(true)}>
+                    <View
+                        style={styles.schoolInfoWrap}>
+                        <Text>{program}</Text>
+                        <AntDesign name="caretdown" size={15} color="black"/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <Modal
+                transparent={false}
+                animationType="fade"
+                visible={isModalSchoolVisible}
+                nRequestClose={() => setIsModalSchoolVisible(false)}
+            >
+                <View style={styles.backgroundModal}>
+                    <View style={styles.modalViewSchool}>
+                        <Text style={styles.textSchool} >School</Text>
+                        <View style={styles.styleSchool}>
+                            <Picker
+                                selectedValue={school}
+                                onValueChange={(itemValue, itemIndex) => {getProgram(itemValue)}}
+                            >
+                                {SchoolInfo.map((value, i) => (
+                                    <Picker.Item key={i} label={value.SchoolName} value={value.SchoolName} />
+                                ))}
+                            </Picker>
+                        </View>
+                        <TouchableOpacity style={styles.button} onPress={() => setIsModalSchoolVisible(false)}>
+                            <Text style={styles.done}>Done</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+            </Modal>
+            <Modal
+                transparent={false}
+                animationType="fade"
+                visible={isModalProgramVisible}
+                nRequestClose={() => setIsModalProgramVisible(false)}
+            >
+                <View style={styles.backgroundModal} >
+                    <View style={styles.modalViewSchool}>
+                        <Text style={styles.textProgram}>Program</Text>
+                        <View style={styles.styleProgram}>
+                            <Picker
+                                selectedValue={program}
+                                onValueChange={(itemValue, itemIndex) => {setProgram(itemValue)}}
+                            >
+                                {getProgramFromSchool().map((value, i) => (
+                                    <Picker.Item  key={i} label={value} value={value}   />
+                                )) }
+                            </Picker>
+                        </View>
+                        <TouchableOpacity style={styles.button} onPress={() => setIsModalProgramVisible(false)}>
+                            <Text style={styles.done} >Done</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+        <View style={{marginBottom: 90}}>
+            <LoginButton navigation={navigation} title={"Next"} onPress={onPress}/>
         </View>
-
-        <Text style={styles.textSchool} >School</Text>
-        <TouchableOpacity style={styles.modalSchool} onPress={() => setIsModalSchoolVisible(true)}>
-            <View
-                style={styles.schoolInfoWrap}>
-                <Text>{school}</Text>
-                <AntDesign name="caretdown" size={15} color="black"/>
-            </View>
-        </TouchableOpacity>
-
-        <Text style={styles.textProgram}>Program</Text>
-        <TouchableOpacity style={styles.modalProgram} onPress={() => setIsModalProgramVisible(true)}>
-            <View
-                style={styles.schoolInfoWrap}>
-                <Text>{program}</Text>
-                <AntDesign name="caretdown" size={15} color="black"/>
-            </View>
-        </TouchableOpacity>
-
-        <Modal
-        transparent={false}
-        animationType="fade"
-        visible={isModalSchoolVisible}
-        nRequestClose={() => setIsModalSchoolVisible(false)}
-        >
-            <View style={styles.backgroundModal}>
-                <View style={styles.modalViewSchool}>
-                    <Text style={styles.textSchool} >School</Text>
-                    <View style={styles.styleSchool}>
-                        <Picker
-                            selectedValue={school}
-                            onValueChange={(itemValue, itemIndex) => {getProgram(itemValue)}}
-                        >
-                            {SchoolInfo.map((value, i) => (
-                                <Picker.Item key={i} label={value.SchoolName} value={value.SchoolName} />
-                            ))}
-                        </Picker>
-                    </View>
-                    <TouchableOpacity style={styles.button} onPress={() => setIsModalSchoolVisible(false)}>
-                        <Text style={styles.done}>Done</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-        </Modal>
-        <Modal
-            transparent={false}
-            animationType="fade"
-            visible={isModalProgramVisible}
-            nRequestClose={() => setIsModalProgramVisible(false)}
-        >
-            <View style={styles.backgroundModal} >
-                <View style={styles.modalViewSchool}>
-                    <Text style={styles.textProgram}>Program</Text>
-                    <View style={styles.styleProgram}>
-                        <Picker
-                            selectedValue={program}
-                            onValueChange={(itemValue, itemIndex) => {setProgram(itemValue)}}
-                        >
-                            {getProgramFromSchool().map((value, i) => (
-                                <Picker.Item  key={i} label={value} value={value}   />
-                            )) }
-                        </Picker>
-                    </View>
-                    <TouchableOpacity style={styles.button} onPress={() => setIsModalProgramVisible(false)}>
-                        <Text style={styles.done} >Done</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </Modal>
-        <LoginButton navigation={navigation} title={"Next"} onPress={onPress}/>
     </View>
   );
 }
@@ -150,36 +151,42 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         justifyContent: "center",
     },
-    title: {
-        padding: 20,
-        marginBottom:20,
-        fontSize: 25,
-        fontWeight: "bold",
+    viewContainer:{
+        display: "flex",
+        borderRadius: 20,
+        padding: 10,
     },
     modalSchool: {
-        borderColor: "#d3d3d3",
-        margin: 10,
+        borderWidth: 1,
         borderRadius: 10,
-        borderWidth:1
+        borderColor: "#d3d3d3",
+        paddingVertical: 5,
+        width: "100%",
+        paddingHorizontal: 10,
     },
     modalProgram: {
-        borderColor: "#d3d3d3",
-        margin: 10,
+        borderWidth: 1,
         borderRadius: 10,
-        borderWidth:1,
+        borderColor: "#d3d3d3",
+        paddingVertical: 5,
+        width: "100%",
+        paddingHorizontal: 10,
     },
     textSchool:{
         fontWeight: "bold",
-        fontSize: 20,
-        margin: 10,
-        marginLeft: 15
-
+        fontSize: 18,
+        borderColor: "#d3d3d3",
+        paddingVertical: 5,
+        width: "100%",
+        paddingHorizontal: 10,
     },
     textProgram:{
         fontWeight: "bold",
-        fontSize: 20,
-        margin: 10,
-        marginLeft: 15
+        fontSize: 18,
+        borderColor: "#d3d3d3",
+        paddingVertical: 5,
+        width: "100%",
+        paddingHorizontal: 10,
     },
     schoolInfoWrap:{
         paddingVertical: 15,
@@ -199,27 +206,23 @@ const styles = StyleSheet.create({
         width: 300,
         borderRadius: 20,
         padding: 10,
-        margin: 10,
+        marginTop: 20
     },
     done: {
         color: "#ffffff",
         fontWeight: "bold",
-        fontSize: 15
+        fontSize: 15,
     },
     styleSchool:{
         borderWidth: 1,
         width: "110%",
         borderColor: "#d3d3d3",
-        marginTop: 20,
-        marginBottom: 20,
         borderRadius: 10,
     },
     styleProgram:{
         borderWidth: 1,
         width: "110%",
         borderColor: "#d3d3d3",
-        marginTop: 20,
-        marginBottom: 20,
         borderRadius: 10,
 
     },
