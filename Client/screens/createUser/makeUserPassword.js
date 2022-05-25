@@ -39,12 +39,11 @@ export default function MakeUserPassword({ navigation }) {
         if (password === passwordAgain ){
             if(password.length > 8 && password.match(/[0-9]/)){
                 navigation.navigate("makeUserComplete")
-                alert(`Password and confirm password dose not match.`)
             }else{
                 alert("It needs to contain minimum 8 letters and a number")
             }
         }else{
-            navigation.navigate("makeUserComplete")
+            alert(`Password and confirm password dose not match.`)
         }
   }
 

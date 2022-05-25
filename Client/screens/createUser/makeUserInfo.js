@@ -16,9 +16,9 @@ export default function MakeUserInfo({ navigation, getEmail, getPhoneNr }) {
 
     function onPress(){
         if (email !== "" && phoneNr !== ""){
-            alert("Email and Phone number cant be empty")
-        }else{
             navigation.navigate("makeUserSchool")
+        }else{
+            alert("Email and Phone number cant be empty")
         }
     }
 

@@ -40,13 +40,18 @@ export default function MakeUserSchool({ navigation }) {
 
     const [isModalSchoolVisible, setIsModalSchoolVisible] = useState(false)
     const [isModalProgramVisible, setIsModalProgramVisible] = useState(false)
+    const [school, setSchool] = useState("Høyskolen kristiania")
+    const [valueProgram, setValueProgram] = useState("frontend og mobilutvikling")
 
+    /*
     const {
         setSchool,
         setProgram,
         school,
         program
     } = useContext(CreateUserContext)
+
+     */
 
     function getProgramFromSchool(){
         const schoolInfo = SchoolInfo.find((element) => element.SchoolName === school)
@@ -56,7 +61,7 @@ export default function MakeUserSchool({ navigation }) {
     function getProgram(itemValue){
         setSchool(itemValue)
         const firstProgram = SchoolInfo.find((element) => element.SchoolName === itemValue)
-        setProgram(firstProgram.program[0])
+        setValueProgram(firstProgram.program[0])
     }
 
     function onPress(){
@@ -82,7 +87,7 @@ export default function MakeUserSchool({ navigation }) {
                 <TouchableOpacity style={styles.modalProgram} onPress={() => setIsModalProgramVisible(true)}>
                     <View
                         style={styles.schoolInfoWrap}>
-                        <Text>{program}</Text>
+                        <Text>{valueProgram}</Text>
                         <AntDesign name="caretdown" size={15} color="black"/>
                     </View>
                 </TouchableOpacity>
@@ -124,8 +129,8 @@ export default function MakeUserSchool({ navigation }) {
                         <Text style={styles.textProgram}>Program</Text>
                         <View style={styles.styleProgram}>
                             <Picker
-                                selectedValue={program}
-                                onValueChange={(itemValue, itemIndex) => {setProgram(itemValue)}}
+                                selectedValue={valueProgram}
+                                onValueChange={(itemValue, itemIndex) => {setValueProgram(itemValue)}}
                             >
                                 {getProgramFromSchool().map((value, i) => (
                                     <Picker.Item  key={i} label={value} value={value}   />

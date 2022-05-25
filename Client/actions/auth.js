@@ -11,6 +11,7 @@ import AuthService from "../services/AuthService";
 import * as SecureStore from 'expo-secure-store';
 
 export const register = (firstName, lastName, email,  phoneNumber, password, school, program, image) => (dispatch) => {
+	console.log("inside post register")
 	return AuthService.register(firstName, lastName, email,  phoneNumber, password, school, program, image)
 		.then(response => {
 			dispatch({
@@ -19,7 +20,7 @@ export const register = (firstName, lastName, email,  phoneNumber, password, sch
 
 			 dispatch({
 			 	type: SET_MESSAGE,
-			 	payload: response,
+			 	payload: 2,
 			 })
 			
 			console.log("Response from register", response);
@@ -30,7 +31,7 @@ export const register = (firstName, lastName, email,  phoneNumber, password, sch
 				error.response.data.message) ||
 				error.message ||
 				error.toString();
-			
+			console.log(message)
 			dispatch({
 				type: REGISTER_FAIL,
 			});
