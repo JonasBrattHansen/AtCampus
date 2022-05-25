@@ -1,37 +1,44 @@
-import {
-	REGISTER_SUCCESS,
-	REGISTER_FAIL,
-	LOGIN_SUCCESS,
-	LOGIN_FAIL,
-	LOGOUT,
-	SET_MESSAGE,
-} from "./type";
+import {LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, REGISTER_FAIL, REGISTER_SUCCESS, SET_MESSAGE,} from "./type";
 
 import AuthService from "../services/AuthService";
 import * as SecureStore from 'expo-secure-store';
+import Toast from "react-native-toast-message";
 
-export const register = (firstName, lastName, email,  phoneNumber, password, school, program, image) => (dispatch) => {
-	console.log("inside post register")
-	return AuthService.register(firstName, lastName, email,  phoneNumber, password, school, program, image)
+export const register = (firstName, lastName, email, phoneNumber, password, school, program, image) => (dispatch) => {
+	return AuthService.register(firstName, lastName, email, phoneNumber, password, school, program, image)
 		.then(response => {
 			dispatch({
 				type: REGISTER_SUCCESS,
 			});
-
-			 dispatch({
-			 	type: SET_MESSAGE,
-			 	payload: 2,
-			 })
+			
+			dispatch({
+				type: SET_MESSAGE,
+				payload: 2,
+			})
+			
+			Toast.show({
+				type: "success",
+				text1: "Successfully created account",
+				text2: "Please log in"
+			})
 			
 			console.log("Response from register", response);
 		})
 		.catch(error => {
 			const message = (error.response &&
-				error.response.data &&
-				error.response.data.message) ||
+					error.response.data &&
+					error.response.data.message) ||
 				error.message ||
 				error.toString();
-			console.log(message)
+			
+			console.log("Error", message)
+			
+			Toast.show({
+				type: "error",
+				text1: "Failed to create account",
+				text2: "Please try again"
+			})
+			
 			dispatch({
 				type: REGISTER_FAIL,
 			});
@@ -74,8 +81,8 @@ export const login = (username, password) => dispatch => {
 		})
 		.catch(error => {
 			const message = (error.response &&
-				error.response.data &&
-				error.response.data.message) ||
+					error.response.data &&
+					error.response.data.message) ||
 				error.message ||
 				error.toString();
 			
@@ -92,14 +99,14 @@ export const login = (username, password) => dispatch => {
 
 export const logout = () => dispatch => {
 	AuthService.logout()
-		.then(() =>{
+		.then(() => {
 			dispatch({
 				type: LOGOUT,
 			})
 		})
-		.catch(error =>{
+		.catch(error => {
 			console.log(error)
 		})
 	;
-
+	
 }

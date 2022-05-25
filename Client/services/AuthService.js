@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 const instance = AxiosService.getInstance();
 
 const register = (firstName, lastName, email, phoneNumber, school, program, password, image) => {
-	return instance.post("register", {
+	const request = {
 		firstName,
 		lastName,
 		email,
@@ -13,7 +13,11 @@ const register = (firstName, lastName, email, phoneNumber, school, program, pass
 		school,
 		program,
 		userProfileImage: image,
-	});
+	}
+	
+	console.log("Register request", request);
+	
+	return instance.post("register", request);
 }
 
 const refresh = (refreshToken) => {

@@ -1,6 +1,9 @@
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 
+import store from "../store";
+import {LOGOUT} from "../actions/type";
+
 export default class AxiosService {
 	static __instance;
 	
@@ -21,9 +24,8 @@ export default class AxiosService {
 		instance.interceptors.request.use(async config => {
 			const token = await SecureStore.getItemAsync("token");
 			
-			console.log("We are making a request", token);
-			
 			config.headers = {
+				...config.headers,
 				'Authorization': `Bearer ${token}`,
 			}
 			
@@ -36,17 +38,28 @@ export default class AxiosService {
 			return response
 		}, async function (error) {
 			const originalRequest = error.config;
-			
-			if (error.response.status === 403 && !originalRequest._retry) {
+
+			if (error.response && error.response?.status === 403 && !originalRequest._retry) {
 				originalRequest._retry = true;
 				
-				console.log("Attempting to refresh");
-				
 				const refreshToken = await SecureStore.getItemAsync("refresh_token");
-				const response = await instance.post("refresh", refreshToken);
-				const tokens = response.data;
+				let response
+				try {
+					response = await instance.post("refresh", refreshToken);
+				} catch(e) {
+					console.log("Failed to refresh token", e);
+					
+					await SecureStore.deleteItemAsync("token");
+					await SecureStore.deleteItemAsync("refresh_token");
+					
+					store.dispatch({
+						type: LOGOUT,
+					})
+					
+					return
+				}
 				
-				console.log("New tokens", response, tokens);
+				const tokens = response.data;
 				
 				const newAccessToken = tokens.token;
 				const newRefreshToken = tokens.refreshToken;

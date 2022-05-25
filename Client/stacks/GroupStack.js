@@ -12,7 +12,7 @@ function GroupStack() {
 	return (
 		<Stack.Navigator>
 			<Stack.Screen
-				name="Your Groups"
+				name={"Your Groups"}
 				component={GroupsScreen}
 			/>
 			<Stack.Screen

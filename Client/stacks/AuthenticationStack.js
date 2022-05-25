@@ -8,6 +8,8 @@ import MakeUserPassword from "../screens/createUser/makeUserPassword";
 import MakeUserComplete from "../screens/createUser/makeUserComplete";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {CreateUserProvider} from "../global/CreateUserContext";
+import {TouchableOpacity} from "react-native";
+import {Ionicons} from "@expo/vector-icons";
 
 
 const FrontpageStack = createNativeStackNavigator();
@@ -25,32 +27,98 @@ function AuthenticationStack(props) {
 				<FrontpageStack.Screen
 					name="Login"
 					component={Login}
-					options={{ title: 'Login', headerTitleAlign: 'center' }}
+					options={({navigation}) => ({
+						title: 'Login',
+						headerTitleAlign: 'center',
+						headerLeft: () => {
+							return <TouchableOpacity
+								activeOpacity={0.6}
+								onPress={() => navigation.goBack()}
+							>
+								<Ionicons name="chevron-back" size={24} color="black" />
+							</TouchableOpacity>
+						},
+					})}
 				/>
 				<FrontpageStack.Screen
 					name="makeUserName"
 					component={MakeUserName}
-					options={{ title: 'Make user', headerTitleAlign: 'center' }}
+					options={({navigation}) => ({
+						title: 'Name',
+						headerTitleAlign: 'center',
+						headerLeft: () => {
+							return <TouchableOpacity
+								activeOpacity={0.6}
+								onPress={() => navigation.goBack()}
+							>
+								<Ionicons name="chevron-back" size={24} color="black" />
+							</TouchableOpacity>
+						},
+					})}
 				/>
 				<FrontpageStack.Screen
 					name="makeUserInfo"
 					component={MakeUserInfo}
-					options={{ title: 'Make user', headerTitleAlign: 'center' }}
+					options={({navigation}) => ({
+						title: 'About',
+						headerTitleAlign: 'center',
+						headerLeft: () => {
+							return <TouchableOpacity
+								activeOpacity={0.6}
+								onPress={() => navigation.goBack()}
+							>
+								<Ionicons name="chevron-back" size={24} color="black" />
+							</TouchableOpacity>
+						},
+					})}
 				/>
 				<FrontpageStack.Screen
 					name="makeUserSchool"
 					component={MakeUserSchool}
-					options={{ title: 'Make user', headerTitleAlign: 'center' }}
+					options={({navigation}) => ({
+						title: 'School',
+						headerTitleAlign: 'center',
+						headerLeft: () => {
+							return <TouchableOpacity
+								activeOpacity={0.6}
+								onPress={() => navigation.goBack()}
+							>
+								<Ionicons name="chevron-back" size={24} color="black" />
+							</TouchableOpacity>
+						},
+					})}
 				/>
 				<FrontpageStack.Screen
 					name="makeUserPassword"
 					component={MakeUserPassword}
-					options={{ title: 'Make user', headerTitleAlign: 'center' }}
+					options={({navigation}) => ({
+						title: 'Password',
+						headerTitleAlign: 'center',
+						headerLeft: () => {
+							return <TouchableOpacity
+								activeOpacity={0.6}
+								onPress={() => navigation.goBack()}
+							>
+								<Ionicons name="chevron-back" size={24} color="black" />
+							</TouchableOpacity>
+						},
+					})}
 				/>
 				<FrontpageStack.Screen
 					name="makeUserComplete"
 					component={MakeUserComplete}
-					options={{ title: 'Make user', headerTitleAlign: 'center'}}
+					options={({navigation}) => ({
+						title: 'Summary',
+						headerTitleAlign: 'center',
+						headerLeft: () => {
+							return <TouchableOpacity
+								activeOpacity={0.6}
+								onPress={() => navigation.goBack()}
+							>
+								<Ionicons name="chevron-back" size={24} color="black" />
+							</TouchableOpacity>
+						},
+					})}
 				/>
 			</FrontpageStack.Navigator>
 		</CreateUserProvider>

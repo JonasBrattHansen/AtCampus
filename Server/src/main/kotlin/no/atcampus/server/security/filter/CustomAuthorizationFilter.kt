@@ -1,5 +1,7 @@
 package no.atcampus.server.security.filter
 
+import com.auth0.jwt.exceptions.TokenExpiredException
+import com.auth0.jwt.interfaces.DecodedJWT
 import no.atcampus.server.security.jwt.JwtUtil
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -21,12 +23,22 @@ class CustomAuthorizationFilter: OncePerRequestFilter() {
             bearer.isNullOrEmpty() -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/login") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/register") -> filterChain.doFilter(request, response)
+            request.servletPath.contains("/api/refresh") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/user/**") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/groups/**") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/post/**") -> filterChain.doFilter(request, response)
             else -> {
                 val token = bearer.substring(7)
-                val decodedJwt = JwtUtil.decodeToken(token)
+                val decodedJwt: DecodedJWT
+                
+                try {
+                    decodedJwt = JwtUtil.decodeToken(token)
+                } catch (e: TokenExpiredException) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token expired")
+                    
+                    return
+                }
+                
                 val email = decodedJwt.subject
                 val authority =
                     decodedJwt.getClaim("authorities").asList(String::class.java).map { SimpleGrantedAuthority(it) }
