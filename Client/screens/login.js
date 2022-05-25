@@ -10,10 +10,10 @@ import {
     FlatList
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
-import {SafeAreaView} from "react-native-safe-area-context";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {login} from "../actions/auth";
+import LoginInput from "../components/LoginInput";
 
 export default function Login({navigation}) {
 	const dispatch = useDispatch();
@@ -26,46 +26,50 @@ export default function Login({navigation}) {
 	}
 
     return (
-        <KeyboardAvoidingView style={styles.container}  >
-            <ScrollView>
+        <KeyboardAvoidingView style={styles.container}>
+            <ScrollView style={styles.scrollWrapper}>
                 <StatusBar style="auto" />
+	            
+                <LoginInput
+	                title={"Email"}
+	                value={email}
+	                onChangeText={(val => setEmail(val))}
+	                keyboardType={"default"}
+                />
 
-                <SafeAreaView>
-                    <TextInput
-	                    style={styles.input}
-	                    placeholder={"Email"}
-	                    value={email}
-	                    onChangeText={text => setEmail(text)}
-                    />
-
-                    <TextInput
-	                    style={styles.input}
-	                    placeholder={"Password"}
-	                    value={password}
-	                    onChangeText={text => setPassword(text)}
-                    />
-                </SafeAreaView>
+                <LoginInput
+	                title={"Password"}
+	                value={password}
+	                onChangeText={(val => setPassword(val))}
+	                keyboardType={"default"}
+	                secureTextEntry={true}
+                />
 
                 <TouchableOpacity>
                     <Text style={styles.forgot}>Forgot password?</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.textService}>
-                    By continuing, you agree to our
-                    <TouchableOpacity>
-                        <Text style={styles.terms}> Terms of Service </Text>
-                    </TouchableOpacity>
-                    and
-                    <TouchableOpacity>
-                        <Text style={styles.policy}> Privacy Policy.</Text>
-                    </TouchableOpacity>
-                </Text>
+	            <View style={styles.infoWrapper}>
+		            <Text style={styles.textService}>
+			            <Text>By continuing, you agree to our</Text>
+			
+			            <TouchableOpacity>
+				            <Text style={styles.terms}> Terms of Service </Text>
+			            </TouchableOpacity>
+			
+			            <Text>and</Text>
+			
+			            <TouchableOpacity>
+				            <Text style={styles.policy}> Privacy Policy.</Text>
+			            </TouchableOpacity>
+		            </Text>
+	            </View>
 
                 <TouchableOpacity
 	                style={styles.button}
 	                onPress={() => attemptLogin()}
                 >
-                    <Text style={styles.buttonText}>Logg in</Text>
+                    <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -76,10 +80,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+	    display: "flex",
+	    alignItems: "center",
+	    justifyContent: "center",
     },
-    login:{
+	scrollWrapper: {
+        padding: 20,
+	},
+	infoWrapper: {
+        marginTop: 100,
+	},
+    login: {
         fontSize: 25,
         marginBottom: 10
     },
@@ -95,38 +106,33 @@ const styles = StyleSheet.create({
         borderColor: "#d3d3d3"
     },
     forgot:{
-        marginLeft: 20,
         fontSize: 15,
         fontWeight: "bold",
         color: "#7C7FCA",
         textAlign: "left",
-        marginBottom: 90
     },
     textService:{
-        width: 330,
-        marginTop:130
+    	textAlign: "center",
     },
     button:{
-        alignSelf: "center",
+    	alignSelf: "center",
+        display: "flex",
+	    alignItems: "center",
+	    justifyContent: "center",
         width: 300,
-        height:50,
+        height: 50,
         backgroundColor: "#7C7FCA",
         marginTop: 20,
-        borderRadius: 30
+        borderRadius: 25
     },
     buttonText:{
         color:"#fff",
         fontSize: 18,
-        marginTop: 10,
-        alignSelf: "center"
     },
     policy:{
-        marginTop: 2,
         color: "#7C7FCA",
     },
     terms:{
-        marginTop: 2,
         color: "#7C7FCA",
     }
-
 });

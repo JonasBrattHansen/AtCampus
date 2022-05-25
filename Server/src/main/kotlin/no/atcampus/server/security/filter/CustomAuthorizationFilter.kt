@@ -23,6 +23,7 @@ class CustomAuthorizationFilter: OncePerRequestFilter() {
             bearer.isNullOrEmpty() -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/login") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/register") -> filterChain.doFilter(request, response)
+            request.servletPath.contains("/api/refresh") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/user/**") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/groups/**") -> filterChain.doFilter(request, response)
             request.servletPath.contains("/api/post/**") -> filterChain.doFilter(request, response)
@@ -33,10 +34,7 @@ class CustomAuthorizationFilter: OncePerRequestFilter() {
                 try {
                     decodedJwt = JwtUtil.decodeToken(token)
                 } catch (e: TokenExpiredException) {
-                    println("Token expired");
-    
                     response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token expired")
-                    filterChain.doFilter(request, response)
                     
                     return
                 }

@@ -40,6 +40,7 @@ class SecurityConfig(
             .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/register").permitAll()
+                .antMatchers("/api/refresh").permitAll()
                 .antMatchers("/api/**").permitAll()
                 //antMatchers("/api/user/**").hasAnyAuthority("USER", "ADMIN")
                 //.antMatchers("/api/group/**").hasAnyAuthority("USER", "ADMIN")
