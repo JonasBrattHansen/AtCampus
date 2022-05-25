@@ -5,8 +5,11 @@ import {useContext} from "react";
 import ShowUserInfo from "../../components/ShowUserInfo";
 import {Touchable} from "react-native-web";
 import * as ImagePicker from "expo-image-picker";
+import {login, register} from "../../actions/auth";
+import {useDispatch} from "react-redux";
 
 export default function MakeUserComplete({ navigation }) {
+  const dispatch = useDispatch();
 
   const {
     firstname,
@@ -35,6 +38,12 @@ export default function MakeUserComplete({ navigation }) {
     }
   }
 
+  function attemptCreateUser() {
+    console.log("kom jeg hit");
+    dispatch(register(firstname,lastname, email, phoneNr, school, program, image))
+    navigation.navigate("Frontpage")
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -61,8 +70,7 @@ export default function MakeUserComplete({ navigation }) {
         <TouchableOpacity
             style={styles.button}
             title="Complete"
-            onPress={() => {
-              navigation.navigate("Frontpage")}}
+            onPress={() => attemptCreateUser()}
         >
           <Text style={styles.next}>Complete</Text>
         </TouchableOpacity>

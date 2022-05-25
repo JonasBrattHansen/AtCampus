@@ -8,8 +8,8 @@ const CreateUserProvider = ({children}) => {
     const [lastname, setLastname] = useState("")
     const [phoneNr, setPhoneNr] = useState()
     const [email, setEmail] = useState("")
-    const [school, setSchool] = useState("Høyskolen kristiania")
-    const [program, setProgram] = useState("Frontend og mobilutvikling")
+    const [school, setSchool] = useState(1)
+    const [program, setProgram] = useState(1)
     const [password, setPassword] = useState("")
     const [image, setImage] = useState("https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png")
 

@@ -17,9 +17,9 @@ export default function MakeUserName({ navigation, }) {
 
     function onPress(){
         if (firstname !== "" && lastname !== ""){
-            alert("Firstname and lastname cant be empty")
-        }else{
             navigation.navigate("makeUserInfo")
+        }else{
+            alert("Firstname and lastname cant be empty")
         }
     }
 
