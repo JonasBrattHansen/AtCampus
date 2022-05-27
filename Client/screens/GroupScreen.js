@@ -143,7 +143,7 @@ function GroupScreen({navigation}) {
                             title={item.name}
                             preview={item.preview}
                             date={item.date}
-                            onPress={() => navigation.navigate("GroupComment")}
+                            onPress={() => navigation.navigate("Group Comment")}
                         />
                     }
                 />
