@@ -94,7 +94,7 @@ function ProfileScreen({navigation}) {
 						source={{uri: image ?? "https://images.unsplash.com/photo-1638913658211-c999de7fe786?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxMXx8fGVufDB8fHx8&auto=format&fit=crop&w=500"}}
 						style={styles.image}
 					/>
-					
+
 					<TouchableOpacity
 						style={styles.imageButton}
 						activeOpacity={0.6}
@@ -103,8 +103,7 @@ function ProfileScreen({navigation}) {
 						<Text style={styles.imageButtonText}>Change</Text>
 					</TouchableOpacity>
 				</View>
-				
-				<KeyboardAvoidingView behavior={"position"} keyboardVerticalOffset={100}>
+
 					<View style={styles.settings}>
 						<ProfileScreenInput
 							title={"First name"}
@@ -114,7 +113,7 @@ function ProfileScreen({navigation}) {
 							blurOnSubmit={false}
 							onSubmitEditing={() => lastNameRef.current?.focus?.()}
 						/>
-						
+
 						<ProfileScreenInput
 							title={"Last name"}
 							value={lastName}
@@ -124,17 +123,7 @@ function ProfileScreen({navigation}) {
 							innerRef={lastNameRef}
 							onSubmitEditing={() => schoolRef.current?.focus?.()}
 						/>
-						
-						<ProfileScreenInput
-							title={"School"}
-							value={school}
-							onChangeText={setSchool}
-							returnKeyType={"next"}
-							innerRef={schoolRef}
-							blurOnSubmit={false}
-							onSubmitEditing={() => emailRef.current?.focus?.()}
-						/>
-						
+
 						<ProfileScreenInput
 							title={"Email"}
 							value={email}
@@ -144,8 +133,7 @@ function ProfileScreen({navigation}) {
 							keyboardType={"email-address"}
 						/>
 					</View>
-				</KeyboardAvoidingView>
-				
+
 				<View style={styles.actionsWrapper}>
 					<TouchableOpacity
 						activeOpacity={0.6}
@@ -160,11 +148,14 @@ function ProfileScreen({navigation}) {
 					>
 						<Text style={styles.imageButtonText}>Change password</Text>
 					</TouchableOpacity>
+
+				</View>
+				<View style={styles.logoutButton}>
 					<TouchableOpacity
 						activeOpacity={0.6}
 						style={styles.imageButton}
 						onPress={() => onLogOut()}
-						>
+					>
 						<Text style={styles.imageButtonText}>Log out</Text>
 					</TouchableOpacity>
 				</View>
@@ -208,11 +199,18 @@ const styles = StyleSheet.create({
 		borderBottomColor: "rgb(240, 240, 240)",
 	},
 	actionsWrapper: {
-		marginTop: "auto",
-		padding: 20,
+		paddingVertical: 5,
+		paddingHorizontal: 25,
 		display: "flex",
 		alignItems: "center",
-		justifyContent: "center",
+		justifyContent: "space-between",
+		flexDirection: "row",
+	},
+	logoutButton: {
+		paddingHorizontal: 15,
+		paddingVertical: 5,
+		display: "flex",
+		alignItems: "center",
 	}
 })
 
