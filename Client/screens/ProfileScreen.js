@@ -12,7 +12,8 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import {login, logout} from "../actions/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "../services/UserService";
+import {getUser, updateUser} from "../services/UserService";
+import Toast from "react-native-toast-message";
 
 function ProfileScreenInput({title, editable, value, returnKeyType, onSubmitEditing, keyboardType, blurOnSubmit, innerRef, onChangeText}) {
 	return (
@@ -55,6 +56,7 @@ const inputStyles = StyleSheet.create({
 })
 
 
+
 function ProfileScreen({navigation}) {
 	const dispatch = useDispatch();
 	
@@ -75,6 +77,36 @@ function ProfileScreen({navigation}) {
 	function onLogOut() {
 		dispatch(logout())
 	}
+
+	function onUpdate() {
+		updateUser(userId, firstName, lastName, email, image)
+			.then(response =>{
+
+				Toast.show({
+					type: "success",
+					text1: "Successfully updated account",
+				});
+
+				console.log("Response from update", response)
+
+			})
+			.catch(error =>{
+				const message = (error.response &&
+						error.response.data &&
+						error.response.data.message) ||
+					error.message ||
+					error.toString();
+
+				console.log("Error", message)
+
+				Toast.show({
+					type: "error",
+					text1: "Failed to update account",
+					text2: "Please try again"
+				})
+			})
+	}
+
 
 	async function onChangeProfilePicture() {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -174,6 +206,7 @@ function ProfileScreen({navigation}) {
 					<TouchableOpacity
 						activeOpacity={0.6}
 						style={styles.imageButton}
+						onPress={() => onUpdate(firstName, lastName, email, image)}
 					>
 						<Text style={styles.imageButtonText}>Save changes</Text>
 					</TouchableOpacity>

@@ -10,9 +10,10 @@ import UsersComment from "../components/UsersComment";
 
 
 
-export default function GroupComment(){
+export default function GroupComment({route}){
 
     const [comment, setComment] = useState()
+    const {post} = route.params
 
     return(
         <SafeAreaView  style={styles.container}>

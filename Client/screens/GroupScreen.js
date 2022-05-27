@@ -15,6 +15,7 @@ import { ImageHeaderScrollView, TriggeringView } from 'react-native-image-header
 import SimpleButton from "../components/SimpleButton";
 import headerImage from "../assets/images/student.jpg";
 import {Feather} from "@expo/vector-icons";
+import {getAllPostsByGroup} from "../services/GroupService";
 
 const postPreviews = [
     {
@@ -88,10 +89,21 @@ function Separator() {
 }
 
 
-function GroupScreen({navigation}) {
+function GroupScreen({navigation, route}) {
 
     const [isModalPostVisible, setIsModalPostVisible] = useState(false)
     const [postMessage, setPostMessage] = useState("")
+    const {group} = route.params
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+        getAllPostsByGroup(group.id).then((res) => {
+            setPosts(res.data)
+        }).catch((err) => {
+            console.log(err.toString())
+        })
+
+    },[])
 
     function handlePostMessageClick(){
         setIsModalPostVisible(false)
@@ -114,12 +126,13 @@ function GroupScreen({navigation}) {
 
             <View style={{ flex: 0.27, padding: 10 }}>
                 <Text style={styles.groupName}>
-                    {GroupPage.name}
+                    {group.name}
                 </Text>
                 <Text style={styles.description}>
-                    {GroupPage.description}
+                    {group.description}
                 </Text>
                 <Text style={styles.memberCount}>
+                    {/*TODO: Add functionality to get member count in services. */}
                     Members: {GroupPage.memberCount}
                 </Text>
             </View>
@@ -129,7 +142,7 @@ function GroupScreen({navigation}) {
                 </Text>
                 <FlatList
                     contentContainerStyle={styles.postPreviews}
-                    data={postPreviews}
+                    data={posts}
                     ItemSeparatorComponent={Separator}
                     stickyFooterIndices={[0]}
                     renderItem={({item}) =>
@@ -139,11 +152,11 @@ function GroupScreen({navigation}) {
                                 marginVertical: 2,
                             }}
                             key={item.id}
-                            image={item.image}
-                            title={item.name}
-                            preview={item.preview}
+                            image={item.userEntity.userProfileImage}
+                            title={item.title}
+                            preview={item.body}
                             date={item.date}
-                            onPress={() => navigation.navigate("Group Comment")}
+                            onPress={() => navigation.navigate("Group Comment", {post: item})}
                         />
                     }
                 />

@@ -159,7 +159,7 @@ function GroupsScreen({route, navigation}) {
 				getAllUserGroups(userId)
 					.then(response => {
 						const groups = response?.data;
-						
+
 						setGroups(groups)
 					})
 					.catch((err) => {
@@ -193,7 +193,7 @@ function GroupsScreen({route, navigation}) {
 		<View style={styles.container}>
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
-				data={postPreviews}
+				data={groups}
 				ListHeaderComponent={<Groups
 					groups={groups}
 					openSheet={openSheet}
@@ -207,11 +207,12 @@ function GroupsScreen({route, navigation}) {
 						}}
 						key={item.id}
 						image={item.image}
-						title={item.title}
-						preview={item.preview}
-						date={item.date}
+						title={item.name}
+						preview={item.description}
 						onPress={() => {
-							navigation.navigate("Group")
+							navigation.navigate("Group", {
+								group: item
+							})
 						}}
 					/>
 				}
