@@ -5,6 +5,7 @@
 /Server/mvnw
 /Server/HELP.md
 /Server/target/
+/Client/package-lock.json
 /.idea/AtCampus.iml
 /.idea/
 
