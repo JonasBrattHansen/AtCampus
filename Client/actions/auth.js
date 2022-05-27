@@ -1,4 +1,11 @@
-import {LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, REGISTER_FAIL, REGISTER_SUCCESS, SET_MESSAGE,} from "./type";
+import {
+	LOGIN_FAIL,
+	LOGIN_SUCCESS,
+	LOGOUT,
+	REGISTER_FAIL,
+	REGISTER_SUCCESS,
+	SET_MESSAGE,
+} from "./type";
 
 import AuthService from "../services/AuthService";
 import * as SecureStore from 'expo-secure-store';
@@ -50,7 +57,6 @@ export const register = (firstName, lastName, email, phoneNumber, password, scho
 			});
 		});
 }
-
 export const check = () => dispatch => {
 	return AuthService.check()
 		.then(response => {
@@ -103,6 +109,9 @@ export const login = (username, password) => dispatch => {
 			});
 		})
 }
+
+
+
 
 export const logout = () => dispatch => {
 	AuthService.logout()
