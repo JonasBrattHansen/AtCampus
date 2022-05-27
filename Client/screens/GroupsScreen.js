@@ -80,17 +80,19 @@ const groupPreviews = [
 	}
 ]
 
-function Groups() {
+function Groups({groups, openSheet}) {
 	return (
 		<View style={styles.groups}>
 			<ViewMore text={"Favorites"} style={{padding: 20}}/>
 
 			<FlatList
 				contentContainerStyle={styles.groupPreviews}
-				data={groupPreviews}
+				data={groups}
 				showsHorizontalScrollIndicator={false}
 				horizontal={true}
-				ListFooterComponent={<CreateGroup/>}
+				ListFooterComponent={<CreateGroup
+					onPress={() => openSheet()}
+				/>}
 				ItemSeparatorComponent={VerticalSeparator}
 				renderItem={({item}) =>
 					<GroupPreview
@@ -114,7 +116,9 @@ function VerticalSeparator() {
 	return <View style={styles.verticalSeparator}/>
 }
 
-function GroupsScreen({navigation}) {
+function GroupsScreen({route, navigation}) {
+	const show = route.params?.show ?? false;
+	
 	// ref
 	const bottomSheetRef = useRef(null);
 
@@ -128,6 +132,10 @@ function GroupsScreen({navigation}) {
 
 	function openSheet() {
 		bottomSheetRef.current?.present();
+	}
+	
+	if (show) {
+		openSheet();
 	}
 
 	const [groups, setGroups] = useState([])
@@ -145,16 +153,22 @@ function GroupsScreen({navigation}) {
 			"hardwareBackPress",
 			backAction,
 		);
-
-		getUserIdByEmail(username).then((res) => {
-			getAllUserGroups(res).then((res) => {
-				console.log(res.data)
-				setGroups(res.data)
+		
+		getUserIdByEmail(username)
+			.then(userId => {
+				getAllUserGroups(userId)
+					.then(response => {
+						const groups = response?.data;
+						
+						setGroups(groups)
+					})
+					.catch((err) => {
+						console.log("Failed to get all groups", err)
+					})
 			})
-		}).catch((error) => {
-			console.log("Error at GroupsScreen getUserIdByEmail")
-			console.log(username)
-		})
+			.catch(err => {
+				console.log("Failed to get userId", err);
+			})
 
 		return () => backHandler.remove();
 	}, []);
@@ -180,7 +194,10 @@ function GroupsScreen({navigation}) {
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
 				data={postPreviews}
-				ListHeaderComponent={Groups}
+				ListHeaderComponent={<Groups
+					groups={groups}
+					openSheet={openSheet}
+				/>}
 				ItemSeparatorComponent={Separator}
 				renderItem={({item}) =>
 					<PostPreview
@@ -195,8 +212,7 @@ function GroupsScreen({navigation}) {
 						date={item.date}
 						onPress={() => {
 							navigation.navigate("Group")
-						}
-						}
+						}}
 					/>
 				}
 			/>
