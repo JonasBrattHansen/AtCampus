@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
 	BackHandler,
 	FlatList,
@@ -17,6 +17,9 @@ import CreateGroup from "../components/CreateGroup";
 import GroupPreview from "../components/GroupPreview";
 import PostPreview from "../components/PostPreview";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {getAllUserGroups} from "../services/GroupService";
+import {getUserIdByEmail} from "../services/UserService";
+import {useSelector} from "react-redux";
 
 const postPreviews = [
 	{
@@ -127,6 +130,9 @@ function GroupsScreen({navigation}) {
 		bottomSheetRef.current?.present();
 	}
 
+	const [groups, setGroups] = useState([])
+	const {username} = useSelector(state => state.auth)
+
 	useEffect(() => {
 		const backAction = () => {
 			bottomSheetRef.current.close();
@@ -139,6 +145,16 @@ function GroupsScreen({navigation}) {
 			"hardwareBackPress",
 			backAction,
 		);
+
+		throw getUserIdByEmail(username).then((res) => {
+			getAllUserGroups(res).then((res) => {
+				console.log(res.data)
+				setGroups(res.data)
+			})
+		}).catch((error) => {
+			console.log("Error at GroupsScreen getUserIdByEmail")
+			console.log(username)
+		})
 
 		return () => backHandler.remove();
 	}, []);
@@ -177,6 +193,10 @@ function GroupsScreen({navigation}) {
 						title={item.title}
 						preview={item.preview}
 						date={item.date}
+						onPress={() => {
+							navigation.navigate("Group")
+						}
+						}
 					/>
 				}
 			/>

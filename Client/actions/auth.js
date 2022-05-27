@@ -3,6 +3,7 @@ import {LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, REGISTER_FAIL, REGISTER_SUCCESS, SET_
 import AuthService from "../services/AuthService";
 import * as SecureStore from 'expo-secure-store';
 import Toast from "react-native-toast-message";
+import {getUserIdByEmail} from "../services/UserService";
 
 export const register = (firstName, lastName, email, phoneNumber, password, school, program, image) => (dispatch) => {
 	return AuthService.register(firstName, lastName, email, phoneNumber, password, school, program, image)
@@ -10,12 +11,12 @@ export const register = (firstName, lastName, email, phoneNumber, password, scho
 			dispatch({
 				type: REGISTER_SUCCESS,
 			});
-			
+
 			dispatch({
 				type: SET_MESSAGE,
 				payload: 2,
 			})
-			
+
 			Toast.show({
 				type: "success",
 				text1: "Successfully created account",
@@ -32,13 +33,13 @@ export const register = (firstName, lastName, email, phoneNumber, password, scho
 				error.toString();
 			
 			console.log("Error", message)
-			
+
 			Toast.show({
 				type: "error",
 				text1: "Failed to create account",
 				text2: "Please try again"
 			})
-			
+
 			dispatch({
 				type: REGISTER_FAIL,
 			});
@@ -69,14 +70,17 @@ export const login = (username, password) => dispatch => {
 		.then(response => {
 			const tokens = response.data;
 			const {token, refreshToken} = tokens;
-			
+
 			SecureStore.setItemAsync("token", token);
 			SecureStore.setItemAsync("refresh_token", refreshToken);
 			SecureStore.setItemAsync("username", username);
-			
-			dispatch({
-				type: LOGIN_SUCCESS,
-				payload: {username},
+			getUserIdByEmail(username).then( (res) => {
+				SecureStore.setItemAsync("userId", res)
+				console.log(res)
+				dispatch({
+					type: LOGIN_SUCCESS,
+					payload: {username, userId: res},
+				})
 			})
 		})
 		.catch(error => {
@@ -108,5 +112,5 @@ export const logout = () => dispatch => {
 			console.log(error)
 		})
 	;
-	
+
 }

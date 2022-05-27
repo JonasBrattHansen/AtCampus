@@ -113,6 +113,7 @@ function HomeScreen(props) {
 	useEffect( () => {
 		getUserIdByEmail(username)
 			.then(userId => {
+				console.log(username)
 				getAllUserGroups(userId)
 					.then(response => {
 						const groups = response?.data;

@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 		marginRight: "auto",
 	},
 	title: {
-		fontSize: 18,
+		fontSize: 15,
 		fontWeight: "bold",
 	},
 	preview: {

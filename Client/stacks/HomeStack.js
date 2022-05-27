@@ -6,6 +6,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import GroupStack from "./GroupStack";
 import ProfileStack from "./ProfileStack";
+import GroupScreen from "../screens/GroupScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +43,7 @@ function HomeStack(props) {
 			<Tab.Screen name="Home" component={HomeScreen} options={{
 				headerShown: false,
 			}}/>
-			<Tab.Screen name="Activities" component={ActivitiesScreen} />
+			<Tab.Screen name="Activities" component={GroupScreen} />
 			<Tab.Screen
 				name="Groups"
 				component={GroupStack}
