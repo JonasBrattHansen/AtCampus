@@ -10,65 +10,6 @@ import {getAllGroups, getAllPostsByGroup, getAllUserGroups} from "../services/Gr
 import {useSelector} from "react-redux";
 import {getUserIdByEmail} from "../services/UserService";
 
-const postPreviews = [
-	{
-		id: 1,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	},
-	{
-		id: 2,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	},
-	{
-		id: 3,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	},
-	{
-		id: 4,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	}
-];
-
-const groupPreviews = [
-	{
-		id: 1,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 2,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 3,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 4,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 5,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	}
-]
-
 function Separator() {
 	return <View style={styles.separator}/>
 }
@@ -77,18 +18,28 @@ function VerticalSeparator() {
 	return <View style={styles.verticalSeparator}/>
 }
 
-function Groups({groups}) {
-
+function Groups({groups, navigation}) {
 	return (
 		<View style={styles.groups}>
-			<ViewMore text={"My Groups"} style={{padding: 20}}/>
+			<ViewMore
+				text={"My Groups"}
+				style={{padding: 20}}
+				onPress={() => navigation.navigate("Groups")}
+			/>
 			
 			<FlatList
 				contentContainerStyle={styles.groupPreviews}
 				data={groups}
 				showsHorizontalScrollIndicator={false}
 				horizontal={true}
-				ListFooterComponent={<CreateGroup/>}
+				ListFooterComponent={<CreateGroup
+					onPress={() => navigation.navigate("Groups", {
+						screen: "Your Groups",
+						params: {
+							show: true,
+						}
+					})}
+				/>}
 				ItemSeparatorComponent={VerticalSeparator}
 				renderItem={({item}) =>
 					<GroupPreview
@@ -104,7 +55,7 @@ function Groups({groups}) {
 	)
 }
 
-function HomeScreen(props) {
+function HomeScreen({navigation}) {
 	const [groups, setGroups] = useState([]);
 	const [posts, setPosts] = useState([]);
 
@@ -113,7 +64,6 @@ function HomeScreen(props) {
 	useEffect( () => {
 		getUserIdByEmail(username)
 			.then(userId => {
-				console.log(username)
 				getAllUserGroups(userId)
 					.then(response => {
 						const groups = response?.data;
@@ -144,7 +94,10 @@ function HomeScreen(props) {
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
 				data={posts}
-				ListHeaderComponent={<Groups groups={groups}/>}
+				ListHeaderComponent={<Groups
+					groups={groups}
+					navigation={navigation}
+				/>}
 				ItemSeparatorComponent={Separator}
 				renderItem={({item}) =>
 					<PostPreview
