@@ -34,9 +34,10 @@ const login = (email, password) => {
 const check = async () => {
 	const token = await SecureStore.getItemAsync("token");
 	const username = await SecureStore.getItemAsync("username");
+	const userId = await SecureStore.getItemAsync("userId");
 	
-	if (token && username) {
-		return {token, username}
+	if (token && username && userId) {
+		return {token, username, userId}
 	}
 	
 	return null

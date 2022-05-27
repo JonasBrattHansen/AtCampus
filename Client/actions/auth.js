@@ -1,4 +1,11 @@
-import {LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, REGISTER_FAIL, REGISTER_SUCCESS, SET_MESSAGE,} from "./type";
+import {
+	LOGIN_FAIL,
+	LOGIN_SUCCESS,
+	LOGOUT,
+	REGISTER_FAIL,
+	REGISTER_SUCCESS,
+	SET_MESSAGE,
+} from "./type";
 
 import AuthService from "../services/AuthService";
 import * as SecureStore from 'expo-secure-store';
@@ -50,16 +57,15 @@ export const register = (firstName, lastName, email, phoneNumber, password, scho
 			});
 		});
 }
-
 export const check = () => dispatch => {
 	return AuthService.check()
 		.then(response => {
 			if (response) {
-				const {token, username} = response;
+				const {token, username, userId} = response;
 				
 				dispatch({
 					type: LOGIN_SUCCESS,
-					payload: {username},
+					payload: {username, userId},
 				})
 			}
 		})
@@ -74,12 +80,15 @@ export const login = (username, password) => dispatch => {
 			SecureStore.setItemAsync("token", token);
 			SecureStore.setItemAsync("refresh_token", refreshToken);
 			SecureStore.setItemAsync("username", username);
-			getUserIdByEmail(username).then( (res) => {
-				SecureStore.setItemAsync("userId", res)
-				console.log(res)
+			
+			getUserIdByEmail(username).then((userId) => {
+				console.log("Set item userId", userId);
+				
+				SecureStore.setItemAsync("userId", String(userId))
+				
 				dispatch({
 					type: LOGIN_SUCCESS,
-					payload: {username, userId: res},
+					payload: {username, userId},
 				})
 			})
 		})
@@ -100,6 +109,9 @@ export const login = (username, password) => dispatch => {
 			});
 		})
 }
+
+
+
 
 export const logout = () => dispatch => {
 	AuthService.logout()
