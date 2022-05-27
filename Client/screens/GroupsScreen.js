@@ -146,7 +146,7 @@ function GroupsScreen({navigation}) {
 			backAction,
 		);
 
-		throw getUserIdByEmail(username).then((res) => {
+		getUserIdByEmail(username).then((res) => {
 			getAllUserGroups(res).then((res) => {
 				console.log(res.data)
 				setGroups(res.data)
