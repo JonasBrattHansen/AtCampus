@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View,
     TextInput,
-    KeyboardAvoidingView
+    KeyboardAvoidingView, KeyboardAvoidingViewComponent
 } from "react-native";
 
 import PostPreview from "../components/PostPreview";
@@ -172,36 +172,40 @@ function GroupScreen({navigation}) {
                 </View>
             </View>
 
-
-            <Modal
-                transparent={true}
-                animationType="fade"
-                visible={isModalPostVisible}
-                nRequestClose={() => setIsModalPostVisible(false)}
-                avoidKeyboard={true}
-            >
-                <TouchableOpacity
-                    style={{flex: 1}}
-                    onPress={handleCancelPostMessage}
+                <Modal
+                    transparent={true}
+                    animationType="fade"
+                    visible={isModalPostVisible}
+                    nRequestClose={() => setIsModalPostVisible(false)}
+                    avoidKeyboard={true}
                 >
+                    <TouchableOpacity
+                        style={{width:"100%", height:"50%", backgroundColor: "gray", opacity: 0.5, zIndex: 0}}
+                        onPress={handleCancelPostMessage}
+                    >
+                    </TouchableOpacity>
 
-                <View style={styles.backgroundModal}>
-                    <TextInput
-                        style={{height: 200, textAlignVertical: 'top'}}
-                        multiline={true}
-                        numberOfLines={5}
-                        onChangeText={setPostMessage}
-                        value={postMessage}
-                    />
+                    <KeyboardAvoidingView
+                        style={styles.keyboardContainer}
+                        behavior="padding"
+                    >
+                    <View style={styles.backgroundModal}>
+                        <TextInput
+                            style={styles.input}
+                            multiline={true}
+                            numberOfLines={5}
+                            onChangeText={setPostMessage}
+                            value={postMessage}
+                            placeholder={"Right a post to your group here :)"}
+                        />
 
+                        <View style={{margin: 10}}>
+                            <SimpleButton style={{top: -0}} onPress={handlePostMessageClick} text={"Post"}></SimpleButton>
+                        </View>
 
-                    <SimpleButton style={{top: -0}} onPress={handlePostMessageClick} text={"Post"}></SimpleButton>
-
-                </View>
-
-                </TouchableOpacity>
+                    </View>
+                    </KeyboardAvoidingView>
             </Modal>
-
         </View>
     );
 }
@@ -309,10 +313,22 @@ const styles = StyleSheet.create({
         marginLeft: 25
     },
     backgroundModal: {
-        backgroundColor: "#f8f8f8",
-        height: 260,
-        top: 180
+        borderRadius: 40,
+        backgroundColor: "#ffffff",
+        height: "90%",
+        width: "100%",
     },
+    input: {
+        flex: 1,
+        padding: 15,
+        margin: 20,
+        borderRadius: 20,
+        backgroundColor: "#f1f0f0"
+    },
+    keyboardContainer: {
+        flex: 1,
+        backgroundColor: "white",
+    }
 });
 
 export default GroupScreen;
