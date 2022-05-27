@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
 	Image,
 	Keyboard, KeyboardAvoidingView,
@@ -11,14 +11,16 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import {login, logout} from "../actions/auth";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {getUser} from "../services/UserService";
 
-function ProfileScreenInput({title, value, returnKeyType, onSubmitEditing, keyboardType, blurOnSubmit, innerRef, onChangeText}) {
+function ProfileScreenInput({title, editable, value, returnKeyType, onSubmitEditing, keyboardType, blurOnSubmit, innerRef, onChangeText}) {
 	return (
 		<View style={inputStyles.inputWrapper}>
 			<Text style={inputStyles.inputTitle}>{title}</Text>
 			
 			<TextInput
+				editable={editable}
 				ref={innerRef}
 				textAlign={"center"}
 				style={inputStyles.input}
@@ -55,6 +57,10 @@ const inputStyles = StyleSheet.create({
 
 function ProfileScreen({navigation}) {
 	const dispatch = useDispatch();
+	
+	const { userId } = useSelector(state => state.auth);
+	
+	console.log("userId", userId);
 
 	const [image, setImage] = useState(null);
 	const [firstName, setFirstName] = useState("");
@@ -70,7 +76,6 @@ function ProfileScreen({navigation}) {
 		dispatch(logout())
 	}
 
-
 	async function onChangeProfilePicture() {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -85,6 +90,24 @@ function ProfileScreen({navigation}) {
 			setImage(result.uri);
 		}
 	}
+	
+	useEffect(() => {
+		getUser(userId)
+			.then(res => {
+				console.log("Get user", res.data);
+				const user = res.data;
+				
+				setImage(user?.userProfileImage);
+				setFirstName(user?.firstName);
+				setLastName(user?.lastName);
+				setSchool(user?.schoolEntity?.schoolName)
+				setEmail(user?.email);
+			})
+			.catch(err => {
+				console.log("Failed to get user", err);
+			})
+	}, []);
+	
 	
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.container}>
@@ -132,6 +155,7 @@ function ProfileScreen({navigation}) {
 							returnKeyType={"next"}
 							innerRef={schoolRef}
 							blurOnSubmit={false}
+							editable={false}
 							onSubmitEditing={() => emailRef.current?.focus?.()}
 						/>
 						
