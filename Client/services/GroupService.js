@@ -11,7 +11,10 @@ export const getAllPostsByGroup = (groupId) => {
 }
 
 export const getAllUserGroups = (userId) => {
-	return instance.get(`user/${userId}/group`)
+	console.log(userId)
+	const groups = instance.get(`user/${userId}/group`)
+	console.log(groups)
+	return groups
 }
 
 export function createGroup(name, description, image, admin, school) {

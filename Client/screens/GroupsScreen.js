@@ -147,13 +147,12 @@ function GroupsScreen({navigation}) {
 		);
 
 		getUserIdByEmail(username).then((res) => {
-			getAllUserGroups(res).then((res) => {
-				console.log(res.data)
-				setGroups(res.data)
+			getAllUserGroups(res).then((response) => {
+				console.log(response.data)
+				setGroups(response.data)
 			})
 		}).catch((error) => {
 			console.log("Error at GroupsScreen getUserIdByEmail")
-			console.log(username)
 		})
 
 		return () => backHandler.remove();

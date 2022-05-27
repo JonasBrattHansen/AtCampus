@@ -4,6 +4,5 @@ const instance = AxiosService.getInstance();
 
 export async function getUserIdByEmail(email){
     let userDetails = await instance.get(`user/email/${email}`)
-    console.log(`Im in getUserIdByEmail called from ${printStackTrace().join("\n\n")}`)
     return userDetails?.id
 }
