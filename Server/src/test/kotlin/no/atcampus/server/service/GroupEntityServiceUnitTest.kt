@@ -127,9 +127,9 @@ class GroupEntityServiceUnitTest {
     @Test
     fun testAddGroup(){
         every {
-            userRepo.findByIdOrNull(any())
+            userRepo.findUserEntityByEmail(any())
         } answers {
-            testData.userEntity
+            testData.userEntity2
         }
         every {
             schoolRepo.findByIdOrNull(any())
