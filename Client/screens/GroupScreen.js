@@ -156,7 +156,7 @@ function GroupScreen({navigation, route}) {
                             title={item.title}
                             preview={item.body}
                             date={item.date}
-                            onPress={() => navigation.navigate("GroupComment")}
+                            onPress={() => navigation.navigate("Group Comment")}
                         />
                     }
                 />
