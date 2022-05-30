@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import GroupRequestCard from "../components/GroupRequestCard";
-import {getAllGroupRequests} from "../services/GroupService";
+import {addUserToGroupByGroupRequest, getAllGroupRequests} from "../services/GroupService";
 
 const groupRequestData = [
     {
@@ -32,7 +32,13 @@ export default function GroupRequests({navigation, route}){
     const {group} = route.params
 
     function handleAddClick(requestId){
-
+        addUserToGroupByGroupRequest(requestId)
+            .then((res) => {
+                console.log("success")
+            })
+            .catch((err) => {
+                console.log("Error in GroupRequests: " + err)
+            })
     }
 
     useState(() => {

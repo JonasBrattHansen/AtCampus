@@ -38,3 +38,7 @@ export function requestToJoinGroup(userId, groupId){
 export function getAllGroupRequests(groupId){
 	return instance.get(`group/${groupId}/requests`)
 }
+
+export function addUserToGroupByGroupRequest(groupRequestId){
+	return instance.post(`group/request/${groupRequestId}`)
+}
