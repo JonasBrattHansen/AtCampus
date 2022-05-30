@@ -36,9 +36,6 @@ class UserEntity (
         inverseJoinColumns = [JoinColumn(name = "role_id")]
     )
     val roles: MutableList<RoleEntity>? = mutableListOf(),
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "group_request_id")
-    val groupRequestEntity: MutableList<GroupRequestEntity>? = mutableListOf(),
     @Column(name = "user_date_created")
     val dateCreated: LocalDate? = LocalDate.now(),
 
