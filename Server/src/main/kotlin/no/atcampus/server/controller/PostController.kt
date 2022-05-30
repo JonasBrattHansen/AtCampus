@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 class PostController(@Autowired private val postService: PostService, @Autowired private val commentService: CommentService) {
 
     @GetMapping("/{id}/comment")
-    fun getAllCommentsOnPost(@PathVariable("id") postId: Long): ResponseEntity<CommentEntity>{
-        return ResponseEntity.ok().body(commentService.findCommentsById(postId))
+    fun getAllCommentsOnPost(@PathVariable("id") postId: Long): ResponseEntity<MutableList<CommentEntity>>{
+        return ResponseEntity.ok().body(commentService.findCommentsByPost(postId))
     }
 
     @PostMapping("/{id}/comment")

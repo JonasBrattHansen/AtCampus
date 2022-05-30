@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image, SafeAreaView} from "react-native";
 import GroupPage from "../components/GroupPage";
 import Comment from "../components/Comment";
@@ -6,14 +6,30 @@ import {Feather} from "@expo/vector-icons";
 import {Touchable} from "react-native-web";
 import PostPreview from "../components/PostPreview";
 import UsersComment from "../components/UsersComment";
+import {getCommentsByPost} from "../services/GroupService";
+import {useSelector} from "react-redux";
+import auth from "../reducers/auth";
+import text from "react-native-web/dist/exports/Text";
 
 
 
 
 export default function GroupComment({route}){
-
-    const [comment, setComment] = useState()
     const {post} = route.params
+    const [comments, setComments] = useState([])
+
+    const {userId} = useSelector(state => state.auth)
+
+    useEffect(() => {
+        getCommentsByPost(post.id)
+            .then( (res) => {
+                setComments(res.data)
+            })
+            .catch((err) => {
+                console.log("Error in GroupComment: " + err)
+            })
+
+    }, [])
 
     return(
         <SafeAreaView  style={styles.container}>
@@ -34,12 +50,16 @@ export default function GroupComment({route}){
             </View>
             <View style={styles.containerChat} >
                 <ScrollView>
-                    <Comment/>
-                    <UsersComment/>
-                    <Comment/>
-                    <UsersComment/>
-                    <Comment/>
-                    <UsersComment/>
+                    {console.log(comments)}
+                    {comments.map(comment => {
+                        const text = comment.body
+                        const image = comment.userEntity.userProfileImage
+                        if(+comment.userEntity.id === +userId){
+                            return <UsersComment text={text} image={image}/>
+                        }else{
+                            return <Comment text={text} image={image}/>
+                        }
+                    })}
                 </ScrollView>
             </View>
             <View style={styles.line}></View>

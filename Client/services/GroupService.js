@@ -26,3 +26,7 @@ export function createGroup(name, description, image, admin, school) {
 		school,
 	});
 }
+
+export function getCommentsByPost(postId){
+	return instance.get(`post/${postId}/comment`)
+}
