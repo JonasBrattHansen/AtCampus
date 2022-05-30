@@ -1,15 +1,6 @@
 package no.atcampus.server.entities
 
-import javax.persistence.CascadeType
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.SequenceGenerator
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "group_request")
@@ -22,7 +13,7 @@ class GroupRequestEntity (
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     val userEntity: UserEntity,
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     val groupEntity: GroupEntity
 )

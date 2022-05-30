@@ -22,6 +22,9 @@ class GroupEntity (
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "group_school", referencedColumnName = "school_id")
     val schoolEntity: SchoolEntity,
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "group_request_id")
+    val groupRequestEntity: MutableList<GroupRequestEntity>? = mutableListOf(),
     @Column(name = "group_date_created")
     val dateCreated: LocalDate? = LocalDate.now(),
 

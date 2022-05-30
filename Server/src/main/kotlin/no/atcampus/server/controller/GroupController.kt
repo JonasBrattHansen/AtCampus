@@ -52,8 +52,9 @@ class GroupController(
     }
 
     @PostMapping("/request/{groupRequestId}")
-    fun addUserToGroupByRequest(@PathVariable groupRequestId: Long): ResponseEntity<UserEntity>{
-        return ResponseEntity.ok().body(groupService.addUserFromGroupRequest(groupRequestId))
+    fun addUserToGroupByRequest(@PathVariable groupRequestId: Long): ResponseEntity<Boolean>{
+        groupService.addUserFromGroupRequest(groupRequestId)
+        return ResponseEntity.ok().body(true)
     }
 
     @PostMapping("/{groupId}/user/{userId}")

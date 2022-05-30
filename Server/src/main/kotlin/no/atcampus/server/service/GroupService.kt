@@ -121,11 +121,12 @@ class GroupService(
         throw EntityNotFoundException("Could not find group with id: " + groupId + "in getGroupRequestsByGroup")
     }
 
-    fun addUserFromGroupRequest(groupRequestId: Long): UserEntity{
+    fun addUserFromGroupRequest(groupRequestId: Long){
         val groupRequest = groupRequestRepo.findByIdOrNull(groupRequestId)
         groupRequest?.let {
             addUserToGroup(groupRequest.userEntity.id!!, groupRequest.userEntity.id!!)
             groupRequestRepo.deleteById(groupRequestId)
+            return
         }
         throw EntityNotFoundException("Could not find group request with id: ${groupRequestId}")
     }
