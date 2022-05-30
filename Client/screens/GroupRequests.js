@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import GroupRequestCard from "../components/GroupRequestCard";
 import {addUserToGroupByGroupRequest, getAllGroupRequests} from "../services/GroupService";
@@ -41,7 +41,7 @@ export default function GroupRequests({navigation, route}){
             })
     }
 
-    useState(() => {
+    useEffect(() => {
         getAllGroupRequests(group.id)
             .then((res) => {
                 setGroupRequests(res.data)
