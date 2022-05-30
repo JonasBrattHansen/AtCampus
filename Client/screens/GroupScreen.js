@@ -162,16 +162,16 @@ function GroupScreen({navigation, route}) {
                 />
             </View>
             <View style={ styles.bottomContainer }>
-                <View stylye={styles.postButtonContainer}>
+                <View stylye={styles.settingButtonContainer}>
                     <TouchableOpacity
                         style={ styles.containerButtonSettings}
                         activeOpacity={0.6}
                         onPress={ () => navigation.navigate("Group Options")}
                     >
-                        <Feather name={"settings"} color={"black"} size={22} />
+                        <Feather style={{alignSelf: "center"}} name={"settings"} color={"black"} size={22} />
                     </TouchableOpacity>
                 </View>
-                <View style={styles.settingButtonContainer}>
+                <View style={styles.postButtonContainer}>
                     <SimpleButton onPress={() => setIsModalPostVisible(true)} text={"Post"}></SimpleButton>
                 </View>
                 <View style={styles.requestButtonContainer}>
@@ -180,7 +180,7 @@ function GroupScreen({navigation, route}) {
                         activeOpacity={0.6}
                         onPress={ () => navigation.navigate("Group Requests")}
                     >
-                    <Feather name={"user-plus"} color={"black"} size={22} />
+                    <Feather style={{alignSelf: "center"}} name={"user-plus"} color={"black"} size={22} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -195,8 +195,7 @@ function GroupScreen({navigation, route}) {
                     <TouchableOpacity
                         style={{flex:1, backgroundColor: "gray", opacity: 0.5,}}
                         onPress={handleCancelPostMessage}
-                    >
-                    </TouchableOpacity>
+                    />
 
                     <KeyboardAvoidingView
                         style={styles.backgroundModal}
@@ -232,16 +231,17 @@ const styles = StyleSheet.create({
         backgroundColor: "#000",
     },
     containerButtonAddUser: {
-        marginLeft: 27,
+        marginLeft: 33,
         borderWidth: 1,
         borderRadius: 50,
         borderColor: "#d3d3d3",
         paddingVertical: 13,
         paddingHorizontal: 15,
         backgroundColor: "#ffffff",
-        width: "70%",
+        width: "55%"
     },
     containerButtonSettings: {
+        marginLeft: 5,
         borderWidth: 1,
         marginRight: 40,
         borderRadius: 50,
@@ -316,12 +316,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     postButtonContainer: {
+        flex: 1.5,
     },
     settingButtonContainer: {
-        marginLeft: 15
+        flex: 1
     },
     requestButtonContainer: {
-        marginLeft: 25
+        flex: 1,
     },
     backgroundModal: {
         backgroundColor: "#ffffff",

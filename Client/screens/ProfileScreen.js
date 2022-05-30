@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
 	Image,
-	Keyboard, KeyboardAvoidingView,
+	Keyboard, KeyboardAvoidingView, Platform,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -14,6 +14,7 @@ import {login, logout} from "../actions/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser, updateUser} from "../services/UserService";
 import Toast from "react-native-toast-message";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 function ProfileScreenInput({title, editable, value, returnKeyType, onSubmitEditing, keyboardType, blurOnSubmit, innerRef, onChangeText}) {
 	return (
@@ -144,6 +145,11 @@ function ProfileScreen({navigation}) {
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.container}>
 			<View style={styles.container}>
+			<KeyboardAvoidingView
+				behavior= {(Platform.OS === 'ios') ? "position" : null}
+				keyboardVerticalOffset={Platform.select({ios: 70, android: 0})}
+			>
+
 				<View style={styles.imageWrapper}>
 					<Image
 						source={{uri: image ?? "https://images.unsplash.com/photo-1638913658211-c999de7fe786?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxMXx8fGVufDB8fHx8&auto=format&fit=crop&w=500"}}
@@ -159,7 +165,7 @@ function ProfileScreen({navigation}) {
 					</TouchableOpacity>
 				</View>
 				
-				<KeyboardAvoidingView behavior={"position"} keyboardVerticalOffset={100}>
+
 					<View style={styles.settings}>
 						<ProfileScreenInput
 							title={"First name"}
@@ -200,8 +206,7 @@ function ProfileScreen({navigation}) {
 							keyboardType={"email-address"}
 						/>
 					</View>
-				</KeyboardAvoidingView>
-				
+			</KeyboardAvoidingView>
 				<View style={styles.actionsWrapper}>
 					<TouchableOpacity
 						activeOpacity={0.6}
@@ -217,14 +222,16 @@ function ProfileScreen({navigation}) {
 					>
 						<Text style={styles.imageButtonText}>Change password</Text>
 					</TouchableOpacity>
-					<TouchableOpacity
-						activeOpacity={0.6}
-						style={styles.imageButton}
-						onPress={() => onLogOut()}
-						>
-						<Text style={styles.imageButtonText}>Log out</Text>
-					</TouchableOpacity>
 				</View>
+
+				<TouchableOpacity
+					activeOpacity={0.6}
+					style={styles.logoutButton}
+					onPress={() => onLogOut()}
+				>
+					<Text style={styles.imageButtonText}>Log out</Text>
+				</TouchableOpacity>
+
 			</View>
 		</TouchableWithoutFeedback>
 	);
@@ -240,13 +247,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		padding: 20,
-		marginBottom: 20,
 	},
 	image: {
 		width: 120,
-		height: 120,
+		height: 110,
 		borderRadius: 60,
-		marginBottom: 10,
 	},
 	imageButton: {
 		paddingVertical: 10,
@@ -265,11 +270,22 @@ const styles = StyleSheet.create({
 		borderBottomColor: "rgb(240, 240, 240)",
 	},
 	actionsWrapper: {
-		marginTop: "auto",
 		padding: 20,
 		display: "flex",
 		alignItems: "center",
-		justifyContent: "center",
+		justifyContent: "space-between",
+		paddingVertical: 15,
+		flexDirection: "row",
+	},
+	logoutButton: {
+		display: "flex",
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		width: "50%",
+		alignSelf: "center",
+		backgroundColor: "#e7e7ff",
+		borderRadius: 20,
+		alignItems: "center",
 	}
 })
 
