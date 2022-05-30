@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import javax.persistence.Entity
 import javax.persistence.EntityNotFoundException
 import kotlin.Exception
 
@@ -118,6 +119,15 @@ class GroupService(
             return groupRequestRepo.getAllByGroupEntity(group)
         }
         throw EntityNotFoundException("Could not find group with id: " + groupId + "in getGroupRequestsByGroup")
+    }
+
+    fun addUserFromGroupRequest(groupRequestId: Long): UserEntity{
+        val groupRequest = groupRequestRepo.findByIdOrNull(groupRequestId)
+        groupRequest?.let {
+            addUserToGroup(groupRequest.userEntity.id!!, groupRequest.userEntity.id!!)
+            groupRequestRepo.deleteById(groupRequestId)
+        }
+        throw EntityNotFoundException("Could not find group request with id: ${groupRequestId}")
     }
 }
 

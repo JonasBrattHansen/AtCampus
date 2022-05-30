@@ -178,7 +178,7 @@ function GroupScreen({navigation, route}) {
                     <TouchableOpacity
                         style={ styles.containerButtonAddUser}
                         activeOpacity={0.6}
-                        onPress={ () => navigation.navigate("Group Requests")}
+                        onPress={ () => navigation.navigate("Group Requests", {group})}
                     >
                     <Feather name={"user-plus"} color={"black"} size={22} />
                     </TouchableOpacity>

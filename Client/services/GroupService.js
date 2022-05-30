@@ -34,3 +34,7 @@ export function getCommentsByPost(postId){
 export function requestToJoinGroup(userId, groupId){
 	return instance.post(`group/request/${userId}/${groupId}`)
 }
+
+export function getAllGroupRequests(groupId){
+	return instance.get(`group/${groupId}/requests`)
+}
