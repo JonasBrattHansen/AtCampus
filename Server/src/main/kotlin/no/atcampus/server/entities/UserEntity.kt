@@ -42,6 +42,7 @@ class UserEntity (
     @Column(name = "user_date_created")
     val dateCreated: LocalDate? = LocalDate.now(),
 
+
     ){
     override fun toString(): String {
         return "UserEntity(id=$id, firstName='$firstName', lastName='$lastName', email='$email', password='$password', phoneNumber='$phoneNumber', schoolEntity=$schoolEntity, programEntity=$programEntity, userProfileImage=$userProfileImage, roles=$roles, dateCreated=$dateCreated)"
