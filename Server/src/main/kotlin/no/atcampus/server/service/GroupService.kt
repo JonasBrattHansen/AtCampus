@@ -111,6 +111,14 @@ class GroupService(
         )
         return groupRequestRepo.save(groupRequest)
     }
+
+    fun getGroupRequestsByGroup(groupId: Long): MutableList<GroupRequestEntity>{
+        val group = groupRepo.findByIdOrNull(groupId)
+        group?.let {
+            return groupRequestRepo.getAllByGroupEntity(group)
+        }
+        throw EntityNotFoundException("Could not find group with id: " + groupId + "in getGroupRequestsByGroup")
+    }
 }
 
 data class GroupDetails (

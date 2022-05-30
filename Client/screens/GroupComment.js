@@ -39,14 +39,13 @@ export default function GroupComment({route}){
                 />
 
                 <View style={{alignItems:"flex-start"}}>
-                    <Text style={styles.name}>Victoria Hansen</Text>
+                    <Text style={styles.name}>{post.userEntity.firstName} {post.userEntity.lastName}</Text>
                     <Text style={styles.groupName}>{GroupPage.name}</Text>
                 </View>
                 <Text style={styles.date}>5.mar.2020</Text>
             </View>
             <View style={styles.containerPost}>
-                <Text style={styles.post}>Nå skriver jeg bare nie inni her osm skal vare selve posten fra denne pestonen.
-                    Nå skriver jeg bare nie inni her osm skal vare selve posten fra denne pestonen.</Text>
+                <Text style={styles.post}>{post.body}</Text>
             </View>
             <View style={styles.containerChat} >
                 <ScrollView>
