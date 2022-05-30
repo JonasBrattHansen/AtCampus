@@ -1,6 +1,8 @@
 package no.atcampus.server.integration
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.mockk.InternalPlatformDsl.toStr
 import no.atcampus.server.security.filter.TokenResponse
 import org.json.JSONObject
@@ -101,21 +103,21 @@ class GroupControllerTest {
         assert(posts.response.contentAsString.contains("test post title 2"))
     }
 
-    /*@Test
-    fun createGroupTest(){
-        val loggedInUser = mockMvc.post("/api/login"){
+    @Test
+    fun createGroupTest() {
+        val loggedInUser = mockMvc.post("/api/login") {
             contentType = MediaType.APPLICATION_JSON
             content = "{\n" +
                     "    \"email\": \"test@mail.com\",\n" +
                     "    \"password\": \"pirate\"\n" +
                     "}"
-        }.andExpect { status { isOk() } }
+        }
+            .andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie =  loggedInUser.response.contentAsString
-        val mapper = ObjectMapper()
-        val authorization = mapper.readValue(cookie, Object::class.java)
-        val token = (authorization as LinkedHashMap<String, String>).get("token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val group = mockMvc.post("/api/group/create"){
             contentType = MediaType.APPLICATION_JSON
@@ -126,14 +128,14 @@ class GroupControllerTest {
                     "    \"admin\": 1,\n" +
                     "    \"school\": 1\n" +
                     "}"
-            cookie?.let { header("Authorization", token!!.toString()) }
+            body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andReturn()
 
         assert(group.response.contentAsString.contains("wow test"))
-    }*/
+    }
 
 
     @Test
