@@ -193,16 +193,15 @@ function GroupScreen({navigation, route}) {
                     avoidKeyboard={true}
                 >
                     <TouchableOpacity
-                        style={{width:"100%", height:"50%", backgroundColor: "gray", opacity: 0.5, zIndex: 0}}
+                        style={{flex:1, backgroundColor: "gray", opacity: 0.5,}}
                         onPress={handleCancelPostMessage}
                     >
                     </TouchableOpacity>
 
                     <KeyboardAvoidingView
-                        style={styles.keyboardContainer}
-                        behavior="padding"
+                        style={styles.backgroundModal}
+                        behavior={Platform.OS === "ios" ? "padding" : null}
                     >
-                    <View style={styles.backgroundModal}>
                         <TextInput
                             style={styles.input}
                             multiline={true}
@@ -216,7 +215,6 @@ function GroupScreen({navigation, route}) {
                             <SimpleButton style={{top: -0}} onPress={handlePostMessageClick} text={"Post"}></SimpleButton>
                         </View>
 
-                    </View>
                     </KeyboardAvoidingView>
             </Modal>
         </View>
@@ -326,10 +324,8 @@ const styles = StyleSheet.create({
         marginLeft: 25
     },
     backgroundModal: {
-        borderRadius: 40,
         backgroundColor: "#ffffff",
-        height: "90%",
-        width: "100%",
+       flex: 1
     },
     input: {
         flex: 1,
