@@ -70,7 +70,10 @@ export default function GroupRequests({navigation, route}){
                         school={item.userEntity.school}
                         program={item.userEntity.program}
                         text={item.userEntity.firstName + " " + item.userEntity.lastName}
-                        handleClick={handleAddClick}
+                        handleClick={() => {
+                            handleAddClick(item.id)
+                        }
+                        }
                     />
                 }
             />
