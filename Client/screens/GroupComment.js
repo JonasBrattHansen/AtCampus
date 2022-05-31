@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image, SafeAreaView} from "react-native";
+import React, {useState} from "react";
+import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image, SafeAreaView, KeyboardAvoidingView, Platform} from "react-native";
 import GroupPage from "../components/GroupPage";
 import Comment from "../components/Comment";
 import {Feather} from "@expo/vector-icons";
-import {Touchable} from "react-native-web";
-import PostPreview from "../components/PostPreview";
 import UsersComment from "../components/UsersComment";
 import {getCommentsByPost} from "../services/GroupService";
 import {useSelector} from "react-redux";
@@ -32,7 +30,10 @@ export default function GroupComment({route}){
     }, [])
 
     return(
-        <SafeAreaView  style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}
+                              behavior= {(Platform.OS === 'ios') ? "padding" : null}
+                              keyboardVerticalOffset={Platform.select({ios: 70, android: 0})}
+        >
             <View style={styles.userContainer}>
                 <Image style={styles.image}
                        source={require("../Images/student.png")}
@@ -61,14 +62,14 @@ export default function GroupComment({route}){
                     })}
                 </ScrollView>
             </View>
-            <View style={styles.line}></View>
+            <View style={styles.line}/>
             <View style={styles.commentInput}>
-                <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} ></TextInput>
+                <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
                 <TouchableOpacity style={styles.sendIcon}>
                     <Feather name={"send"} size={25} color={"black"} />
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </KeyboardAvoidingView>
     )
 
 }
@@ -120,10 +121,11 @@ const styles = StyleSheet.create({
         borderColor: "#d3d3d3",
         backgroundColor: "#fff",
         paddingVertical: 15,
-        width: "85%",
+        width: "80%",
         height: "50%",
         paddingHorizontal: 10,
         flexDirection: "row",
+        marginLeft: 10,
     },
     sendIcon: {
         paddingVertical: 15,
