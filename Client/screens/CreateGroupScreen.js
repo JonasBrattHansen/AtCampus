@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {
+	ActivityIndicator,
 	Image,
 	Keyboard,
 	KeyboardAvoidingView,
@@ -20,11 +21,12 @@ function Separator() {
 	return <View style={styles.separator}/>
 }
 
-function CreateGroupScreen(props) {
+function CreateGroupScreen({navigation}) {
 	const [image, setImage] = useState(null);
 	const [groupName, setGroupName] = useState("");
 	//const [subject, setSubject] = useState("");
 	const [description, setDescription] = useState("");
+	const [uploading, setUploading] = useState(false);
 	
 	const groupNameRef = useRef();
 	const subjectRef = useRef();
@@ -41,9 +43,13 @@ function CreateGroupScreen(props) {
 		});
 		
 		if (!result.cancelled) {
+			setUploading(true);
+			setImage(null)
+
 			const url = await upload(result.base64)
 
 			setImage(url)
+			setUploading(false)
 		}
 	};
 	
@@ -57,6 +63,8 @@ function CreateGroupScreen(props) {
 					text1: 'Successfully created group',
 					text2: group.name,
 				});
+
+
 			})
 			.catch(err => {
 				console.log("Failed to create group", err);
@@ -88,7 +96,9 @@ function CreateGroupScreen(props) {
 						/>}
 						
 						{!image &&
-							<Ionicons name="image-outline" size={55} color="rgba(32, 32, 32, 0.8)" />
+							(uploading ?
+								<ActivityIndicator/> :
+								<Ionicons name="image-outline" size={55} color="rgba(32, 32, 32, 0.8)" />)
 						}
 					</TouchableOpacity>
 					
@@ -133,7 +143,7 @@ function CreateGroupScreen(props) {
 					</View>
 					
 					<View style={styles.buttonWrapper}>
-						<SimpleButton text={"Create"} onPress={() => makeGroup()}/>
+						{!uploading && <SimpleButton text={"Create"} onPress={() => makeGroup()}/>}
 					</View>
 				</KeyboardAvoidingView>
 			</View>
