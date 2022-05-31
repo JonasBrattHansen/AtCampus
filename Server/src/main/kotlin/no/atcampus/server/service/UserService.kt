@@ -107,6 +107,12 @@ class UserService(
     }
 
     fun registerUser(user: UserDetail): UserEntity{
+        val test = userRepo.findUserEntityByEmail(user.email!!)
+        if(test !== null){
+            throw Exception("Email already in use")
+        }
+
+
         val newUserEntity = UserEntity(
             firstName = user.firstName ?: throw Exception("UserDetails must include firstname"),
             lastName = user.lastName ?: throw Exception("UserDetails must include lastname"),

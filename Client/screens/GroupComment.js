@@ -13,6 +13,7 @@ export default function GroupComment({route}){
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState("")
     const {userId} = useSelector(state => state.auth)
+    const [date, setDate] = useState(null);
 
     useEffect(() => {
         getCommentsByPost(post.id)
@@ -25,7 +26,15 @@ export default function GroupComment({route}){
 
     }, [])
 
+
+    useEffect(() => {
+        let today = new Date();
+        let date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+        setDate(date);
+    }, []);
+
     function sendComment() {
+        console.log("post", post)
         postACommentToPost(post.id, comment, userId)
             .then(() => {
                 getCommentsByPost(post.id)
@@ -50,15 +59,15 @@ export default function GroupComment({route}){
         >
             <View style={styles.userContainer}>
                 <Image style={styles.image}
-                       source={require("../Images/student.png")}
+                       source={{uri: post.userEntity.userProfileImage}}
                 />
 
                 <View style={{alignItems:"flex-start"}}>
                     <Text style={styles.name}>{post.userEntity.firstName} {post.userEntity.lastName}</Text>
-                    <Text style={styles.groupName}>{GroupPage.name}</Text>
+                    <Text style={styles.groupName}>{post.title}</Text>
                 </View>
 
-                <Text style={styles.date}>5.mar.2020</Text>
+                <Text style={styles.date}>{date}</Text>
             </View>
 
             <View style={styles.containerPost}>
