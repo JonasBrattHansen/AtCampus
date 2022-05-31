@@ -93,6 +93,7 @@ function GroupScreen({navigation, route}) {
 
     const [isModalPostVisible, setIsModalPostVisible] = useState(false)
     const [postMessage, setPostMessage] = useState("")
+    const [postTitle, setPostTitle] = useState("")
     const {group} = route.params
     const [posts, setPosts] = useState([])
 
@@ -199,6 +200,17 @@ function GroupScreen({navigation, route}) {
                         style={styles.backgroundModal}
                         behavior={Platform.OS === "ios" ? "padding" : null}
                     >
+                        <TextInput
+                            ref={postTitleRef}
+                            title={"Post title"}
+                            style={styles.titleInput}
+                            multiline={true}
+                            numberOfLines={2}
+                            value={postTitle}
+                            onChangeText={val => setPostTitle(val)}
+                            placeholder={"Title"}
+                        />
+
                         <TextInput
                             style={styles.input}
                             multiline={true}
@@ -330,6 +342,14 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 15,
         margin: 20,
+        borderRadius: 20,
+        backgroundColor: "#f1f0f0"
+    },
+    titleInput: {
+        flex: 2,
+        padding: 15,
+        marginBottom: 10,
+        margin: 15,
         borderRadius: 20,
         backgroundColor: "#f1f0f0"
     },
