@@ -35,9 +35,10 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        width: 35,
-        height: 35,
+        width: 30,
+        height: 30,
         margin: 10,
+        borderRadius: 15,
     },
     textStyle: {
         color: "white",
