@@ -43,7 +43,7 @@ function HomeStack(props) {
 			<Tab.Screen name="Home" component={HomeScreen} options={{
 				headerShown: false,
 			}}/>
-			<Tab.Screen name="Activities" component={GroupScreen} />
+			<Tab.Screen name="Activities" component={ActivitiesScreen} />
 			<Tab.Screen
 				name="Groups"
 				component={GroupStack}
