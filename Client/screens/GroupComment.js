@@ -6,10 +6,6 @@ import {Feather} from "@expo/vector-icons";
 import UsersComment from "../components/UsersComment";
 import {getCommentsByPost, postACommentToPost} from "../services/GroupService";
 import {useSelector} from "react-redux";
-import auth from "../reducers/auth";
-import text from "react-native-web/dist/exports/Text";
-
-
 
 
 export default function GroupComment({route}){
