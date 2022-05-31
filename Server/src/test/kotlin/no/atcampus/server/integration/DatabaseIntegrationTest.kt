@@ -40,7 +40,7 @@ class DatabaseIntegrationTest(@Autowired private val userService: UserService,
     @Test
     fun shouldGetUsersFromDB() {
         val result = userService.getAllUsers()
-        assert(result.size == 2)
+        assert(result.size == 3)
     }
 
     @Test

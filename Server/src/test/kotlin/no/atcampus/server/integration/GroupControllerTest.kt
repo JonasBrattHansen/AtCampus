@@ -185,7 +185,7 @@ class GroupControllerTest {
         val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
         val token = tokenResponse.token
 
-        val groupRequest = mockMvc.post("/api/group/request/1/1"){
+        val groupRequest = mockMvc.post("/api/group/request/3/1"){
             body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
