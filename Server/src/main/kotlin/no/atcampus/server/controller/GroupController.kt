@@ -42,8 +42,8 @@ class GroupController(
     }
 
     @GetMapping("/{groupId}/user")
-    fun getAllUsersFromGroup(@PathVariable groupId: Long): ResponseEntity<MutableList<UserEntity>>{
-        return ResponseEntity.ok().body(userService.getUsersByGroup(groupId))
+    fun getAllUsersFromGroup(@PathVariable groupId: String): ResponseEntity<MutableList<UserEntity>>{
+        return ResponseEntity.ok().body(userService.getUsersByGroup(groupId.toLong()))
     }
 
     @GetMapping("/{groupId}/requests")

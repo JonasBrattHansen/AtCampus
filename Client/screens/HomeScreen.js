@@ -49,6 +49,13 @@ function Groups({groups, navigation}) {
 						key={item.id}
 						image={item.image}
 						name={item.name}
+						onPress={() => navigation.navigate("Groups", {
+							screen: "Group",
+							initial: false,
+							params: {
+								group: item,
+							}
+						})}
 					/>
 				}
 			/>
@@ -63,6 +70,7 @@ function HomeScreen({navigation}) {
 	const [posts, setPosts] = useState([]);
 	const [date, setDate] = useState(null)
 
+	const { userId } = useSelector(state => state.auth);
 	const { username } = useSelector(state => state.auth);
 
 	const getCurrentDate=async()=>{
@@ -71,8 +79,25 @@ function HomeScreen({navigation}) {
 		return time = formatter.format(new Date())
 		//date + '-' + month + '-' + year;//format: dd-mm-yyyy;
 	}
-	
+
 	useEffect( () => {
+		getAllUserGroups(userId)
+			.then(response => {
+				const groups = response?.data;
+				setGroups(groups)
+			})
+			.catch((err) => {
+				console.log("Failed to get all groups", err)
+			})
+
+		getAllPostsByUser(userId)
+			.then((postsResponse) => {
+				setPosts(postsResponse.data)
+			})
+			.catch((err) => {
+				console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
+			})
+	}, []);
 		navigation.addListener('focus', () => {
 			getCurrentDate()
 				.then((res) => {
@@ -104,7 +129,7 @@ function HomeScreen({navigation}) {
 				})
 		})
 	}, [navigation]);
-	
+
 
 	return (
 		<SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
@@ -136,6 +161,13 @@ function HomeScreen({navigation}) {
 						title={item.title}
 						preview={item.body}
 						date={item.date}
+						onPress={() => navigation.navigate("Groups", {
+							screen: "Group Comment",
+							initial: false,
+							params: {
+								post: item,
+							}
+						})}
 					/>
 				}
 			/>
