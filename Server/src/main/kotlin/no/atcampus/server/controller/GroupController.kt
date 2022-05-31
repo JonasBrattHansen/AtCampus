@@ -46,6 +46,17 @@ class GroupController(
         return ResponseEntity.ok().body(userService.getUsersByGroup(groupId))
     }
 
+    @GetMapping("/{groupId}/requests")
+    fun getAllGroupRequestsFromGroup(@PathVariable groupId: Long): ResponseEntity<MutableList<GroupRequestEntity>>{
+        return ResponseEntity.ok().body(groupService.getGroupRequestsByGroup(groupId))
+    }
+
+    @PostMapping("/request/{groupRequestId}")
+    fun addUserToGroupByRequest(@PathVariable groupRequestId: Long): ResponseEntity<Boolean>{
+        groupService.addUserFromGroupRequest(groupRequestId)
+        return ResponseEntity.ok().body(true)
+    }
+
     @PostMapping("/{groupId}/user/{userId}")
     fun addUserToGroup(@PathVariable groupId: Long, @PathVariable userId: Long): ResponseEntity<GroupEntity>{
         return ResponseEntity.ok(groupService.addUserToGroup(userId, groupId))

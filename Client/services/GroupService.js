@@ -26,3 +26,19 @@ export function createGroup(name, description, image, admin, school) {
 		school,
 	});
 }
+
+export function getCommentsByPost(postId){
+	return instance.get(`post/${postId}/comment`)
+}
+
+export function requestToJoinGroup(userId, groupId){
+	return instance.post(`group/request/${userId}/${groupId}`)
+}
+
+export function getAllGroupRequests(groupId){
+	return instance.get(`group/${groupId}/requests`)
+}
+
+export function addUserToGroupByGroupRequest(groupRequestId){
+	return instance.post(`group/request/${groupRequestId}`)
+}

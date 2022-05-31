@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import GroupRequestCard from "../components/GroupRequestCard";
+import {addUserToGroupByGroupRequest, getAllGroupRequests} from "../services/GroupService";
 
 const groupRequestData = [
     {
@@ -25,20 +26,37 @@ function Separator() {
     return <View style={styles.separator}/>
 }
 
-export default function GroupRequests({navigation}){
+export default function GroupRequests({navigation, route}){
     const [dummyData, setDummyData] = useState(groupRequestData)
-
+    const [groupRequests, setGroupRequests] = useState([])
+    const {group} = route.params
 
     function handleAddClick(requestId){
-        console.log(requestId)
-        setDummyData( dummyData.filter(request => request.id !== requestId) )
+        addUserToGroupByGroupRequest(requestId)
+            .then((res) => {
+                console.log("success")
+            })
+            .catch((err) => {
+                console.log("Error in GroupRequests: " + err)
+            })
     }
 
+    useEffect(() => {
+        getAllGroupRequests(group.id)
+            .then((res) => {
+                setGroupRequests(res.data)
+            })
+            .catch((err) => {
+                console.log("Error in GroupRequests: " + err)
+            })
+    }, [])
+
+    //it has changed
     return (
         <View style={{flex: 1}}>
             <FlatList
                 contentContainerStyle={styles.groupRequests}
-                data={dummyData}
+                data={groupRequests}
                 ItemSeparatorComponent={Separator}
                 stickyFooterIndices={[0]}
                 renderItem={({item}) =>
@@ -49,12 +67,14 @@ export default function GroupRequests({navigation}){
                         }}
                         key={item.id}
                         requestId={item.id}
-                        userImage={item.userImage}
-                        school={item.school}
-                        program={item.program}
-                        text={item.text}
-                        date={item.date}
-                        handleClick={handleAddClick}
+                        userImage={item.userEntity.userProfileImage}
+                        school={item.userEntity.school}
+                        program={item.userEntity.program}
+                        text={item.userEntity.firstName + " " + item.userEntity.lastName}
+                        handleClick={() => {
+                            handleAddClick(item.id)
+                        }
+                        }
                     />
                 }
             />

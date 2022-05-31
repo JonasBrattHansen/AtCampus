@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import CreateGroup from "../components/CreateGroup";
 import GroupPreview from "../components/GroupPreview";
 import PostPreview from "../components/PostPreview";
 import WideGroupPreview from "../components/WideGroupPreview";
 import {AntDesign} from "@expo/vector-icons";
+import {getAllGroups, requestToJoinGroup} from "../services/GroupService";
+import {useSelector} from "react-redux";
 
 const groupPreviews = [
 	{
@@ -50,12 +52,26 @@ function Separator() {
 
 function FindGroupScreen(props) {
 	const [search, setSearch] = useState("");
-	
+	const [groups, setGroups] = useState([])
+
+	const {userId} = useSelector(state => state.auth)
+
+	useEffect(() => {
+		getAllGroups()
+			.then((res) => {
+				setGroups(res.data)
+			})
+			.catch((err) => {
+				console.log("Error in FindGroupScreen " + err)
+			})
+	}, [])
+
 	return (
+
 		<View style={styles.container}>
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
-				data={groupPreviews}
+				data={groups}
 				ListHeaderComponent={
 					<View style={styles.header}>
 						<View style={styles.searchBarWrapper}>
@@ -86,11 +102,25 @@ function FindGroupScreen(props) {
 						description={item.description}
 						members={item.members}
 						image={item.image}
+						onPress={() => {
+							onGroupPress(userId, item.id)
+						}
+						}
 					/>
 				}
 			/>
 		</View>
 	);
+}
+
+function onGroupPress(userId, groupId){
+	requestToJoinGroup(userId, groupId)
+		.then((res) => {
+			console.log("success")
+		})
+		.catch((err) => {
+			console.log("Error in onGroupPress: " + err)
+		})
 }
 
 const styles = StyleSheet.create({

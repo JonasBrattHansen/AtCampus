@@ -4,16 +4,16 @@ import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image} 
 
 
 
-export default function UsersComment(){
+export default function UsersComment({text, image}){
     return(
         <View style={styles.container}>
             <View style={styles.comment}>
                 <Text style={styles.textStyle}>
-                    This is the text, if it is bigger then the other one. noe som den er, jeg gidder ikke å skriv ei engelsk mer. fuck tthis shit.
+                    {text}
                 </Text>
             </View>
                 <Image style={styles.image}
-                       source={require("../Images/student.png")} />
+                       source={{uri: image}} />
         </View>
     )
 }

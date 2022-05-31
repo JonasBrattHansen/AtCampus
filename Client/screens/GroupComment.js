@@ -1,28 +1,33 @@
 import React, {useState} from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    ScrollView,
-    TextInput,
-    TouchableOpacity,
-    Image,
-    SafeAreaView,
-    KeyboardAvoidingView,
-    Platform
-} from "react-native";
+import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image, SafeAreaView, KeyboardAvoidingView, Platform} from "react-native";
 import GroupPage from "../components/GroupPage";
 import Comment from "../components/Comment";
 import {Feather} from "@expo/vector-icons";
 import UsersComment from "../components/UsersComment";
+import {getCommentsByPost} from "../services/GroupService";
+import {useSelector} from "react-redux";
+import auth from "../reducers/auth";
+import text from "react-native-web/dist/exports/Text";
 
 
 
 
 export default function GroupComment({route}){
-
-    const [comment, setComment] = useState()
     const {post} = route.params
+    const [comments, setComments] = useState([])
+
+    const {userId} = useSelector(state => state.auth)
+
+    useEffect(() => {
+        getCommentsByPost(post.id)
+            .then( (res) => {
+                setComments(res.data)
+            })
+            .catch((err) => {
+                console.log("Error in GroupComment: " + err)
+            })
+
+    }, [])
 
     return(
         <KeyboardAvoidingView style={styles.container}
@@ -35,23 +40,26 @@ export default function GroupComment({route}){
                 />
 
                 <View style={{alignItems:"flex-start"}}>
-                    <Text style={styles.name}>Victoria Hansen</Text>
+                    <Text style={styles.name}>{post.userEntity.firstName} {post.userEntity.lastName}</Text>
                     <Text style={styles.groupName}>{GroupPage.name}</Text>
                 </View>
                 <Text style={styles.date}>5.mar.2020</Text>
             </View>
             <View style={styles.containerPost}>
-                <Text style={styles.post}>Nå skriver jeg bare nie inni her osm skal vare selve posten fra denne pestonen.
-                    Nå skriver jeg bare nie inni her osm skal vare selve posten fra denne pestonen.</Text>
+                <Text style={styles.post}>{post.body}</Text>
             </View>
             <View style={styles.containerChat} >
                 <ScrollView>
-                    <Comment/>
-                    <UsersComment/>
-                    <Comment/>
-                    <UsersComment/>
-                    <Comment/>
-                    <UsersComment/>
+                    {console.log(comments)}
+                    {comments.map(comment => {
+                        const text = comment.body
+                        const image = comment.userEntity.userProfileImage
+                        if(+comment.userEntity.id === +userId){
+                            return <UsersComment text={text} image={image}/>
+                        }else{
+                            return <Comment text={text} image={image}/>
+                        }
+                    })}
                 </ScrollView>
             </View>
             <View style={styles.line}/>

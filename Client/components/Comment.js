@@ -4,14 +4,14 @@ import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image} 
 
 
 
-export default function Comment(){
+export default function Comment({text, image}){
     return(
         <View style={styles.container}>
                 <Image style={styles.image}
-                       source={require("../Images/student.png")} />
+                       source={{uri: image}} />
             <View style={styles.comment}>
                 <Text style={styles.textStyle}>
-                    This is the text
+                    {text}
                 </Text>
             </View>
         </View>

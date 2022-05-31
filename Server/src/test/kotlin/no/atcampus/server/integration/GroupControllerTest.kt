@@ -1,5 +1,11 @@
 package no.atcampus.server.integration
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import io.mockk.InternalPlatformDsl.toStr
+import no.atcampus.server.security.filter.TokenResponse
+import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -11,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import org.testcontainers.shaded.org.yaml.snakeyaml.tokens.Token
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -97,17 +104,20 @@ class GroupControllerTest {
     }
 
     @Test
-    fun createGroupTest(){
-        val loggedInUser = mockMvc.post("/api/login"){
+    fun createGroupTest() {
+        val loggedInUser = mockMvc.post("/api/login") {
             contentType = MediaType.APPLICATION_JSON
             content = "{\n" +
                     "    \"email\": \"test@mail.com\",\n" +
                     "    \"password\": \"pirate\"\n" +
                     "}"
-        }.andExpect { status { isOk() } }
+        }
+            .andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val group = mockMvc.post("/api/group/create"){
             contentType = MediaType.APPLICATION_JSON
@@ -118,7 +128,7 @@ class GroupControllerTest {
                     "    \"admin\": 1,\n" +
                     "    \"school\": 1\n" +
                     "}"
-            cookie?.let { cookie(it) }
+            body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
@@ -229,3 +239,4 @@ class GroupControllerTest {
 
 
 }
+

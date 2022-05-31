@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import javax.persistence.Entity
 import javax.persistence.EntityNotFoundException
 import kotlin.Exception
 
@@ -38,12 +39,11 @@ class GroupService(
     // No Error handling
     //TODO: Need to add more checking, with the UserRequestRepo
     fun addUserToGroup(userId: Long, groupId: Long): GroupEntity{
-        val user = userRepo.findById(userId)
-        val group = groupRepo.findById(groupId)
+        val user = userRepo.findByIdOrNull(userId)
+        val group = groupRepo.findByIdOrNull(groupId)
 
-       userGroupRepo.save(UserGroupEntity(userEntity = user.get(), groupEntity = group.get()))
-
-        return group.get()
+        userGroupRepo.save(UserGroupEntity(userEntity = user!!, groupEntity = group!!))
+        return group!!
     }
 
     fun getGroupsByUserId(id: Long): MutableList<GroupEntity>{
@@ -94,7 +94,13 @@ class GroupService(
             admin = userEntity ?: throw Exception("GroupDetails must include user"), //userRepo.findByIdOrNull(groupDetails.admin) ?: throw Exception("GroupDetails must include admin"),
             schoolEntity = userEntity.schoolEntity ?: throw Exception("GroupDetails must include school")
         )
-        return groupRepo.save(groupEntity)
+        val group = groupRepo.save(groupEntity)
+        group.id?.let {
+            userEntity.id?.let {
+                addUserToGroup(userEntity.id, group.id)
+            }
+        }
+        return group
     }
 
 
@@ -104,6 +110,24 @@ class GroupService(
             groupEntity = groupRepo.findByIdOrNull(groupId) ?: throw Exception("Must include groupId")
         )
         return groupRequestRepo.save(groupRequest)
+    }
+
+    fun getGroupRequestsByGroup(groupId: Long): MutableList<GroupRequestEntity>{
+        val group = groupRepo.findByIdOrNull(groupId)
+        group?.let {
+            return groupRequestRepo.getAllByGroupEntity(group)
+        }
+        throw EntityNotFoundException("Could not find group with id: " + groupId + "in getGroupRequestsByGroup")
+    }
+
+    fun addUserFromGroupRequest(groupRequestId: Long){
+        val groupRequest = groupRequestRepo.findByIdOrNull(groupRequestId)
+        groupRequest?.let {
+            addUserToGroup(groupRequest.userEntity.id!!, groupRequest.userEntity.id!!)
+            groupRequestRepo.deleteById(groupRequestId)
+            return
+        }
+        throw EntityNotFoundException("Could not find group request with id: ${groupRequestId}")
     }
 }
 

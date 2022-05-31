@@ -234,8 +234,8 @@ function GroupsScreen({route, navigation}) {
 					<SimpleButton
 						text={"Find group"}
 						onPress={() => {
-							bottomSheetRef.current.close();
-							bottomSheetRef.current.forceClose();
+								bottomSheetRef.current.close();
+								bottomSheetRef.current.forceClose();
 
 							navigation.navigate("Find Group");
 						}}

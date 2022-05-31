@@ -1,6 +1,7 @@
 package no.atcampus.server.security.filter
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import no.atcampus.server.security.jwt.JwtUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
