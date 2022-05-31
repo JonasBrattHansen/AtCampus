@@ -27,6 +27,11 @@ export function createGroup(name, description, image, admin, school) {
 	});
 }
 
+
+export const getUsersFromGroup = (groupId) =>{
+	return instance.get(`group/${groupId}/user`)
+}
+
 export function getCommentsByPost(postId){
 	return instance.get(`post/${postId}/comment`)
 }

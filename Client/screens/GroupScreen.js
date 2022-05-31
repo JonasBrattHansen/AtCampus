@@ -164,7 +164,7 @@ function GroupScreen({navigation, route}) {
                     <TouchableOpacity
                         style={ styles.containerButtonSettings}
                         activeOpacity={0.6}
-                        onPress={ () => navigation.navigate("Group Options")}
+                        onPress={ () => navigation.navigate("Group Options", {group})}
                     >
                         <Feather style={{alignSelf: "center"}} name={"settings"} color={"black"} size={22} />
                     </TouchableOpacity>
