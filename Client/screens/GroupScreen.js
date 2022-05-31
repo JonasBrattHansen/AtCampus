@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View,
     TextInput,
-    KeyboardAvoidingView
+    KeyboardAvoidingView, KeyboardAvoidingViewComponent
 } from "react-native";
 
 import PostPreview from "../components/PostPreview";
@@ -162,16 +162,16 @@ function GroupScreen({navigation, route}) {
                 />
             </View>
             <View style={ styles.bottomContainer }>
-                <View stylye={styles.postButtonContainer}>
+                <View stylye={styles.settingButtonContainer}>
                     <TouchableOpacity
                         style={ styles.containerButtonSettings}
                         activeOpacity={0.6}
                         onPress={ () => navigation.navigate("Group Options")}
                     >
-                        <Feather name={"settings"} color={"black"} size={22} />
+                        <Feather style={{alignSelf: "center"}} name={"settings"} color={"black"} size={22} />
                     </TouchableOpacity>
                 </View>
-                <View style={styles.settingButtonContainer}>
+                <View style={styles.postButtonContainer}>
                     <SimpleButton onPress={() => setIsModalPostVisible(true)} text={"Post"}></SimpleButton>
                 </View>
                 <View style={styles.requestButtonContainer}>
@@ -180,41 +180,42 @@ function GroupScreen({navigation, route}) {
                         activeOpacity={0.6}
                         onPress={ () => navigation.navigate("Group Requests", {group})}
                     >
-                    <Feather name={"user-plus"} color={"black"} size={22} />
+                    <Feather style={{alignSelf: "center"}} name={"user-plus"} color={"black"} size={22} />
                     </TouchableOpacity>
                 </View>
             </View>
 
-
-            <Modal
-                transparent={true}
-                animationType="fade"
-                visible={isModalPostVisible}
-                nRequestClose={() => setIsModalPostVisible(false)}
-                avoidKeyboard={true}
-            >
-                <TouchableOpacity
-                    style={{flex: 1}}
-                    onPress={handleCancelPostMessage}
+                <Modal
+                    transparent={true}
+                    animationType="fade"
+                    visible={isModalPostVisible}
+                    nRequestClose={() => setIsModalPostVisible(false)}
+                    avoidKeyboard={true}
                 >
-
-                <View style={styles.backgroundModal}>
-                    <TextInput
-                        style={{height: 200, textAlignVertical: 'top'}}
-                        multiline={true}
-                        numberOfLines={5}
-                        onChangeText={setPostMessage}
-                        value={postMessage}
+                    <TouchableOpacity
+                        style={{flex:1, backgroundColor: "gray", opacity: 0.5,}}
+                        onPress={handleCancelPostMessage}
                     />
 
+                    <KeyboardAvoidingView
+                        style={styles.backgroundModal}
+                        behavior={Platform.OS === "ios" ? "padding" : null}
+                    >
+                        <TextInput
+                            style={styles.input}
+                            multiline={true}
+                            numberOfLines={5}
+                            onChangeText={setPostMessage}
+                            value={postMessage}
+                            placeholder={"Right a post to your group here :)"}
+                        />
 
-                    <SimpleButton style={{top: -0}} onPress={handlePostMessageClick} text={"Post"}></SimpleButton>
+                        <View style={{margin: 10}}>
+                            <SimpleButton style={{top: -0}} onPress={handlePostMessageClick} text={"Post"}></SimpleButton>
+                        </View>
 
-                </View>
-
-                </TouchableOpacity>
+                    </KeyboardAvoidingView>
             </Modal>
-
         </View>
     );
 }
@@ -230,16 +231,17 @@ const styles = StyleSheet.create({
         backgroundColor: "#000",
     },
     containerButtonAddUser: {
-        marginLeft: 27,
+        marginLeft: 33,
         borderWidth: 1,
         borderRadius: 50,
         borderColor: "#d3d3d3",
         paddingVertical: 13,
         paddingHorizontal: 15,
         backgroundColor: "#ffffff",
-        width: "70%",
+        width: "55%"
     },
     containerButtonSettings: {
+        marginLeft: 5,
         borderWidth: 1,
         marginRight: 40,
         borderRadius: 50,
@@ -314,18 +316,29 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     postButtonContainer: {
+        flex: 1.5,
     },
     settingButtonContainer: {
-        marginLeft: 15
+        flex: 1
     },
     requestButtonContainer: {
-        marginLeft: 25
+        flex: 1,
     },
     backgroundModal: {
-        backgroundColor: "#f8f8f8",
-        height: 260,
-        top: 180
+        backgroundColor: "#ffffff",
+       flex: 1
     },
+    input: {
+        flex: 1,
+        padding: 15,
+        margin: 20,
+        borderRadius: 20,
+        backgroundColor: "#f1f0f0"
+    },
+    keyboardContainer: {
+        flex: 1,
+        backgroundColor: "white",
+    }
 });
 
 export default GroupScreen;
