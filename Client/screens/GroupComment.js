@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image, SafeAreaView, KeyboardAvoidingView, Platform} from "react-native";
 import GroupPage from "../components/GroupPage";
 import Comment from "../components/Comment";
 import {Feather} from "@expo/vector-icons";
 import UsersComment from "../components/UsersComment";
-import {getCommentsByPost} from "../services/GroupService";
+import {getCommentsByPost, postACommentToPost} from "../services/GroupService";
 import {useSelector} from "react-redux";
 import auth from "../reducers/auth";
 import text from "react-native-web/dist/exports/Text";
@@ -15,7 +15,7 @@ import text from "react-native-web/dist/exports/Text";
 export default function GroupComment({route}){
     const {post} = route.params
     const [comments, setComments] = useState([])
-
+    const [comment, setComment] = useState("")
     const {userId} = useSelector(state => state.auth)
 
     useEffect(() => {
@@ -28,6 +28,24 @@ export default function GroupComment({route}){
             })
 
     }, [])
+
+    function sendComment() {
+        postACommentToPost(post.id, comment, userId)
+            .then(() => {
+                getCommentsByPost(post.id)
+                    .then( (res) => {
+                        setComments(res.data)
+                    })
+                    .catch((err) => {
+                        console.log("Error in GroupComment: " + err)
+                    })
+            })
+            .catch((err) => {
+                console.log("Error posting comment to post", err)
+            })
+        setComment("")
+    }
+
 
     return(
         <KeyboardAvoidingView style={styles.container}
@@ -65,7 +83,7 @@ export default function GroupComment({route}){
             <View style={styles.line}/>
             <View style={styles.commentInput}>
                 <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
-                <TouchableOpacity style={styles.sendIcon}>
+                <TouchableOpacity style={styles.sendIcon} onPress={sendComment}>
                     <Feather name={"send"} size={25} color={"black"} />
                 </TouchableOpacity>
             </View>
