@@ -16,6 +16,7 @@ import SimpleButton from "../components/SimpleButton";
 import headerImage from "../assets/images/student.jpg";
 import {Feather} from "@expo/vector-icons";
 import {addPostToGroup, getAllPostsByGroup} from "../services/GroupService";
+import {useSelector} from "react-redux";
 
 const postPreviews = [
     {
@@ -95,6 +96,7 @@ function GroupScreen({navigation, route}) {
     const [postMessage, setPostMessage] = useState("")
     const [postTitle, setPostTitle] = useState("")
     const {group} = route.params
+    const {userId} = useSelector(state => state.auth)
     const [posts, setPosts] = useState([])
 
     const postMessageRef = useRef();
@@ -111,7 +113,7 @@ function GroupScreen({navigation, route}) {
 
     function handlePostMessageClick(){
         setIsModalPostVisible(false)
-        addPostToGroup(group.id, postTitle, postMessage)
+        addPostToGroup(group.id, postTitle, postMessage, userId)
             .then(() => {
                 getAllPostsByGroup(group.id).then((res) => {
                     setPosts(res.data)

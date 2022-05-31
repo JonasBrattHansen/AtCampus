@@ -45,10 +45,12 @@ export function postACommentToPost(postId, body, userId){
 	});
 }
 
-export function addPostToGroup(id, title, body){
-	return instance.post(`post/${id}/post`,{
+export function addPostToGroup(groupId, title, body, userId){
+	return instance.post(`group/${groupId}/post`,{
 		title,
-		body
+		body,
+		group: groupId,
+		user: userId
 	})
 }
 
