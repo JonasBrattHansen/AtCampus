@@ -39,12 +39,11 @@ class GroupService(
     // No Error handling
     //TODO: Need to add more checking, with the UserRequestRepo
     fun addUserToGroup(userId: Long, groupId: Long): GroupEntity{
-        val user = userRepo.findById(userId)
-        val group = groupRepo.findById(groupId)
+        val user = userRepo.findByIdOrNull(userId)
+        val group = groupRepo.findByIdOrNull(groupId)
 
-       userGroupRepo.save(UserGroupEntity(userEntity = user.get(), groupEntity = group.get()))
-
-        return group.get()
+        userGroupRepo.save(UserGroupEntity(userEntity = user!!, groupEntity = group!!))
+        return group!!
     }
 
     fun getGroupsByUserId(id: Long): MutableList<GroupEntity>{

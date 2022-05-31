@@ -51,6 +51,7 @@ export default function GroupRequests({navigation, route}){
             })
     }, [])
 
+    //it has changed
     return (
         <View style={{flex: 1}}>
             <FlatList
