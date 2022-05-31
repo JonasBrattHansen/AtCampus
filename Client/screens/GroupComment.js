@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Image, SafeAreaView, KeyboardAvoidingView, Platform} from "react-native";
 import GroupPage from "../components/GroupPage";
 import Comment from "../components/Comment";

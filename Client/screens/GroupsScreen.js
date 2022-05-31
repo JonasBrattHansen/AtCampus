@@ -21,7 +21,7 @@ import {getAllUserGroups} from "../services/GroupService";
 import {getUserIdByEmail} from "../services/UserService";
 import {useSelector} from "react-redux";
 
-function Groups({groups, openSheet}) {
+function Groups({groups, navigation, openSheet}) {
 	return (
 		<View style={styles.groups}>
 			<ViewMore text={"Favorites"} style={{padding: 20}}/>
@@ -40,6 +40,9 @@ function Groups({groups, openSheet}) {
 						key={item.id}
 						image={item.image}
 						name={item.name}
+						onPress={() => navigation.navigate("Group", {
+							group: item
+						})}
 					/>
 				}
 			/>
@@ -138,6 +141,7 @@ function GroupsScreen({route, navigation}) {
 				ListHeaderComponent={<Groups
 					groups={groups}
 					openSheet={openSheet}
+					navigation={navigation}
 				/>}
 				ItemSeparatorComponent={Separator}
 				renderItem={({item}) =>

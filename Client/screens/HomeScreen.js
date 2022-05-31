@@ -46,6 +46,13 @@ function Groups({groups, navigation}) {
 						key={item.id}
 						image={item.image}
 						name={item.name}
+						onPress={() => navigation.navigate("Groups", {
+							screen: "Group",
+							initial: false,
+							params: {
+								group: item,
+							}
+						})}
 					/>
 				}
 			/>
@@ -59,29 +66,24 @@ function HomeScreen({navigation}) {
 	const [groups, setGroups] = useState([]);
 	const [posts, setPosts] = useState([]);
 
-	const { username } = useSelector(state => state.auth);
+	const { userId } = useSelector(state => state.auth);
 	
 	useEffect( () => {
-		getUserIdByEmail(username)
-			.then(userId => {
-				getAllUserGroups(userId)
-					.then(response => {
-						const groups = response?.data;
-						setGroups(groups)
-						getAllPostsByUser(userId)
-							.then((postsResponse) => {
-								setPosts(postsResponse.data)
-							})
-							.catch((err) => {
-								console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
-							})
-					})
-					.catch((err) => {
-						console.log("Failed to get all groups", err)
-					})
+		getAllUserGroups(userId)
+			.then(response => {
+				const groups = response?.data;
+				setGroups(groups)
 			})
-			.catch(err => {
-				console.log("Failed to get userId", err);
+			.catch((err) => {
+				console.log("Failed to get all groups", err)
+			})
+
+		getAllPostsByUser(userId)
+			.then((postsResponse) => {
+				setPosts(postsResponse.data)
+			})
+			.catch((err) => {
+				console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
 			})
 	}, []);
 	
@@ -116,6 +118,13 @@ function HomeScreen({navigation}) {
 						title={item.title}
 						preview={item.body}
 						date={item.date}
+						onPress={() => navigation.navigate("Groups", {
+							screen: "Group Comment",
+							initial: false,
+							params: {
+								post: item,
+							}
+						})}
 					/>
 				}
 			/>
