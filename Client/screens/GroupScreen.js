@@ -11,9 +11,7 @@ import {
 
 import PostPreview from "../components/PostPreview";
 import GroupPage from "../components/GroupPage";
-import { ImageHeaderScrollView, TriggeringView } from 'react-native-image-header-scroll-view';
 import SimpleButton from "../components/SimpleButton";
-import headerImage from "../assets/images/student.jpg";
 import {Feather} from "@expo/vector-icons";
 import {addPostToGroup, getAllPostsByGroup} from "../services/GroupService";
 import {useSelector} from "react-redux";
@@ -140,7 +138,7 @@ function GroupScreen({navigation, route}) {
                 <StatusBar style="auto" />
             </ImageBackground>
 
-            <View style={{ flex: 0.27, padding: 10 }}>
+            <View style={{ flex: 0.27, padding: 10, marginBottom: 15 }}>
                 <Text style={styles.groupName}>
                     {group.name}
                 </Text>

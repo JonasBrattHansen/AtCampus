@@ -14,8 +14,8 @@ function PostPreview({image, title, preview, date, onPress, style}) {
 			/>
 			
 			<View style={styles.info}>
-				<Text style={styles.title}>{title}</Text>
-				<Text style={styles.preview}>{preview}</Text>
+				<Text numberOfLines={1} style={styles.title}>{title}</Text>
+				<Text numberOfLines={3} style={styles.preview}>{preview}</Text>
 			</View>
 			
 			<Text style={styles.date}>{date}</Text>
@@ -39,15 +39,14 @@ const styles = StyleSheet.create({
 		marginRight: 10,
 	},
 	info: {
-		display: "flex",
-		marginRight: "auto",
+		flex: 1,
 	},
 	title: {
 		fontSize: 15,
 		fontWeight: "bold",
 	},
 	preview: {
-	
+		flex: 1,
 	}
 });
 
