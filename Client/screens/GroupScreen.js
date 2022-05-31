@@ -118,7 +118,7 @@ function GroupScreen({navigation, route}) {
 
     return (
         <View style={{ flex: 1 }}>
-            <ImageBackground source={headerImage} style={styles.ImageBackground}>
+            <ImageBackground source={{uri: group.image}} style={styles.ImageBackground}>
                 <StatusBar style="auto" />
             </ImageBackground>
 
@@ -126,9 +126,11 @@ function GroupScreen({navigation, route}) {
                 <Text style={styles.groupName}>
                     {group.name}
                 </Text>
+
                 <Text style={styles.description}>
                     {group.description}
                 </Text>
+
                 <Text style={styles.memberCount}>
                     {/*TODO: Add functionality to get member count in services. */}
                     Members: {GroupPage.memberCount}
@@ -138,6 +140,7 @@ function GroupScreen({navigation, route}) {
                 <Text style={styles.subtitle}>
                     Recent Activity
                 </Text>
+
                 <FlatList
                     contentContainerStyle={styles.postPreviews}
                     data={posts}
@@ -169,9 +172,11 @@ function GroupScreen({navigation, route}) {
                         <Feather style={{alignSelf: "center"}} name={"settings"} color={"black"} size={22} />
                     </TouchableOpacity>
                 </View>
+
                 <View style={styles.postButtonContainer}>
                     <SimpleButton onPress={() => setIsModalPostVisible(true)} text={"Post"}></SimpleButton>
                 </View>
+
                 <View style={styles.requestButtonContainer}>
                     <TouchableOpacity
                         style={ styles.containerButtonAddUser}

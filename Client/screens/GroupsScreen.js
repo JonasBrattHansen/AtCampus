@@ -67,7 +67,7 @@ function GroupsScreen({route, navigation}) {
 	const bottomSheetRef = useRef(null);
 
 	// variables
-	const snapPoints = useMemo(() => [Platform.OS === "ios" ? "35%" : "40%"], []);
+	const snapPoints = useMemo(() => [Platform.OS === "ios" ? "45%" : "55%"], []);
 
 	// callbacks
 	const handleSheetChanges = useCallback((index) => {
