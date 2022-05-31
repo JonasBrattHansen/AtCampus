@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUser, updateUser} from "../services/UserService";
 import Toast from "react-native-toast-message";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import upload from "../services/ImageService";
 
 function ProfileScreenInput({title, editable, value, returnKeyType, onSubmitEditing, keyboardType, blurOnSubmit, innerRef, onChangeText}) {
 	return (
@@ -62,8 +63,6 @@ function ProfileScreen({navigation}) {
 	const dispatch = useDispatch();
 	
 	const { userId } = useSelector(state => state.auth);
-	
-	console.log("userId", userId);
 
 	const [image, setImage] = useState(null);
 	const [firstName, setFirstName] = useState("");
@@ -115,12 +114,13 @@ function ProfileScreen({navigation}) {
 			allowsEditing: true,
 			aspect: [1, 1],
 			quality: 1,
+			base64: true,
 		});
 		
-		console.log(result);
-		
 		if (!result.cancelled) {
-			setImage(result.uri);
+			const url = await upload(result.base64);
+
+			setImage(url);
 		}
 	}
 	

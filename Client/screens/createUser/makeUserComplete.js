@@ -6,6 +6,7 @@ import ShowUserInfo from "../../components/ShowUserInfo";
 import * as ImagePicker from "expo-image-picker";
 import {register} from "../../actions/auth";
 import {useDispatch} from "react-redux";
+import upload from "../../services/ImageService";
 
 export default function MakeUserComplete({navigation}) {
 	const dispatch = useDispatch();
@@ -28,13 +29,13 @@ export default function MakeUserComplete({navigation}) {
 			allowsEditing: true,
 			aspect: [1, 1],
 			quality: 1,
+			base64: true,
 		});
 		
-		if (result.uri)
-			setImage(result.uri)
-		
 		if (!result.cancelled) {
-			setImage(result.uri);
+			const url = await upload(result.base64);
+
+			setImage(url);
 		}
 	}
 	
