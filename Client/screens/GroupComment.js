@@ -57,26 +57,31 @@ export default function GroupComment({route}){
                     <Text style={styles.name}>{post.userEntity.firstName} {post.userEntity.lastName}</Text>
                     <Text style={styles.groupName}>{GroupPage.name}</Text>
                 </View>
+
                 <Text style={styles.date}>5.mar.2020</Text>
             </View>
+
             <View style={styles.containerPost}>
                 <Text style={styles.post}>{post.body}</Text>
             </View>
+
             <View style={styles.containerChat} >
                 <ScrollView>
-                    {console.log(comments)}
                     {comments.map(comment => {
                         const text = comment.body
                         const image = comment.userEntity.userProfileImage
-                        if(+comment.userEntity.id === +userId){
-                            return <UsersComment text={text} image={image}/>
-                        }else{
-                            return <Comment text={text} image={image}/>
+
+                        if (+comment.userEntity.id === +userId) {
+                            return <UsersComment key={comment.id} text={text} image={image}/>
+                        } else {
+                            return <Comment key={comment.id} text={text} image={image}/>
                         }
                     })}
                 </ScrollView>
             </View>
+
             <View style={styles.line}/>
+
             <View style={styles.commentInput}>
                 <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
                 <TouchableOpacity style={styles.sendIcon} onPress={sendComment}>

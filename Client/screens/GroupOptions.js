@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
     FlatList,
     Image,
@@ -12,6 +12,8 @@ import ContentSeparator from "../components/ContentSeparator";
 import MemberCard from "../components/MemberCard";
 import GroupDetails from "../components/GroupDetails";
 import * as ImagePicker from "expo-image-picker";
+import {getUsersFromGroup} from "../services/GroupService";
+import GroupPage from "../components/GroupPage";
 
 const memberListData = [
     {
@@ -45,10 +47,21 @@ function MemberSeparator(){
     return <View style={{height: 10}}/>
 }
 
-export default function GroupOptions({navigation}) {
+export default function GroupOptions({navigation, route}) {
 
     const [image, setImage] = useState(null);
     const [memberList, setMemberList] = useState(memberListData)
+    const {group} = route.params
+    const [users, setUsers] = useState([])
+
+
+    useEffect(() => {
+        getUsersFromGroup(group.id).then((res) =>{
+            setUsers(res.data)
+        }).catch((err) =>{
+            console.log(err.toString())
+        })
+    }, [])
 
     async function onChangeProfilePicture() {
         // No permissions request is necessary for launching the image library
@@ -74,7 +87,7 @@ export default function GroupOptions({navigation}) {
         return (
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <Image style={styles.groupImage} source={{uri: image ?? "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"}}/>
+                    <Image style={styles.groupImage} source={{uri: group.image ?? "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"}}/>
                     <TouchableOpacity
                         style={styles.buttonContainer}
                         onPress={onChangeProfilePicture}
@@ -84,16 +97,16 @@ export default function GroupOptions({navigation}) {
                 </View>
                 <View style={styles.contentContainer}>
                     <View style={{ flex: 2, backgroundColor: "white", marginBottom: 10 }}>
-                        <GroupDetails leftText={"Group Name"} rightText={"Math Study Group"}/>
-                        <GroupDetails leftText={"Left"} rightText={"Right"}/>
+                        <GroupDetails leftText={"Group Name"} rightText={group.name}/>
+                        <GroupDetails leftText={"Group Description"} rightText={group.description}/>
                         <GroupDetails leftText={"Left"} rightText={"Right"}/>
                         {ContentSeparator(1)}
                     </View>
-                    <Text>Members:</Text>
+                    <Text>Members: {GroupPage.memberCount}</Text>
                     <View style={{ flex: 4, backgroundColor: "white" }}>
                         <FlatList
                             contentContainerStyle={styles.memberList}
-                            data={memberList}
+                            data={users}
                             ItemSeparatorComponent={MemberSeparator}
                             stickyFooterIndices={[0]}
                             renderItem={({item}) =>
@@ -104,8 +117,8 @@ export default function GroupOptions({navigation}) {
                                     }}
                                     key={item.id}
                                     memberId={item.id}
-                                    image={item.profileImage}
-                                    username={item.text}
+                                    image={item.userProfileImage}
+                                    username={item.email}
                                     datejoined={item.date}
                                     handleDelete={handleDeleteMemberClick}
                                 />
