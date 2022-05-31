@@ -139,7 +139,7 @@ class GroupEntityServiceUnitTest {
         val groupDetails = GroupDetails(
             "AKohort 9000", "test", "test", 1, 1
         )
-        
+
         every {
             groupRepo.save(any())
         } answers {

@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import no.atcampus.server.GenerateTestData
 import no.atcampus.server.entities.RoleEntity
+import no.atcampus.server.entities.UserEntity
 import no.atcampus.server.repo.*
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
@@ -143,6 +144,10 @@ class UserEntityServiceUnitTest {
         every { passwordEncoder.encode(any()) } answers { "encodedpassword" }
 
         every {roleRepo.getRoleEntityByName(any()) } answers { RoleEntity(1, "USER") }
+
+        every { userRepo.findUserEntityByEmail(any()) } answers {
+            null
+        }
 
         val newUser = userService.registerUser(userDetail)
         assert(newUser.firstName == "test")

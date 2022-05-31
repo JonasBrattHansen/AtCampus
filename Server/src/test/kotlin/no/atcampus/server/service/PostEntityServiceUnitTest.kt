@@ -45,6 +45,11 @@ class PostEntityServiceUnitTest {
         } answers {
             mutableListOf(testData.postEntity)
         }
+        every {
+            postRepo.findTop20PostEntityByGroupEntity(any())
+        }answers {
+            mutableListOf(testData.postEntity)
+        }
 
         val post = postService.findPostsByGroup(1)
         assert(post[0].body.startsWith("DRITKULE!!!!!!"))
