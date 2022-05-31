@@ -15,7 +15,8 @@ import { ImageHeaderScrollView, TriggeringView } from 'react-native-image-header
 import SimpleButton from "../components/SimpleButton";
 import headerImage from "../assets/images/student.jpg";
 import {Feather} from "@expo/vector-icons";
-import {getAllPostsByGroup} from "../services/GroupService";
+import {addPostToGroup, getAllPostsByGroup} from "../services/GroupService";
+import {useSelector} from "react-redux";
 
 const postPreviews = [
     {
@@ -93,8 +94,13 @@ function GroupScreen({navigation, route}) {
 
     const [isModalPostVisible, setIsModalPostVisible] = useState(false)
     const [postMessage, setPostMessage] = useState("")
+    const [postTitle, setPostTitle] = useState("")
     const {group} = route.params
+    const {userId} = useSelector(state => state.auth)
     const [posts, setPosts] = useState([])
+
+    const postMessageRef = useRef();
+    const postTitleRef = useRef();
 
     useEffect(() => {
         getAllPostsByGroup(group.id).then((res) => {
@@ -107,8 +113,20 @@ function GroupScreen({navigation, route}) {
 
     function handlePostMessageClick(){
         setIsModalPostVisible(false)
-        //HERE YOU CAN SEND THE POST postMessage TO THE SERVER
+        addPostToGroup(group.id, postTitle, postMessage, userId)
+            .then(() => {
+                getAllPostsByGroup(group.id).then((res) => {
+                    setPosts(res.data)
+                }).catch((err) => {
+                    console.log(err.toString())
+                })
+            })
+            .catch((err) => {
+                console.log("Error adding a post to group", err)
+            })
+
         setPostMessage("")
+        setPostTitle("")
     }
 
     function handleCancelPostMessage(){
@@ -196,7 +214,7 @@ function GroupScreen({navigation, route}) {
                     avoidKeyboard={true}
                 >
                     <TouchableOpacity
-                        style={{flex:1, backgroundColor: "gray", opacity: 0.5,}}
+                        style={{flex:0.5, backgroundColor: "gray", opacity: 0.5,}}
                         onPress={handleCancelPostMessage}
                     />
 
@@ -205,6 +223,18 @@ function GroupScreen({navigation, route}) {
                         behavior={Platform.OS === "ios" ? "padding" : null}
                     >
                         <TextInput
+                            ref={postTitleRef}
+                            title={"Post title"}
+                            style={styles.titleInput}
+                            multiline={true}
+                            numberOfLines={2}
+                            value={postTitle}
+                            onChangeText={val => setPostTitle(val)}
+                            placeholder={"Title"}
+                        />
+
+                        <TextInput
+                            ref={postMessageRef}
                             style={styles.input}
                             multiline={true}
                             numberOfLines={5}
@@ -334,7 +364,14 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         padding: 15,
-        margin: 20,
+        margin: 10,
+        borderRadius: 20,
+        backgroundColor: "#f1f0f0"
+    },
+    titleInput: {
+        flex: 0.2,
+        padding: 15,
+        margin: 10,
         borderRadius: 20,
         backgroundColor: "#f1f0f0"
     },
