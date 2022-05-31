@@ -97,7 +97,6 @@ function HomeScreen({navigation}) {
 			.catch((err) => {
 				console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
 			})
-	}, []);
 		navigation.addListener('focus', () => {
 			getCurrentDate()
 				.then((res) => {
