@@ -6,7 +6,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import GroupPreview from "../components/GroupPreview";
 import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
-import {getAllGroups, getAllPostsByGroup, getAllUserGroups} from "../services/GroupService";
+import {getAllGroups, getAllPostsByGroup, getAllPostsByUser, getAllUserGroups} from "../services/GroupService";
 import {useSelector} from "react-redux";
 import {getUserIdByEmail} from "../services/UserService";
 
@@ -67,8 +67,14 @@ function HomeScreen({navigation}) {
 				getAllUserGroups(userId)
 					.then(response => {
 						const groups = response?.data;
-						
 						setGroups(groups)
+						getAllPostsByUser(userId)
+							.then((postsResponse) => {
+								setPosts(postsResponse.data)
+							})
+							.catch((err) => {
+								console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
+							})
 					})
 					.catch((err) => {
 						console.log("Failed to get all groups", err)
