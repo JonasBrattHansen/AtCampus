@@ -21,65 +21,6 @@ import {getAllUserGroups} from "../services/GroupService";
 import {getUserIdByEmail} from "../services/UserService";
 import {useSelector} from "react-redux";
 
-const postPreviews = [
-	{
-		id: 1,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	},
-	{
-		id: 2,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	},
-	{
-		id: 3,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	},
-	{
-		id: 4,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		title: "Math Study Group",
-		preview: "My lovely post",
-		date: "4 March",
-	}
-];
-
-const groupPreviews = [
-	{
-		id: 1,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 2,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 3,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 4,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	},
-	{
-		id: 5,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-	}
-]
-
 function Groups({groups, openSheet}) {
 	return (
 		<View style={styles.groups}>

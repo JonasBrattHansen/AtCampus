@@ -123,7 +123,7 @@ class GroupService(
     fun addUserFromGroupRequest(groupRequestId: Long){
         val groupRequest = groupRequestRepo.findByIdOrNull(groupRequestId)
         groupRequest?.let {
-            addUserToGroup(groupRequest.userEntity.id!!, groupRequest.userEntity.id!!)
+            addUserToGroup(groupRequest.userEntity.id!!, groupRequest.groupEntity.id!!)
             groupRequestRepo.deleteById(groupRequestId)
             return
         }

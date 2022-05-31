@@ -10,10 +10,10 @@ class GroupRequestEntity (
     @SequenceGenerator(name = "group_request_group_request_id_seq", sequenceName = "group_request_group_request_id_seq", allocationSize = 1)
     @Column(name = "group_request_id")
     val id: Long? = null,
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     val userEntity: UserEntity,
-    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     val groupEntity: GroupEntity
 )
