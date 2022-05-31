@@ -14,6 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {Ionicons} from "@expo/vector-icons";
 import {createGroup} from "../services/GroupService";
 import Toast from "react-native-toast-message";
+import upload from "../services/ImageService";
 
 function Separator() {
 	return <View style={styles.separator}/>
@@ -33,15 +34,16 @@ function CreateGroupScreen(props) {
 		// No permissions request is necessary for launching the image library
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			base64: true,
 			allowsEditing: true,
 			aspect: [1, 1],
 			quality: 1,
 		});
 		
-		console.log(result);
-		
 		if (!result.cancelled) {
-			setImage(result.uri);
+			const url = await upload(result.base64)
+
+			setImage(url)
 		}
 	};
 	
