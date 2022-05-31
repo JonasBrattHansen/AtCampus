@@ -20,7 +20,7 @@ class PostService(
     fun findPostsByGroup(groupId: Long): MutableList<PostEntity>{
         val group = groupRepo.findByIdOrNull(groupId)
         group?.let {
-            return postRepo.findPostEntityByGroupEntity(it)
+            return postRepo.findTop20PostEntityByGroupEntity(it)
         }
         throw EntityNotFoundException("Could not find the group with id $groupId")
     }
