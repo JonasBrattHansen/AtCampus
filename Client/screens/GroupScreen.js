@@ -15,7 +15,7 @@ import { ImageHeaderScrollView, TriggeringView } from 'react-native-image-header
 import SimpleButton from "../components/SimpleButton";
 import headerImage from "../assets/images/student.jpg";
 import {Feather} from "@expo/vector-icons";
-import {getAllPostsByGroup} from "../services/GroupService";
+import {addPostToGroup, getAllPostsByGroup} from "../services/GroupService";
 
 const postPreviews = [
     {
@@ -97,6 +97,9 @@ function GroupScreen({navigation, route}) {
     const {group} = route.params
     const [posts, setPosts] = useState([])
 
+    const postMessageRef = useRef();
+    const postTitleRef = useRef();
+
     useEffect(() => {
         getAllPostsByGroup(group.id).then((res) => {
             setPosts(res.data)
@@ -108,8 +111,20 @@ function GroupScreen({navigation, route}) {
 
     function handlePostMessageClick(){
         setIsModalPostVisible(false)
-        //HERE YOU CAN SEND THE POST postMessage TO THE SERVER
+        addPostToGroup(group.id, postTitle, postMessage)
+            .then(() => {
+                getAllPostsByGroup(group.id).then((res) => {
+                    setPosts(res.data)
+                }).catch((err) => {
+                    console.log(err.toString())
+                })
+            })
+            .catch((err) => {
+                console.log("Error adding a post to group", err)
+            })
+
         setPostMessage("")
+        setPostTitle("")
     }
 
     function handleCancelPostMessage(){
@@ -192,7 +207,7 @@ function GroupScreen({navigation, route}) {
                     avoidKeyboard={true}
                 >
                     <TouchableOpacity
-                        style={{flex:1, backgroundColor: "gray", opacity: 0.5,}}
+                        style={{flex:0.5, backgroundColor: "gray", opacity: 0.5,}}
                         onPress={handleCancelPostMessage}
                     />
 
@@ -212,6 +227,7 @@ function GroupScreen({navigation, route}) {
                         />
 
                         <TextInput
+                            ref={postMessageRef}
                             style={styles.input}
                             multiline={true}
                             numberOfLines={5}
@@ -341,15 +357,14 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         padding: 15,
-        margin: 20,
+        margin: 10,
         borderRadius: 20,
         backgroundColor: "#f1f0f0"
     },
     titleInput: {
-        flex: 2,
+        flex: 0.2,
         padding: 15,
-        marginBottom: 10,
-        margin: 15,
+        margin: 10,
         borderRadius: 20,
         backgroundColor: "#f1f0f0"
     },
