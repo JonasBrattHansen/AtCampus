@@ -31,6 +31,10 @@ export function getCommentsByPost(postId){
 	return instance.get(`post/${postId}/comment`)
 }
 
+export function getAllPostsByUser(userId){
+	return instance.get(`user/${userId}/post`)
+}
+
 export function requestToJoinGroup(userId, groupId){
 	return instance.post(`group/request/${userId}/${groupId}`)
 }

@@ -108,8 +108,6 @@ function GroupScreen({navigation, route}) {
     function handlePostMessageClick(){
         setIsModalPostVisible(false)
         //HERE YOU CAN SEND THE POST postMessage TO THE SERVER
-
-
         setPostMessage("")
     }
 
