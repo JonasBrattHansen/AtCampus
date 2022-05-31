@@ -9,6 +9,7 @@ import CreateGroup from "../components/CreateGroup";
 import {getAllGroups, getAllPostsByGroup, getAllPostsByUser, getAllUserGroups} from "../services/GroupService";
 import {useSelector} from "react-redux";
 import {getUserIdByEmail} from "../services/UserService";
+import {useFocusEffect} from "@react-navigation/native";
 
 function Separator() {
 	return <View style={styles.separator}/>
@@ -17,6 +18,8 @@ function Separator() {
 function VerticalSeparator() {
 	return <View style={styles.verticalSeparator}/>
 }
+
+
 
 function Groups({groups, navigation}) {
 	return (
@@ -58,40 +61,57 @@ function Groups({groups, navigation}) {
 function HomeScreen({navigation}) {
 	const [groups, setGroups] = useState([]);
 	const [posts, setPosts] = useState([]);
+	const [date, setDate] = useState(null)
 
 	const { username } = useSelector(state => state.auth);
+
+	const getCurrentDate=async()=>{
+
+		const formatter = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full' })
+		return time = formatter.format(new Date())
+		//date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+	}
 	
 	useEffect( () => {
-		getUserIdByEmail(username)
-			.then(userId => {
-				getAllUserGroups(userId)
-					.then(response => {
-						const groups = response?.data;
-						setGroups(groups)
-						getAllPostsByUser(userId)
-							.then((postsResponse) => {
-								setPosts(postsResponse.data)
-							})
-							.catch((err) => {
-								console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
-							})
-					})
-					.catch((err) => {
-						console.log("Failed to get all groups", err)
-					})
-			})
-			.catch(err => {
-				console.log("Failed to get userId", err);
-			})
-	}, []);
+		navigation.addListener('focus', () => {
+			getCurrentDate()
+				.then((res) => {
+					setDate(res)
+				})
+				.catch((err) => {
+					console.log("Error in getCurrentDate")
+				})
+			getUserIdByEmail(username)
+				.then(userId => {
+					getAllUserGroups(userId)
+						.then(response => {
+							const groups = response?.data;
+							setGroups(groups)
+							getAllPostsByUser(userId)
+								.then((postsResponse) => {
+									setPosts(postsResponse.data)
+								})
+								.catch((err) => {
+									console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
+								})
+						})
+						.catch((err) => {
+							console.log("Failed to get all groups", err)
+						})
+				})
+				.catch(err => {
+					console.log("Failed to get userId", err);
+				})
+		})
+	}, [navigation]);
 	
-	
+
 	return (
 		<SafeAreaView edges={["top", "left", "right"]} style={styles.container}>
 			<View style={styles.welcome}>
 				<Welcome
 					title={"Good Morning"}
-					date={"Monday, January 25, 2021"}
+					date={date}
 					week={"Week 4"}
 					temperature={"25"}
 				/>

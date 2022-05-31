@@ -94,25 +94,29 @@ function GroupsScreen({route, navigation}) {
 			"hardwareBackPress",
 			backAction,
 		);
-		
-		getUserIdByEmail(username)
-			.then(userId => {
-				getAllUserGroups(userId)
-					.then(response => {
-						const groups = response?.data;
-
-						setGroups(groups)
-					})
-					.catch((err) => {
-						console.log("Failed to get all groups", err)
-					})
-			})
-			.catch(err => {
-				console.log("Failed to get userId", err);
-			})
 
 		return () => backHandler.remove();
 	}, []);
+
+	useEffect(() => {
+		navigation.addListener('focus', () => {
+			getUserIdByEmail(username)
+				.then(userId => {
+					getAllUserGroups(userId)
+						.then(response => {
+							const groups = response?.data;
+
+							setGroups(groups)
+						})
+						.catch((err) => {
+							console.log("Failed to get all groups", err)
+						})
+				})
+				.catch(err => {
+					console.log("Failed to get userId", err);
+				})
+		})
+	}, [navigation])
 
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
