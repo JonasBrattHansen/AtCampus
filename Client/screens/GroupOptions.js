@@ -43,7 +43,7 @@ const memberListData = [
 ]
 
 
-function MemberSeparator(){
+function MemberSeparator() {
     return <View style={{height: 10}}/>
 }
 

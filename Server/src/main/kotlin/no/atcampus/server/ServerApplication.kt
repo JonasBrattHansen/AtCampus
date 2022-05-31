@@ -2,7 +2,9 @@ package no.atcampus.server
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -13,6 +15,11 @@ class ServerApplication{
         override fun addCorsMappings(registry: CorsRegistry) {
             registry.addMapping("/**").allowedMethods("*")
         }
+    }
+
+    @Bean
+    fun passwordEncoder(): BCryptPasswordEncoder {
+        return BCryptPasswordEncoder()
     }
 }
 
