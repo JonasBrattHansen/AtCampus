@@ -19,8 +19,6 @@ function VerticalSeparator() {
 	return <View style={styles.verticalSeparator}/>
 }
 
-
-
 function Groups({groups, navigation}) {
 	return (
 		<View style={styles.groups}>

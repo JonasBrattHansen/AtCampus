@@ -15,6 +15,7 @@ export default function GroupComment({navigation, route}){
     const [comment, setComment] = useState("")
     const {userId} = useSelector(state => state.auth)
     const [date, setDate] = useState(null);
+    const myTextInput = React.createRef()
 
     useEffect(() => {
         console.log("done")
@@ -51,7 +52,7 @@ export default function GroupComment({navigation, route}){
                 console.log("Error posting comment to post", err)
             })
         setComment("")
-        this.textInput.clear();
+        myTextInput.current.clear();
     }
 
 
@@ -95,7 +96,7 @@ export default function GroupComment({navigation, route}){
             <View style={styles.line}/>
 
             <View style={styles.commentInput}>
-                <TextInput ref={input => { this.textInput = input }} style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
+                <TextInput ref={myTextInput} style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
                 <TouchableOpacity style={styles.sendIcon} onPress={sendComment}>
                     <Feather name={"send"} size={25} color={"black"} />
                 </TouchableOpacity>
