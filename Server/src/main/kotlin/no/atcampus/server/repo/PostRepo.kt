@@ -10,6 +10,7 @@ interface PostRepo: JpaRepository<PostEntity, Long>{
 
     //TODO: Rename to findPostEntitiesByGroupEntity . Might only return one entity no matter how many, depending on how spring boot works.
     fun findPostEntityByGroupEntity(groupEntity: GroupEntity): MutableList<PostEntity>
-    fun findTop20PostEntityByGroupEntity(groupEntity: GroupEntity): MutableList<PostEntity>
+    fun findFirst20ByOrderByDateCreatedDescPostEntityByGroupEntity(groupEntity: GroupEntity): MutableList<PostEntity>
+
 
 }
