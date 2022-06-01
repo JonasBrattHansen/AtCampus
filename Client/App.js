@@ -9,6 +9,9 @@ import Toast from 'react-native-toast-message';
 import {useEffect} from "react";
 import {check} from "./actions/auth";
 
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+
 function Juice() {
 	const {isLoggedIn} = useSelector(state => state.auth);
 	const dispatch = useDispatch();

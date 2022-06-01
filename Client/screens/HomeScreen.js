@@ -8,8 +8,9 @@ import ViewMore from "../components/ViewMore";
 import CreateGroup from "../components/CreateGroup";
 import {getAllGroups, getAllPostsByGroup, getAllPostsByUser, getAllUserGroups} from "../services/GroupService";
 import {useSelector} from "react-redux";
-import {getUserIdByEmail} from "../services/UserService";
-import {useFocusEffect} from "@react-navigation/native";
+
+import 'intl';
+import 'intl/locale-data/jsonp/en';
 
 function Separator() {
 	return <View style={styles.separator}/>
