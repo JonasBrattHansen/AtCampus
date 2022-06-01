@@ -36,10 +36,14 @@ export default function MakeUserPassword({navigation}) {
 	}
 	
 	function onPress() {
-		if (password.length > 4) {
-			navigation.navigate("makeUserComplete")
-		} else {
-			alert("Password must contain at least 5 characters")
+		if (password === passwordAgain ){
+			if(password.length > 8 && password.match(/[0-9]/)){
+				navigation.navigate("makeUserComplete")
+			}else{
+				alert("It needs to contain minimum 8 letters and a number")
+			}
+		}else{
+			alert(`Password and confirm password dose not match.`)
 		}
 	}
 	
@@ -56,6 +60,7 @@ export default function MakeUserPassword({navigation}) {
 							secureTextEntry={securePassword}
 							placeholder={"Password"}
 							onChangeText={(value) => setPassword(value)}
+							autoCapitalize="none"
 						/>
 						
 						<TouchableOpacity style={{width: 30}} onPress={visiblePassword}>
@@ -71,6 +76,7 @@ export default function MakeUserPassword({navigation}) {
 							secureTextEntry={securePasswordAgain}
 							placeholder={"Confirm password"}
 							onChangeText={(value) => setPasswordAgain(value)}
+							autoCapitalize="none"
 						/>
 						
 						<TouchableOpacity style={{width: 30}} onPress={visiblePasswordAgain}>

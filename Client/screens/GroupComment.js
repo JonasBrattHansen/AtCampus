@@ -62,7 +62,7 @@ export default function GroupComment({route}){
                        source={{uri: post.userEntity.userProfileImage}}
                 />
 
-                <View style={{alignItems:"flex-start"}}>
+                <View style={{alignItems:"flex-start", flex:1.5 }}>
                     <Text style={styles.name}>{post.userEntity.firstName} {post.userEntity.lastName}</Text>
                     <Text style={styles.groupName}>{post.title}</Text>
                 </View>
@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     date:{
-        paddingHorizontal: 50,
+        flex: 0.5,
+        width:"30%",
         color: "#9b9a9a"
     },
     post:{

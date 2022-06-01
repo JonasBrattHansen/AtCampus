@@ -32,6 +32,7 @@ export default function MakeUserInfo({navigation, getEmail, getPhoneNr}) {
 					value={email}
 					onChangeText={(val => setEmail(val))}
 					keyboardType={"default"}
+					autoCapitalize="none"
 				/>
 				
 				<LoginInput
