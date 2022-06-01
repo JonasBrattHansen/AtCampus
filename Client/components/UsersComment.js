@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
         fontSize: 13,
         padding: 12,
-        borderRadius: 70,
+        borderRadius: 40,
         backgroundColor: "#3139ee",
         alignSelf: "center",
 

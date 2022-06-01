@@ -19,8 +19,6 @@ function VerticalSeparator() {
 	return <View style={styles.verticalSeparator}/>
 }
 
-
-
 function Groups({groups, navigation}) {
 	return (
 		<View style={styles.groups}>
@@ -151,7 +149,7 @@ function HomeScreen({navigation}) {
 						date={item.date}
 						onPress={() => navigation.navigate("Groups", {
 							screen: "Group Comment",
-							initial: false,
+							initial: true,
 							params: {
 								post: item,
 							}

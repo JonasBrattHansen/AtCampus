@@ -6,16 +6,20 @@ import {Feather} from "@expo/vector-icons";
 import UsersComment from "../components/UsersComment";
 import {getCommentsByPost, postACommentToPost} from "../services/GroupService";
 import {useSelector} from "react-redux";
+import {addListener} from "expo-updates";
 
 
-export default function GroupComment({route}){
+export default function GroupComment({navigation, route}){
     const {post} = route.params
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState("")
     const {userId} = useSelector(state => state.auth)
     const [date, setDate] = useState(null);
+    const myTextInput = React.createRef()
 
     useEffect(() => {
+        console.log("done")
+
         getCommentsByPost(post.id)
             .then( (res) => {
                 setComments(res.data)
@@ -23,8 +27,7 @@ export default function GroupComment({route}){
             .catch((err) => {
                 console.log("Error in GroupComment: " + err)
             })
-
-    }, [])
+    }, [route])
 
 
     useEffect(() => {
@@ -49,6 +52,7 @@ export default function GroupComment({route}){
                 console.log("Error posting comment to post", err)
             })
         setComment("")
+        myTextInput.current.clear();
     }
 
 
@@ -62,7 +66,7 @@ export default function GroupComment({route}){
                        source={{uri: post.userEntity.userProfileImage}}
                 />
 
-                <View style={{alignItems:"flex-start"}}>
+                <View style={{alignItems:"flex-start", flex:1.5 }}>
                     <Text style={styles.name}>{post.userEntity.firstName} {post.userEntity.lastName}</Text>
                     <Text style={styles.groupName}>{post.title}</Text>
                 </View>
@@ -92,7 +96,7 @@ export default function GroupComment({route}){
             <View style={styles.line}/>
 
             <View style={styles.commentInput}>
-                <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Write a comment"} />
+                <TextInput  ref={myTextInput} style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Write a comment"} />
 
                 <TouchableOpacity style={styles.sendIcon} onPress={sendComment}>
                     <Feather name={"send"} size={25} color={"black"} />
@@ -162,7 +166,8 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     date:{
-        paddingHorizontal: 50,
+        flex: 0.5,
+        width:"30%",
         color: "#9b9a9a"
     },
     post:{
