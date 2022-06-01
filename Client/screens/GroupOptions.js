@@ -99,7 +99,6 @@ export default function GroupOptions({navigation, route}) {
                     <View style={{ flex: 2, backgroundColor: "white", marginBottom: 10 }}>
                         <GroupDetails leftText={"Group Name"} rightText={group.name}/>
                         <GroupDetails leftText={"Group Description"} rightText={group.description}/>
-                        <GroupDetails leftText={"Left"} rightText={"Right"}/>
                         {ContentSeparator(1)}
                     </View>
                     <Text>Members: {GroupPage.memberCount}</Text>
