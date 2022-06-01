@@ -46,9 +46,9 @@ class UserService(
     fun getUsersByGroup(groupId: Long): MutableList<UserEntity> {
         val group = groupRepo.findByIdOrNull(groupId)
         group?.let {
-            val users = userGroupRepo.findUserGroupEntitiesByGroupEntity(group)
-            return users.map { user ->
-                userRepo.getById(user.id!!)
+            val memberships = userGroupRepo.findUserGroupEntitiesByGroupEntity(group)
+            return memberships.map { membership ->
+                membership.userEntity
             }.toMutableList()
         }
         throw EntityNotFoundException("Could not find the group with group id $groupId")
@@ -108,6 +108,12 @@ class UserService(
     }
 
     fun registerUser(user: UserDetail): UserEntity{
+        val test = userRepo.findUserEntityByEmail(user.email!!)
+        if(test !== null){
+            throw Exception("Email already in use")
+        }
+
+
         val newUserEntity = UserEntity(
             firstName = user.firstName ?: throw Exception("UserDetails must include firstname"),
             lastName = user.lastName ?: throw Exception("UserDetails must include lastname"),

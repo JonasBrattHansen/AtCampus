@@ -1,50 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import CreateGroup from "../components/CreateGroup";
-import GroupPreview from "../components/GroupPreview";
-import PostPreview from "../components/PostPreview";
 import WideGroupPreview from "../components/WideGroupPreview";
 import {AntDesign} from "@expo/vector-icons";
 import {getAllGroups, requestToJoinGroup} from "../services/GroupService";
 import {useSelector} from "react-redux";
-
-const groupPreviews = [
-	{
-		id: 1,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-		description: "Some description about the group bla bla lba...",
-		members: 4,
-	},
-	{
-		id: 2,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-		description: "Some description about the group bla bla lba...",
-		members: 4,
-	},
-	{
-		id: 3,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-		description: "Some description abo",
-		members: 4,
-	},
-	{
-		id: 4,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-		description: "Some description about the group bla blablablablablablablablabla lba...",
-		members: 4,
-	},
-	{
-		id: 5,
-		image: "https://images.unsplash.com/photo-1567168539593-59673ababaae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-		name: "Math Study Group",
-		description: "Some description about the group bla bla lba...",
-		members: 4,
-	}
-]
+import Toast from "react-native-toast-message";
 
 function Separator() {
 	return <View style={styles.separator}/>
@@ -104,8 +64,7 @@ function FindGroupScreen(props) {
 						image={item.image}
 						onPress={() => {
 							onGroupPress(userId, item.id)
-						}
-						}
+						}}
 					/>
 				}
 			/>
@@ -116,9 +75,17 @@ function FindGroupScreen(props) {
 function onGroupPress(userId, groupId){
 	requestToJoinGroup(userId, groupId)
 		.then((res) => {
-			console.log("success")
+			Toast.show({
+				type: 'success',
+				text1: 'Sent request to join group',
+			});
 		})
 		.catch((err) => {
+			Toast.show({
+				type: 'error',
+				text1: 'Could not send request to join group',
+			});
+
 			console.log("Error in onGroupPress: " + err)
 		})
 }

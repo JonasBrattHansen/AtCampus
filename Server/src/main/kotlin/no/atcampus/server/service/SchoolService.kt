@@ -21,6 +21,14 @@ class SchoolService(
         throw EntityNotFoundException("Could not find a school with name $name")
     }
 
+    fun findAllSchool(): MutableList<SchoolEntity> {
+        val allSchool = schoolRepo.findAll()
+        allSchool?.let {
+            return allSchool
+        }
+       throw EntityNotFoundException ("Could not find all schools")
+    }
+
     fun findSchoolById(id: Long) : SchoolEntity {
         val school = schoolRepo.findByIdOrNull(id)
 

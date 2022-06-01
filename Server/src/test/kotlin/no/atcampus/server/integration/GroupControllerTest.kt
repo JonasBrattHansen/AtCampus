@@ -6,6 +6,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import io.mockk.InternalPlatformDsl.toStr
 import no.atcampus.server.security.filter.TokenResponse
 import org.json.JSONObject
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -17,7 +19,6 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
-import org.testcontainers.shaded.org.yaml.snakeyaml.tokens.Token
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -40,10 +41,12 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val groups = mockMvc.get("/api/group/all"){
-            cookie?.let { cookie(it) }
+            content = body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
@@ -64,10 +67,12 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val group = mockMvc.get("/api/group/1") {
-            cookie?.let { cookie(it) }
+            body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
@@ -89,18 +94,20 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val posts = mockMvc.get("/api/group/1/post"){
-            cookie?.let { cookie(it) }
+            body?.let { header("Authorization", "Bearer " + token) }
 
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andReturn()
 
-        assert(posts.response.contentAsString.contains("test post title"))
-        assert(posts.response.contentAsString.contains("test post title 2"))
+        assert(posts.response.contentAsString.contains("Amazing post by me"))
+        assert(posts.response.contentAsString.contains("Shut up"))
     }
 
     @Test
@@ -149,10 +156,12 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val group = mockMvc.post("/api/group/1/user/1"){
-            cookie?.let { cookie(it) }
+            body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
@@ -172,10 +181,12 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
-        val groupRequest = mockMvc.post("/api/group/request/1/1"){
-            cookie?.let { cookie(it) }
+        val groupRequest = mockMvc.post("/api/group/request/3/1"){
+            body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
@@ -196,15 +207,17 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val testComment = mockMvc.get("/api/post/1/comment"){
-            cookie?.let { cookie(it) }
+            body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andReturn()
-        assert(testComment.response.contentAsString.contains("this is a comment test body"))
+        assert(testComment.response.contentAsString.contains("It was not"))
     }
 
     @Test
@@ -218,10 +231,12 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val cookie = loggedInUser.response.getCookie("access_token")
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
 
         val post = mockMvc.post("/api/group/1/post"){
-            cookie?.let { cookie(it) }
+            body?.let { header("Authorization", "Bearer " + token) }
             contentType = MediaType.APPLICATION_JSON
             content = "{\n" +
                     "    \"title\": \"Hey cool\",\n" +

@@ -5,6 +5,7 @@ import no.atcampus.server.repo.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import javax.persistence.Entity
 import javax.persistence.EntityNotFoundException
@@ -105,10 +106,26 @@ class GroupService(
 
 
     fun addGroupRequestToGroup(userId: Long, groupId: Long): GroupRequestEntity{
+        val user = userRepo.findByIdOrNull(userId) ?: throw Exception("Must include userId")
+        val group = groupRepo.findByIdOrNull(groupId) ?: throw Exception("Must include groupId")
+
+        val existing = groupRequestRepo.findByGroupEntityAndUserEntity(group, user)
+
+        if (existing !== null) {
+            throw IllegalArgumentException("Request already exists")
+        }
+
+        val membership = userGroupRepo.findUserGroupEntityByUserEntityAndGroupEntity(user, group)
+
+        if (membership !== null) {
+            throw IllegalArgumentException("User is already in group")
+        }
+
         val groupRequest = GroupRequestEntity(
-            userEntity = userRepo.findByIdOrNull(userId) ?: throw Exception("Must include userId"),
-            groupEntity = groupRepo.findByIdOrNull(groupId) ?: throw Exception("Must include groupId")
+            userEntity = user,
+            groupEntity = group
         )
+
         return groupRequestRepo.save(groupRequest)
     }
 

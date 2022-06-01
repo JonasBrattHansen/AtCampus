@@ -31,17 +31,7 @@ export default function GroupRequests({navigation, route}){
     const [groupRequests, setGroupRequests] = useState([])
     const {group} = route.params
 
-    function handleAddClick(requestId){
-        addUserToGroupByGroupRequest(requestId)
-            .then((res) => {
-                console.log("success")
-            })
-            .catch((err) => {
-                console.log("Error in GroupRequests: " + err)
-            })
-    }
-
-    useEffect(() => {
+    function getGroups() {
         getAllGroupRequests(group.id)
             .then((res) => {
                 setGroupRequests(res.data)
@@ -49,6 +39,20 @@ export default function GroupRequests({navigation, route}){
             .catch((err) => {
                 console.log("Error in GroupRequests: " + err)
             })
+    }
+
+    function handleAddClick(requestId){
+        addUserToGroupByGroupRequest(requestId)
+            .then((res) => {
+                getGroups()
+            })
+            .catch((err) => {
+                console.log("Error in GroupRequests: " + err)
+            })
+    }
+
+    useEffect(() => {
+        getGroups()
     }, [])
 
     //it has changed
