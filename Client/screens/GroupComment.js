@@ -49,6 +49,7 @@ export default function GroupComment({route}){
                 console.log("Error posting comment to post", err)
             })
         setComment("")
+        this.textInput.clear();
     }
 
 
@@ -92,7 +93,7 @@ export default function GroupComment({route}){
             <View style={styles.line}/>
 
             <View style={styles.commentInput}>
-                <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
+                <TextInput ref={input => { this.textInput = input }} style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
                 <TouchableOpacity style={styles.sendIcon} onPress={sendComment}>
                     <Feather name={"send"} size={25} color={"black"} />
                 </TouchableOpacity>
