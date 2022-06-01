@@ -6,9 +6,10 @@ import {Feather} from "@expo/vector-icons";
 import UsersComment from "../components/UsersComment";
 import {getCommentsByPost, postACommentToPost} from "../services/GroupService";
 import {useSelector} from "react-redux";
+import {addListener} from "expo-updates";
 
 
-export default function GroupComment({route}){
+export default function GroupComment({navigation, route}){
     const {post} = route.params
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState("")
@@ -16,6 +17,8 @@ export default function GroupComment({route}){
     const [date, setDate] = useState(null);
 
     useEffect(() => {
+        console.log("done")
+
         getCommentsByPost(post.id)
             .then( (res) => {
                 setComments(res.data)
@@ -23,8 +26,7 @@ export default function GroupComment({route}){
             .catch((err) => {
                 console.log("Error in GroupComment: " + err)
             })
-
-    }, [])
+    }, [route])
 
 
     useEffect(() => {

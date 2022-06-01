@@ -162,7 +162,7 @@ function HomeScreen({navigation}) {
 						date={item.date}
 						onPress={() => navigation.navigate("Groups", {
 							screen: "Group Comment",
-							initial: false,
+							initial: true,
 							params: {
 								post: item,
 							}
