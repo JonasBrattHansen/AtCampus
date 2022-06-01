@@ -46,7 +46,7 @@ class PostEntityServiceUnitTest {
             mutableListOf(testData.postEntity)
         }
         every {
-            postRepo.findFirst20ByOrderByDateCreatedDescPostEntityByGroupEntity(any())
+            postRepo.findFirst20PostEntityByGroupEntityOrderByDateCreatedDesc(any())
         }answers {
             mutableListOf(testData.postEntity)
         }
