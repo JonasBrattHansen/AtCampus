@@ -83,7 +83,7 @@ function GroupsScreen({route, navigation}) {
 	}
 
 	const [groups, setGroups] = useState([])
-	const {username} = useSelector(state => state.auth)
+	const {username, userId} = useSelector(state => state.auth)
 
 	useEffect(() => {
 		const backAction = () => {
@@ -103,20 +103,14 @@ function GroupsScreen({route, navigation}) {
 
 	useEffect(() => {
 		navigation.addListener('focus', () => {
-			getUserIdByEmail(username)
-				.then(userId => {
-					getAllUserGroups(userId)
-						.then(response => {
-							const groups = response?.data;
+			getAllUserGroups(userId)
+				.then(response => {
+					const groups = response?.data;
 
-							setGroups(groups)
-						})
-						.catch((err) => {
-							console.log("Failed to get all groups", err)
-						})
+					setGroups(groups)
 				})
-				.catch(err => {
-					console.log("Failed to get userId", err);
+				.catch((err) => {
+					console.log("Failed to get all groups", err)
 				})
 		})
 	}, [navigation])

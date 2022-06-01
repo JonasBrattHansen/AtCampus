@@ -10,6 +10,8 @@ class GroupRequestEntity (
     @SequenceGenerator(name = "group_request_group_request_id_seq", sequenceName = "group_request_group_request_id_seq", allocationSize = 1)
     @Column(name = "group_request_id")
     val id: Long? = null,
+    @Column(name = "group_request_message")
+    val message: String? = "",
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     val userEntity: UserEntity,

@@ -73,8 +73,7 @@ function HomeScreen({navigation}) {
 	const { userId } = useSelector(state => state.auth);
 	const { username } = useSelector(state => state.auth);
 
-	const getCurrentDate=async()=>{
-
+	const getCurrentDate = () => {
 		const formatter = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full' })
 		return time = formatter.format(new Date())
 		//date + '-' + month + '-' + year;//format: dd-mm-yyyy;
@@ -97,34 +96,24 @@ function HomeScreen({navigation}) {
 			.catch((err) => {
 				console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
 			})
+
 		navigation.addListener('focus', () => {
-			getCurrentDate()
-				.then((res) => {
-					setDate(res)
-				})
-				.catch((err) => {
-					console.log("Error in getCurrentDate")
-				})
-			getUserIdByEmail(username)
-				.then(userId => {
-					getAllUserGroups(userId)
-						.then(response => {
-							const groups = response?.data;
-							setGroups(groups)
-							getAllPostsByUser(userId)
-								.then((postsResponse) => {
-									setPosts(postsResponse.data)
-								})
-								.catch((err) => {
-									console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
-								})
+			setDate(getCurrentDate())
+
+			getAllUserGroups(userId)
+				.then(response => {
+					const groups = response?.data;
+					setGroups(groups)
+					getAllPostsByUser(userId)
+						.then((postsResponse) => {
+							setPosts(postsResponse.data)
 						})
 						.catch((err) => {
-							console.log("Failed to get all groups", err)
+							console.log("Failed in getAllPostsByUser in HomeScreen: " + err)
 						})
 				})
-				.catch(err => {
-					console.log("Failed to get userId", err);
+				.catch((err) => {
+					console.log("Failed to get all groups", err)
 				})
 		})
 	}, [navigation]);

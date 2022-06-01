@@ -78,7 +78,9 @@ class UserService(
                 userProfileImage = userDetail.userProfileImage ?: user.userProfileImage,
                 dateCreated = userDetail.dateCreated ?: user.dateCreated
             )
+
             userRepo.save(updatedUserEntity)
+
             return updatedUserEntity
         }
 

@@ -9,6 +9,7 @@ import GroupScreen from "../screens/GroupScreen";
 import GroupRequests from "../screens/GroupRequests";
 import GroupOptions from "../screens/GroupOptions";
 import GroupComment from "../screens/GroupComment";
+import SendGroupRequest from "../screens/SendGroupRequest";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,20 @@ function GroupStack() {
 			<Stack.Screen
 				name={"Group"}
 				component={GroupScreen}
+				options={({navigation}) => ({
+					headerLeft: () => {
+						return <TouchableOpacity
+							activeOpacity={0.6}
+							onPress={() => navigation.goBack()}
+						>
+							<Ionicons name="chevron-back" size={24} color="black" />
+						</TouchableOpacity>
+					}
+				})}
+			/>
+			<Stack.Screen
+				name={"Send Group Request"}
+				component={SendGroupRequest}
 				options={({navigation}) => ({
 					headerLeft: () => {
 						return <TouchableOpacity

@@ -31,7 +31,7 @@ insert into user_roles
 values (2, 1);
 
 insert into group_request
-values (nextval('group_request_group_request_id_seq'),1, 1);
+values (nextval('group_request_group_request_id_seq'), 'Im a good student please add me', 1, 1);
 
 insert into user_group
 values (nextval('user_group_user_group_id_seq'), 1, 1, true);

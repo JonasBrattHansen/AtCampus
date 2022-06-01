@@ -104,8 +104,11 @@ class GroupService(
         return group
     }
 
+    fun removeGroupRequest(groupRequestId: Long) {
+        return groupRequestRepo.deleteById(groupRequestId)
+    }
 
-    fun addGroupRequestToGroup(userId: Long, groupId: Long): GroupRequestEntity{
+    fun addGroupRequestToGroup(userId: Long, groupId: Long, message: String): GroupRequestEntity{
         val user = userRepo.findByIdOrNull(userId) ?: throw Exception("Must include userId")
         val group = groupRepo.findByIdOrNull(groupId) ?: throw Exception("Must include groupId")
 
@@ -123,7 +126,8 @@ class GroupService(
 
         val groupRequest = GroupRequestEntity(
             userEntity = user,
-            groupEntity = group
+            groupEntity = group,
+            message = message,
         )
 
         return groupRequestRepo.save(groupRequest)

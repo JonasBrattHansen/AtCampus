@@ -52,10 +52,10 @@ export default function GroupComment({route}){
     }
 
 
-    return(
+    return (
         <KeyboardAvoidingView style={styles.container}
                               behavior= {(Platform.OS === 'ios') ? "padding" : null}
-                              keyboardVerticalOffset={Platform.select({ios: 70, android: 0})}
+                              keyboardVerticalOffset={Platform.select({ios: 80, android: 0})}
         >
             <View style={styles.userContainer}>
                 <Image style={styles.image}
@@ -92,7 +92,8 @@ export default function GroupComment({route}){
             <View style={styles.line}/>
 
             <View style={styles.commentInput}>
-                <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Comment: "} />
+                <TextInput style={styles.input} onChangeText={(val) => setComment(val)} placeholder={"Write a comment"} />
+
                 <TouchableOpacity style={styles.sendIcon} onPress={sendComment}>
                     <Feather name={"send"} size={25} color={"black"} />
                 </TouchableOpacity>
@@ -148,9 +149,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderColor: "#d3d3d3",
         backgroundColor: "#fff",
-        paddingVertical: 15,
         width: "80%",
-        height: "50%",
+        height: 50,
         paddingHorizontal: 10,
         flexDirection: "row",
         marginLeft: 10,

@@ -63,9 +63,17 @@ class GroupController(
     }
 
     @PostMapping("/request/{userId}/{groupId}")
-    fun addGroupRequestToGroup(@PathVariable userId: Long, @PathVariable
-    groupId: Long): ResponseEntity<GroupRequestEntity>{
-        return ResponseEntity.ok(groupService.addGroupRequestToGroup(userId, groupId))
+    fun addGroupRequestToGroup(
+        @PathVariable userId: Long,
+        @PathVariable groupId: Long,
+        @RequestBody messageDetails: MessageDetails
+    ): ResponseEntity<GroupRequestEntity>{
+        return ResponseEntity.ok(groupService.addGroupRequestToGroup(userId, groupId, messageDetails.message ?: "User did not specify a message"))
+    }
+
+    @DeleteMapping("/request/{groupRequestId}")
+    fun removeGroupRequest(@PathVariable groupRequestId: Long) {
+        groupService.removeGroupRequest(groupRequestId)
     }
 
     @PostMapping("/{id}/post")
@@ -76,3 +84,4 @@ class GroupController(
 
 
 }
+

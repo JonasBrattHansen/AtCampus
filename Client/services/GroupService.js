@@ -54,8 +54,14 @@ export function addPostToGroup(groupId, title, body, userId){
 	})
 }
 
-export function requestToJoinGroup(userId, groupId){
-	return instance.post(`group/request/${userId}/${groupId}`)
+export function requestToJoinGroup(userId, groupId, message){
+	return instance.post(`group/request/${userId}/${groupId}`, {
+		message
+	});
+}
+
+export function deleteGroupRequest(groupRequestId) {
+	return instance.delete(`group/request/${groupRequestId}`);
 }
 
 export function getAllGroupRequests(groupId){

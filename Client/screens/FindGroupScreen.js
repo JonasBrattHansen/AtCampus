@@ -10,7 +10,7 @@ function Separator() {
 	return <View style={styles.separator}/>
 }
 
-function FindGroupScreen(props) {
+function FindGroupScreen({navigation}) {
 	const [search, setSearch] = useState("");
 	const [groups, setGroups] = useState([])
 
@@ -63,7 +63,10 @@ function FindGroupScreen(props) {
 						members={item.members}
 						image={item.image}
 						onPress={() => {
-							onGroupPress(userId, item.id)
+							//onGroupPress(userId, item.id)
+							navigation.navigate("Send Group Request", {
+								group: item,
+							})
 						}}
 					/>
 				}
@@ -73,21 +76,21 @@ function FindGroupScreen(props) {
 }
 
 function onGroupPress(userId, groupId){
-	requestToJoinGroup(userId, groupId)
-		.then((res) => {
-			Toast.show({
-				type: 'success',
-				text1: 'Sent request to join group',
-			});
-		})
-		.catch((err) => {
-			Toast.show({
-				type: 'error',
-				text1: 'Could not send request to join group',
-			});
-
-			console.log("Error in onGroupPress: " + err)
-		})
+	// requestToJoinGroup(userId, groupId)
+	// 	.then((res) => {
+	// 		Toast.show({
+	// 			type: 'success',
+	// 			text1: 'Sent request to join group',
+	// 		});
+	// 	})
+	// 	.catch((err) => {
+	// 		Toast.show({
+	// 			type: 'error',
+	// 			text1: 'Could not send request to join group',
+	// 		});
+	//
+	// 		console.log("Error in onGroupPress: " + err)
+	// 	})
 }
 
 const styles = StyleSheet.create({

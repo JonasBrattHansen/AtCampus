@@ -43,6 +43,7 @@ CREATE TABLE groups (
 
 CREATE TABLE group_request (
     group_request_id bigserial PRIMARY KEY,
+    group_request_message TEXT,
     user_id bigint NOT NULL references users(user_id),
     group_id bigint NOT NULL references groups(group_id)
 );

@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import {FlatList, StyleSheet, Text, View} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import GroupRequestCard from "../components/GroupRequestCard";
-import {addUserToGroupByGroupRequest, getAllGroupRequests} from "../services/GroupService";
+import {addUserToGroupByGroupRequest, deleteGroupRequest, getAllGroupRequests} from "../services/GroupService";
+import {AntDesign, Feather} from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 const groupRequestData = [
     {
@@ -64,21 +66,28 @@ export default function GroupRequests({navigation, route}){
                 ItemSeparatorComponent={Separator}
                 stickyFooterIndices={[0]}
                 renderItem={({item}) =>
-                    <GroupRequestCard
-                        style={{
-                            marginHorizontal: 20,
-                            marginVertical: 2,
-                        }}
-                        key={item.id}
-                        requestId={item.id}
-                        userImage={item.userEntity.userProfileImage}
-                        school={item.userEntity.school}
-                        program={item.userEntity.program}
-                        text={item.userEntity.firstName + " " + item.userEntity.lastName}
-                        handleClick={() => {
-                            handleAddClick(item.id)
-                        }
-                        }
+                    // <GroupRequestCard
+                    //     style={{
+                    //         marginHorizontal: 20,
+                    //         marginVertical: 2,
+                    //     }}
+                    //     key={item.id}
+                    //     requestId={item.id}
+                    //     userImage={item.userEntity.userProfileImage}
+                    //     school={item.userEntity.school}
+                    //     program={item.userEntity.program}
+                    //     text={item.userEntity.firstName + " " + item.userEntity.lastName}
+                    //     message={item.message}
+                    //     handleClick={() => {
+                    //         handleAddClick(item.id)
+                    //     }}
+                    // />
+
+                    <Request
+                        id={item.id}
+                        message={item.message}
+                        handler={handleAddClick}
+                        getGroups={getGroups}
                     />
                 }
             />
@@ -86,6 +95,80 @@ export default function GroupRequests({navigation, route}){
         </View>
     )
 }
+
+function Request({id, message, handler, getGroups}) {
+    return (
+        <View style={request.container}>
+            <Text style={request.message}>{message}</Text>
+
+            <View style={request.buttonWrapper}>
+                <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() => handler(id)}
+                    style={[request.button, {marginBottom: 10}]}
+                >
+                    <Feather style={request.checkmark} name={"check"} color={"black"} size={28} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() => {
+                        deleteGroupRequest(id)
+                            .then(() => {
+                                Toast.show({
+                                    type: "success",
+                                    text1: "Removed request",
+                                })
+
+                                getGroups();
+                            })
+                            .catch(err => {
+                                console.log("Could not remove request", err);
+
+                                Toast.show({
+                                    type: "error",
+                                    text1: "Could not remove request",
+                                })
+                            })
+                    }}
+                    style={request.button}
+                >
+                    <AntDesign name="close" size={26} color="black" />
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
+}
+
+const request = StyleSheet.create({
+    container: {
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "white",
+        padding: 20,
+        borderRadius: 20,
+        margin: 10,
+    },
+    buttonWrapper: {
+        display: "flex",
+    },
+    message: {
+        flex: 1,
+        textAlignVertical: "top",
+    },
+    checkmark: {
+    },
+    button: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgb(230, 230, 230)",
+        borderRadius: 25,
+        width: 50,
+        height: 50,
+        marginLeft: 10,
+    }
+})
 
 const styles = StyleSheet.create({
     requestContainer:{

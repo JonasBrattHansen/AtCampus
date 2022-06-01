@@ -85,3 +85,5 @@ class PostService(
 }
 
 data class PostDetails(val id: Long?, val title: String?, val body: String?, val user: Long?, val group: Long?)
+
+data class MessageDetails(val message: String?)
