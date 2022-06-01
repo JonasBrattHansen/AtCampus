@@ -238,7 +238,7 @@ function GroupScreen({navigation, route}) {
                             numberOfLines={5}
                             onChangeText={setPostMessage}
                             value={postMessage}
-                            placeholder={"Right a post to your group here :)"}
+                            placeholder={"Write a post to your group here :)"}
                         />
 
                         <View style={{margin: 10}}>
