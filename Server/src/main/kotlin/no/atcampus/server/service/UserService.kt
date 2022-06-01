@@ -54,6 +54,7 @@ class UserService(
         throw EntityNotFoundException("Could not find the group with group id $groupId")
     }
 
+
     fun getUserById(id: Long): UserEntity{
         val user = userRepo.findByIdOrNull(id)
         user?.let {
