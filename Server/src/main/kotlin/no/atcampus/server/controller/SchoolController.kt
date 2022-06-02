@@ -11,12 +11,21 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/school")
 class SchoolController(
     @Autowired private val schoolService: SchoolService,
-    @Autowired private val groupService: GroupService
 
 ) {
     @GetMapping("/all")
-    fun getSchools(): ResponseEntity<MutableList<SchoolEntity>>{
+    fun getSchools(): ResponseEntity<MutableList<SchoolEntity>> {
         return ResponseEntity.ok(schoolService.findAllSchool())
     }
 
+    @GetMapping("/{id}")
+    fun getSpecificSchool(@PathVariable id: Long): ResponseEntity<SchoolEntity> {
+        return ResponseEntity.ok(schoolService.findSchoolById(id))
+    }
+
+    @PostMapping("/new")
+    fun createNewSchool(@RequestBody updatedSchoolInfo: UpdatedSchoolInfo): ResponseEntity<SchoolEntity> {
+        return ResponseEntity.ok().body(schoolService.addSchool(updatedSchoolInfo))
+    }
 }
+

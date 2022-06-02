@@ -21,13 +21,13 @@ import org.springframework.test.web.servlet.post
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 
-class SchoolControllerTest {
+class ProgramControllerTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun getAllSchools() {
+    fun gettAllPrograms() {
         val loggedInUser = mockMvc.post("/api/login"){
             contentType = MediaType.APPLICATION_JSON
             content = "{\n" +
@@ -41,20 +41,20 @@ class SchoolControllerTest {
         val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
         val token = tokenResponse.token
 
-        val groups = mockMvc.get("/api/school/all"){
+        val programs = mockMvc.get("/api/program/all"){
             body?.let { header("Authorization", "Bearer " + token)  }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andReturn()
 
-        assert(groups.response.contentAsString.contains("Kristiania"))
+        assert(programs.response.contentAsString.contains("Programmering"))
 
 
     }
 
     @Test
-    fun getSpecificSchoolTest(){
+    fun getSpecificProgramTest(){
 
         val loggedInUser = mockMvc.post("/api/login"){
             contentType = MediaType.APPLICATION_JSON
@@ -70,19 +70,19 @@ class SchoolControllerTest {
         val token = tokenResponse.token
 
 
-        val school = mockMvc.get("/api/school/1") {
+        val program = mockMvc.get("/api/program/1") {
             content = body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andReturn()
 
-        assert(school.response.contentAsString.contains("Kristiania"))
+        assert(program.response.contentAsString.contains("Programmering"))
 
     }
 
     @Test
-    fun createNewSchoolTest(){
+    fun createNewProgramTest(){
         val loggedInUser = mockMvc.post("/api/login"){
             contentType = MediaType.APPLICATION_JSON
             content = "{\n" +
@@ -96,17 +96,17 @@ class SchoolControllerTest {
         val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
         val token = tokenResponse.token
 
-        val school = mockMvc.post("/api/school/new"){
+        val program = mockMvc.post("/api/program/new"){
             contentType = MediaType.APPLICATION_JSON
             content = "{\n" +
-                    "    \"schoolName\": \"UiO\"\n" +
+                    "    \"programName\": \"Cybersikkerhet\"\n" +
                     "}"
             body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { is2xxSuccessful() } }
             .andReturn()
 
-        assert(school.response.contentAsString.contains("UiO"))
+        assert(program.response.contentAsString.contains("Cybersikkerhet"))
     }
 
 

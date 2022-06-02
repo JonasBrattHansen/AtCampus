@@ -1,8 +1,8 @@
 insert into programs
-values (nextval('programs_program_id_seq'), 'testname');
+values (nextval('programs_program_id_seq'), 'Programmering');
 
 insert into schools
-values (nextval('schools_school_id_seq'), 'test school 1');
+values (nextval('schools_school_id_seq'), 'Høyskolen Kristiania');
 
 insert into roles values (nextval('roles_role_id_seq'), 'USER');
 

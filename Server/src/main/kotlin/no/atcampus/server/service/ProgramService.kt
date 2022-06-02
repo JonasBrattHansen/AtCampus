@@ -1,6 +1,7 @@
 package no.atcampus.server.service
 
 import no.atcampus.server.entities.ProgramEntity
+import no.atcampus.server.entities.SchoolEntity
 import no.atcampus.server.repo.ProgramRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -50,6 +51,21 @@ class ProgramService(
             return programRepo.save(updatedProgramEntity)
         }
         throw EntityNotFoundException("Could not find program with id $id")
+    }
+
+    fun addProgram(updatedProgramInfo: UpdatedProgramInfo): ProgramEntity {
+        val newProgram = ProgramEntity(
+            programName = updatedProgramInfo.programName?: throw Exception("program must include program name")
+        )
+        return programRepo.save(newProgram)
+    }
+
+    fun findAllPrograms(): MutableList<ProgramEntity> {
+        val allPrograms = programRepo.findAll()
+        allPrograms?.let {
+            return allPrograms
+        }
+        throw EntityNotFoundException ("Could not find all programs")
     }
 }
 
