@@ -1,8 +1,23 @@
 insert into programs
 values (nextval('programs_program_id_seq'), 'Programmering');
 
+insert into programs
+values (nextval('programs_program_id_seq'), 'Cybersikkerhet');
+
+insert into programs
+values (nextval('programs_program_id_seq'), 'Markedsføring');
+
+insert into programs
+values (nextval('programs_program_id_seq'), 'Frontend- og mobilutvikling');
+
 insert into schools
 values (nextval('schools_school_id_seq'), 'Høyskolen Kristiania');
+
+insert into schools
+values (nextval('schools_school_id_seq'), 'Universitetet i Oslo');
+
+insert into schools
+values (nextval('schools_school_id_seq'), 'Handelshøyskolen BI');
 
 insert into roles values (nextval('roles_role_id_seq'), 'USER');
 
