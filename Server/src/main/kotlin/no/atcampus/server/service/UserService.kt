@@ -29,6 +29,7 @@ class UserService(
         return User(user.email, user.password, user.roles?.map {roleEntity -> SimpleGrantedAuthority(roleEntity.name) })
     }
 
+
     fun getUserByEmail(email: String): UserEntity{
         val user = userRepo.findUserEntityByEmail(email)
         user?.let {
@@ -77,7 +78,8 @@ class UserService(
                 schoolEntity = schoolRepo.findByIdOrNull(userDetail.school ?: 0) ?: user.schoolEntity,
                 programEntity = programRepo.findByIdOrNull(userDetail.program ?: 0) ?: user.programEntity,
                 userProfileImage = userDetail.userProfileImage ?: user.userProfileImage,
-                dateCreated = userDetail.dateCreated ?: user.dateCreated
+                dateCreated = userDetail.dateCreated ?: user.dateCreated,
+                roles = user.roles
             )
 
             userRepo.save(updatedUserEntity)
