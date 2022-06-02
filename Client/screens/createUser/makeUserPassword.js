@@ -5,6 +5,7 @@ import React, {useContext, useState} from "react";
 import {Entypo} from "@expo/vector-icons";
 import {CreateUserContext} from "../../global/CreateUserContext";
 import CreateAccountTitle from "../../components/CreateAccountTitle";
+import Toast from "react-native-toast-message";
 
 export default function MakeUserPassword({navigation}) {
 	const [passwordAgain, setPasswordAgain] = useState()
@@ -37,13 +38,20 @@ export default function MakeUserPassword({navigation}) {
 	
 	function onPress() {
 		if (password === passwordAgain ){
-			if(password.length > 8 && password.match(/[0-9]/)){
+			if(password.length >= 8 && password.match(/[0-9]/ && /[A-Z]/)){
 				navigation.navigate("makeUserComplete")
 			}else{
-				alert("It needs to contain minimum 8 letters and a number")
+				Toast.show({
+					type: "error",
+					text1: "Password is invalid",
+					text2: "Must contain min 8 letters, a number, and a capital letter."
+				})
 			}
 		}else{
-			alert(`Password and confirm password dose not match.`)
+			Toast.show({
+				type: "error",
+				text1: "Password to not match",
+			})
 		}
 	}
 	

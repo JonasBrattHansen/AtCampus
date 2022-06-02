@@ -5,6 +5,7 @@ import LoginButton from "../../components/LoginButton";
 import {useContext} from "react";
 import {CreateUserContext} from "../../global/CreateUserContext";
 import CreateAccountTitle from "../../components/CreateAccountTitle";
+import Toast from "react-native-toast-message";
 
 export default function MakeUserInfo({navigation, getEmail, getPhoneNr}) {
 	const {
@@ -15,10 +16,22 @@ export default function MakeUserInfo({navigation, getEmail, getPhoneNr}) {
 	} = useContext(CreateUserContext)
 	
 	function onPress() {
+		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 		if (email !== "" && phoneNr !== "") {
-			navigation.navigate("makeUserSchool")
+			if(reg.test(email) === false){
+				Toast.show({
+					type: "error",
+					text1: "Email is not correct",
+				})
+			}else{
+				navigation.navigate("makeUserSchool")
+			}
 		} else {
-			alert("Email and Phone number cant be empty")
+			Toast.show({
+				type: "error",
+				text1:"Invalid Email and phone number input.",
+				text2:"Email and phone number can not be empty.",
+			})
 		}
 	}
 	
@@ -31,7 +44,7 @@ export default function MakeUserInfo({navigation, getEmail, getPhoneNr}) {
 					title={"Email"}
 					value={email}
 					onChangeText={(val => setEmail(val))}
-					keyboardType={"default"}
+					keyboardType={"email-address"}
 					autoCapitalize="none"
 				/>
 				
@@ -39,7 +52,7 @@ export default function MakeUserInfo({navigation, getEmail, getPhoneNr}) {
 					title={"Phone number"}
 					value={phoneNr}
 					onChangeText={(val) => setPhoneNr(val)}
-					keyboardType={"numeric"}
+					keyboardType={"phone-pad"}
 				/>
 				
 				<LoginButton navigation={navigation} title={"Next"} onPress={onPress}/>

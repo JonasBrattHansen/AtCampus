@@ -5,6 +5,7 @@ import LoginButton from "../../components/LoginButton";
 import {CreateUserContext} from "../../global/CreateUserContext";
 import {useContext} from "react";
 import CreateAccountTitle from "../../components/CreateAccountTitle";
+import Toast from "react-native-toast-message";
 
 
 export default function MakeUserName({navigation,}) {
@@ -19,7 +20,11 @@ export default function MakeUserName({navigation,}) {
 		if (firstname !== "" && lastname !== "") {
 			navigation.navigate("makeUserInfo")
 		} else {
-			alert("Firstname and lastname cant be empty")
+			Toast.show({
+				type: "error",
+				text1: "Invalid name input",
+				text2: "Firstname and Lastname cant be empty",
+			})
 		}
 	}
 	
