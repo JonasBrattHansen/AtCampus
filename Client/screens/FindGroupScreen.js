@@ -13,6 +13,7 @@ function Separator() {
 function FindGroupScreen({navigation}) {
 	const [search, setSearch] = useState("");
 	const [groups, setGroups] = useState([])
+	const [searchedGroups, setSearchedGroups] = useState([])
 
 	const {userId} = useSelector(state => state.auth)
 
@@ -20,18 +21,40 @@ function FindGroupScreen({navigation}) {
 		getAllGroups()
 			.then((res) => {
 				setGroups(res.data)
+				setSearchedGroups(res.data)
 			})
 			.catch((err) => {
 				console.log("Error in FindGroupScreen " + err)
 			})
 	}, [])
 
+
+	function onChangeHandler(text){
+		let matches = []
+
+		if (text.length > 0) {
+			matches = groups.filter( group => {
+				const regex = new RegExp(`${text}`, "gi")
+				return group.name.match(regex);
+			})
+		} else if (text.length === 0){
+			setSearchedGroups(groups)
+			setSearch(text)
+			return
+		}
+
+		setSearchedGroups(matches)
+		setSearch(text)
+
+	}
+
+
 	return (
 
 		<View style={styles.container}>
 			<FlatList
 				contentContainerStyle={styles.postPreviews}
-				data={groups}
+				data={searchedGroups}
 				ListHeaderComponent={
 					<View style={styles.header}>
 						<View style={styles.searchBarWrapper}>
@@ -41,15 +64,15 @@ function FindGroupScreen({navigation}) {
 								size={18}
 								color={"black"}
 							/>
-							
+
 							<TextInput
 								style={styles.searchBar}
 								placeholder={"Search for a group.."}
 								value={search}
-								onChangeText={text => setSearch(text)}
+								onChangeText={text => onChangeHandler(text)}
 							/>
 						</View>
-						
+
 						<TouchableOpacity style={styles.filterButton}>
 							<Text>Filter</Text>
 						</TouchableOpacity>
