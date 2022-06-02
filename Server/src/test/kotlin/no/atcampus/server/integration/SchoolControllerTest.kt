@@ -48,9 +48,65 @@ class SchoolControllerTest {
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andReturn()
 
-        assert(groups.response.contentAsString.contains("test school 1"))
+        assert(groups.response.contentAsString.contains("Kristiania"))
 
 
+    }
+
+    @Test
+    fun getSpecificSchoolTest(){
+
+        val loggedInUser = mockMvc.post("/api/login"){
+            contentType = MediaType.APPLICATION_JSON
+            content = "{\n" +
+                    "    \"email\": \"test@mail.com\",\n" +
+                    "    \"password\": \"pirate\"\n" +
+                    "}"
+        }.andExpect { status { isOk() } }
+            .andReturn()
+
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
+
+
+        val school = mockMvc.get("/api/school/1") {
+            content = body?.let { header("Authorization", "Bearer " + token) }
+        }
+            .andExpect { status { isOk() } }
+            .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
+            .andReturn()
+
+        assert(school.response.contentAsString.contains("Kristiania"))
+
+    }
+
+    @Test
+    fun createNewSchoolTest(){
+        val loggedInUser = mockMvc.post("/api/login"){
+            contentType = MediaType.APPLICATION_JSON
+            content = "{\n" +
+                    "    \"email\": \"test@mail.com\",\n" +
+                    "    \"password\": \"pirate\"\n" +
+                    "}"
+        }.andExpect { status { isOk() } }
+            .andReturn()
+
+        val body =  loggedInUser.response.contentAsString
+        val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
+        val token = tokenResponse.token
+
+        val school = mockMvc.post("/api/school/new"){
+            contentType = MediaType.APPLICATION_JSON
+            content = "{\n" +
+                    "    \"schoolName\": \"UiO\"\n" +
+                    "}"
+            body?.let { header("Authorization", "Bearer " + token) }
+        }
+            .andExpect { status { is2xxSuccessful() } }
+            .andReturn()
+
+        assert(school.response.contentAsString.contains("UiO"))
     }
 
 

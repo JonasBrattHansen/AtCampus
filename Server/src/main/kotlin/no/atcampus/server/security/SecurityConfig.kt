@@ -41,6 +41,7 @@ class SecurityConfig(
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/register").permitAll()
                 .antMatchers("/api/refresh").permitAll()
+                .antMatchers("/api/school/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/api/school/all").permitAll()
                 .antMatchers("/api/user/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/api/group/**").hasAnyAuthority("USER", "ADMIN")
