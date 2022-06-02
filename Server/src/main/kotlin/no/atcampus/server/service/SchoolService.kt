@@ -29,6 +29,13 @@ class SchoolService(
        throw EntityNotFoundException ("Could not find all schools")
     }
 
+    fun addSchool(updatedSchoolInfo: UpdatedSchoolInfo): SchoolEntity {
+        val newSchool = SchoolEntity(
+            schoolName = updatedSchoolInfo.schoolName?: throw Exception("school must include school name")
+        )
+        return schoolRepo.save(newSchool)
+    }
+
     fun findSchoolById(id: Long) : SchoolEntity {
         val school = schoolRepo.findByIdOrNull(id)
 

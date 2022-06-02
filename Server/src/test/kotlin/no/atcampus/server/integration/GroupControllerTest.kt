@@ -170,9 +170,10 @@ class GroupControllerTest {
         assert(group.response.contentAsString.contains("testgroup"))
     }
 
+
     @Test
-    fun addGroupRequestToGroupTest(){
-        val loggedInUser = mockMvc.post("/api/login"){
+    fun addGroupRequestToGroupTest() {
+        val loggedInUser = mockMvc.post("/api/login") {
             contentType = MediaType.APPLICATION_JSON
             content = "{\n" +
                     "    \"email\": \"test@mail.com\",\n" +
@@ -181,11 +182,15 @@ class GroupControllerTest {
         }.andExpect { status { isOk() } }
             .andReturn()
 
-        val body =  loggedInUser.response.contentAsString
+        val body = loggedInUser.response.contentAsString
         val tokenResponse = jacksonObjectMapper().readValue(body) as TokenResponse
         val token = tokenResponse.token
 
-        val groupRequest = mockMvc.post("/api/group/request/3/1"){
+        val groupRequest = mockMvc.post("/api/group/request/3/1") {
+            contentType = MediaType.APPLICATION_JSON
+            content = "{\n" +
+                    "    \"message\": \"Hello i want to join\"\n" +
+                    "}"
             body?.let { header("Authorization", "Bearer " + token) }
         }
             .andExpect { status { isOk() } }
@@ -194,6 +199,7 @@ class GroupControllerTest {
 
         assert(groupRequest.response.contentAsString.contains("1"))
     }
+
 
 
     @Test
