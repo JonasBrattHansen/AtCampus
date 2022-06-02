@@ -57,14 +57,12 @@ function CreateGroupScreen({navigation}) {
 		createGroup(groupName, description, image, 1, 1)
 			.then(response => {
 				const group = response.data;
-				
 				Toast.show({
 					type: 'success',
 					text1: 'Successfully created group',
 					text2: group.name,
 				});
-
-
+				navigation.goBack()
 			})
 			.catch(err => {
 				console.log("Failed to create group", err);
