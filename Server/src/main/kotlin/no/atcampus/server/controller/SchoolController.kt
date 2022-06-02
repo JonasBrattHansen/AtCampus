@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/school")
 class SchoolController(
     @Autowired private val schoolService: SchoolService,
-    @Autowired private val groupService: GroupService
 
 ) {
     @GetMapping("/all")
