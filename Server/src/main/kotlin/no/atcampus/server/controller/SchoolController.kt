@@ -15,8 +15,18 @@ class SchoolController(
 
 ) {
     @GetMapping("/all")
-    fun getSchools(): ResponseEntity<MutableList<SchoolEntity>>{
+    fun getSchools(): ResponseEntity<MutableList<SchoolEntity>> {
         return ResponseEntity.ok(schoolService.findAllSchool())
     }
 
+    @GetMapping("/{schoolId}")
+    fun getSpecificSchool(@PathVariable schoolId: Long): ResponseEntity<SchoolEntity> {
+        return ResponseEntity.ok(schoolService.findSchoolById(schoolId))
+    }
+
+    @PostMapping("/new")
+    fun createNewSchool(@RequestBody updatedSchoolInfo: UpdatedSchoolInfo): ResponseEntity<SchoolEntity> {
+        return ResponseEntity.ok().body(schoolService.addSchool(updatedSchoolInfo))
+    }
 }
+
