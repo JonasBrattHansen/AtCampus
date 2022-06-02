@@ -18,9 +18,9 @@ class SchoolController(
         return ResponseEntity.ok(schoolService.findAllSchool())
     }
 
-    @GetMapping("/{schoolId}")
-    fun getSpecificSchool(@PathVariable schoolId: Long): ResponseEntity<SchoolEntity> {
-        return ResponseEntity.ok(schoolService.findSchoolById(schoolId))
+    @GetMapping("/{id}")
+    fun getSpecificSchool(@PathVariable id: Long): ResponseEntity<SchoolEntity> {
+        return ResponseEntity.ok(schoolService.findSchoolById(id))
     }
 
     @PostMapping("/new")

@@ -6,8 +6,8 @@ export const getAllSchools = () => {
     return instance.get(`school/all`);
 }
 
-export const getSchoolById = (schoolId) => {
-    return instance.get(`school/${schoolId}`)
+export const getSchoolById = (id) => {
+    return instance.get(`school/${id}`)
 
 }
 

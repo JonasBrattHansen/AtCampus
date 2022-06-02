@@ -1,5 +1,5 @@
 insert into programs
-values (nextval('programs_program_id_seq'), 'testname');
+values (nextval('programs_program_id_seq'), 'Programmering');
 
 insert into schools
 values (nextval('schools_school_id_seq'), 'Høyskolen Kristiania');

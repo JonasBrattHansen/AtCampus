@@ -90,12 +90,12 @@ class DatabaseIntegrationTest(@Autowired private val userService: UserService,
     @Test
     fun findSchoolByNameFromDB() {
         val finSchoolFromDb = schoolService.findSchoolById(1)
-        assert(finSchoolFromDb.schoolName == "test school 1")
+        assert(finSchoolFromDb.schoolName == "Høyskolen Kristiania")
     }
 
     @Test
     fun findProgramNameFromDB () {
         val findProgramNameFromID = programService.findProgramById(1)
-        assert(findProgramNameFromID.programName == "testname")
+        assert(findProgramNameFromID.programName == "Programmering")
     }
 }
