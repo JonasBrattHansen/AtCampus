@@ -8,6 +8,7 @@
 
 ### 1:
 Install Docker Desktop, restart your computer and run the program
+[Download here](https://docs.docker.com/get-docker/)
 
 ### 2: 
 Install Expo Go in the App store or Google Play Store on your mobile:
