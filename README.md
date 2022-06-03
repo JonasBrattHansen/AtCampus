@@ -25,6 +25,7 @@ docker compose down
 docker compose up -d
 cd../../../../../     <- go back to atCampus folder
 cd Client
+npm install
 expo start
 ```
 
