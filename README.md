@@ -13,6 +13,7 @@ Install Docker Desktop, restart your computer and run the program
 
 ### 2: 
 Install Expo Go in the App store or Google Play Store on your mobile:
+
 https://expo.dev/client
 
 ### 3:
