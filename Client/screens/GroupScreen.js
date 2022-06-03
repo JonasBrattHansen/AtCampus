@@ -13,7 +13,11 @@ import PostPreview from "../components/PostPreview";
 import GroupPage from "../components/GroupPage";
 import SimpleButton from "../components/SimpleButton";
 import {Feather} from "@expo/vector-icons";
-import {addPostToGroup, getAllPostsByGroup} from "../services/GroupService";
+import {
+    addPostToGroup,
+    getAllPostsByGroup,
+    getUsersFromGroup
+} from "../services/GroupService";
 import {useSelector} from "react-redux";
 
 const postPreviews = [
@@ -97,6 +101,9 @@ function GroupScreen({navigation, route}) {
     const {userId} = useSelector(state => state.auth)
     const [posts, setPosts] = useState([])
 
+    const [users, setUsers] = useState([])
+
+
     const postMessageRef = useRef();
     const postTitleRef = useRef();
 
@@ -106,8 +113,15 @@ function GroupScreen({navigation, route}) {
         }).catch((err) => {
             console.log(err.toString())
         })
+        getUsersFromGroup(group.id).then((res) =>{
+            setUsers(res.data)
+        }).catch((err) =>{
+            console.log(err.toString())
+        })
 
     },[])
+
+    console.log(users.length)
 
     function handlePostMessageClick(){
         setIsModalPostVisible(false)
@@ -149,7 +163,7 @@ function GroupScreen({navigation, route}) {
 
                 <Text style={styles.memberCount}>
                     {/*TODO: Add functionality to get member count in services. */}
-                    Members: {GroupPage.memberCount}
+                    Members: {users.length}
                 </Text>
             </View>
             <View style={{ flex: 0.8 }}>

@@ -101,7 +101,7 @@ export default function GroupOptions({navigation, route}) {
                         <GroupDetails leftText={"Group Description"} rightText={group.description}/>
                         {ContentSeparator(0.7)}
                     </View>
-                    <Text style={{margin: 5}}>Members: {GroupPage.memberCount}</Text>
+                    <Text style={{margin: 5}}>Members: {users.length}</Text>
                     <View style={{ flex: 4, backgroundColor: "white" }}>
                         <FlatList
                             contentContainerStyle={styles.memberList}
