@@ -5,6 +5,7 @@
 
 # AtCampus 
 
+# Installing and running the application:
 
 ### 1:
 Install Docker Desktop, restart your computer and run the program
