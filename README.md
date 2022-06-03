@@ -25,6 +25,7 @@ docker compose down   <- If this gives you a warning just continue with the step
 docker compose up -d
 cd../../../../../     <- go back to atCampus folder
 cd Client
+npm install react-native
 expo update
 npm install
 expo start
