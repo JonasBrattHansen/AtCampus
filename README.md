@@ -5,6 +5,28 @@
 
 # AtCampus 
 
+
+##1:
+Install Docker Desktop, restart your computer and run the program
+
+##2: 
+Install Expo Go in the App store or Google Play Store on your mobile:
+https://expo.dev/client
+
+##3:
+Open the project and follow these steps in the terminal – **make sure Docker Desktop is running**: 
+```console
+cd Server/src/main/resources/docker/
+docker compose down
+docker compose up -d
+cd../../../../../     <- go back to atCampus folder
+cd Client
+expo start
+```
+
+##When running expo start you get a QR-code in the terminal. Open the camera on your mobile and scan this code. The QR code should lead you to the Expo App and there the app should be running. 
+
+
 ## Server
 
 ### Installing docker
