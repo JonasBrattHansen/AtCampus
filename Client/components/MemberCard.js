@@ -6,21 +6,22 @@ export default function MemberCard({username, image, datejoined, style, memberId
     return (
         <View
         style={[style, styles.container]}>
-            <Image
-                style={styles.image}
-                source={{uri: image}}
-            />
-
-            <View>
+            <View style={{flex: 0.5}}>
+                <Image
+                    style={styles.image}
+                    source={{uri: image}}
+                />
+            </View>
+            <View style={{flex: 1.2, width:"100%"}}>
                 <Text style={styles.name}>{username}</Text>
-                <Text style={styles.date}>This needs to be changed btw {datejoined}</Text>
             </View>
 
             <TouchableOpacity
+                style={{flex: 0.5}}
                 activeOpacity={0.6}
                 onPress={ () => handleDelete(memberId)}
             >
-                <Feather style={styles.cross} name={"check"} color={"black"} size={32}/>
+                <Feather style={styles.cross} name={"x-circle"} color={"black"} size={32}/>
             </TouchableOpacity>
 
         </View>
@@ -29,7 +30,7 @@ export default function MemberCard({username, image, datejoined, style, memberId
 
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
+        flex: 1,
         flexDirection: "row",
         backgroundColor: "#f8f8f8",
         borderRadius: 20,

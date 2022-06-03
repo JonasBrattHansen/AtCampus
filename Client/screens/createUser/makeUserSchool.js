@@ -1,10 +1,11 @@
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import {Picker} from "@react-native-picker/picker";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import LoginButton from "../../components/LoginButton";
 import {AntDesign} from "@expo/vector-icons";
 import CreateAccountTitle from "../../components/CreateAccountTitle";
+import {getAllSchools} from "../../services/SchoolService";
 
 export default function MakeUserSchool({navigation}) {
 	
@@ -41,7 +42,17 @@ export default function MakeUserSchool({navigation}) {
 	const [isModalProgramVisible, setIsModalProgramVisible] = useState(false)
 	const [school, setSchool] = useState("Høyskolen kristiania")
 	const [valueProgram, setValueProgram] = useState("frontend og mobilutvikling")
-	
+	const [testSchool, setTestSchool] = useState([])
+
+	useEffect(() => {
+		getAllSchools().then((res) => {
+			setTestSchool(res.data)
+			console.log(testSchool)
+		}).catch((err) => {
+			console.log(err.toString())
+		})
+	},[])
+
 	/*
 	const {
 		setSchool,
