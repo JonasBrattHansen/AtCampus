@@ -46,8 +46,8 @@ export default function MakeUserSchool({navigation}) {
 
 	useEffect(() => {
 		getAllSchools().then((res) => {
+			console.log(res)
 			setTestSchool(res.data)
-			console.log(testSchool)
 		}).catch((err) => {
 			console.log(err.toString())
 		})
