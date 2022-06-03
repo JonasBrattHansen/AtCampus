@@ -138,7 +138,7 @@ function GroupScreen({navigation, route}) {
                 <StatusBar style="auto" />
             </ImageBackground>
 
-            <View style={{ flex: 0.27, padding: 10, marginBottom: 15 }}>
+            <View style={{ flex: 0.35, padding: 10, marginBottom: 5 }}>
                 <Text style={styles.groupName}>
                     {group.name}
                 </Text>
@@ -152,7 +152,7 @@ function GroupScreen({navigation, route}) {
                     Members: {GroupPage.memberCount}
                 </Text>
             </View>
-            <View style={{ flex: 0.9 }}>
+            <View style={{ flex: 0.8 }}>
                 <Text style={styles.subtitle}>
                     Recent Activity
                 </Text>
@@ -199,53 +199,53 @@ function GroupScreen({navigation, route}) {
                         activeOpacity={0.6}
                         onPress={ () => navigation.navigate("Group Requests", {group})}
                     >
-                    <Feather style={{alignSelf: "center"}} name={"user-plus"} color={"black"} size={22} />
+                        <Feather style={{alignSelf: "center"}} name={"user-plus"} color={"black"} size={22} />
                     </TouchableOpacity>
                 </View>
             </View>
 
-                <Modal
-                    transparent={true}
-                    animationType="fade"
-                    visible={isModalPostVisible}
-                    nRequestClose={() => setIsModalPostVisible(false)}
-                    avoidKeyboard={true}
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={isModalPostVisible}
+                nRequestClose={() => setIsModalPostVisible(false)}
+                avoidKeyboard={true}
+            >
+                <TouchableOpacity
+                    style={{flex:0.5, backgroundColor: "gray", opacity: 0.5,}}
+                    onPress={handleCancelPostMessage}
+                />
+
+                <KeyboardAvoidingView
+                    style={styles.backgroundModal}
+                    behavior={Platform.OS === "ios" ? "padding" : null}
                 >
-                    <TouchableOpacity
-                        style={{flex:0.5, backgroundColor: "gray", opacity: 0.5,}}
-                        onPress={handleCancelPostMessage}
+                    <TextInput
+                        ref={postTitleRef}
+                        title={"Post title"}
+                        style={styles.titleInput}
+                        multiline={true}
+                        numberOfLines={2}
+                        value={postTitle}
+                        onChangeText={val => setPostTitle(val)}
+                        placeholder={"Title"}
                     />
 
-                    <KeyboardAvoidingView
-                        style={styles.backgroundModal}
-                        behavior={Platform.OS === "ios" ? "padding" : null}
-                    >
-                        <TextInput
-                            ref={postTitleRef}
-                            title={"Post title"}
-                            style={styles.titleInput}
-                            multiline={true}
-                            numberOfLines={2}
-                            value={postTitle}
-                            onChangeText={val => setPostTitle(val)}
-                            placeholder={"Title"}
-                        />
+                    <TextInput
+                        ref={postMessageRef}
+                        style={styles.input}
+                        multiline={true}
+                        numberOfLines={2}
+                        onChangeText={setPostMessage}
+                        value={postMessage}
+                        placeholder={"Write a post to your group here :)"}
+                    />
 
-                        <TextInput
-                            ref={postMessageRef}
-                            style={styles.input}
-                            multiline={true}
-                            numberOfLines={5}
-                            onChangeText={setPostMessage}
-                            value={postMessage}
-                            placeholder={"Write a post to your group here :)"}
-                        />
+                    <View style={{margin: 10}}>
+                        <SimpleButton style={{top: -0}} onPress={handlePostMessageClick} text={"Post"}></SimpleButton>
+                    </View>
 
-                        <View style={{margin: 10}}>
-                            <SimpleButton style={{top: -0}} onPress={handlePostMessageClick} text={"Post"}></SimpleButton>
-                        </View>
-
-                    </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
             </Modal>
         </View>
     );
@@ -301,18 +301,20 @@ const styles = StyleSheet.create({
         //marginBottom: 10,
     },
     groupName: {
+        flex: 2,
         fontSize: 25,
         textAlign: "center",
         padding: 5,
     },
     description: {
+        flex: 2,
         fontSize: 16,
         textAlign: "center",
         padding: 5,
     },
     memberCount: {
+        flex: 1.5,
         fontSize: 16,
-        marginBottom: 8,
         textAlign: "center",
         fontWeight: "bold",
     },
@@ -323,7 +325,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         marginBottom: 15,
-        marginTop: 15,
         marginLeft: 10,
     },
     postPreviews: {
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
     },
     ImageBackground: {
         flex: 0.4,
-        resizeMode: "center",
+        resizeMode: "contain",
         width: "100%",
         alignItems: "center",
     },
@@ -357,21 +358,22 @@ const styles = StyleSheet.create({
     },
     backgroundModal: {
         backgroundColor: "#ffffff",
-       flex: 1
+        flex: 1
     },
     input: {
-        flex: 1,
         padding: 15,
         margin: 10,
         borderRadius: 20,
-        backgroundColor: "#f1f0f0"
+        backgroundColor: "#f1f0f0",
+        maxHeight: 155,
     },
     titleInput: {
-        flex: 0.2,
         padding: 15,
+        marginTop: 20,
         margin: 10,
         borderRadius: 20,
-        backgroundColor: "#f1f0f0"
+        backgroundColor: "#f1f0f0",
+        maxHeight: 60,
     },
     keyboardContainer: {
         flex: 1,

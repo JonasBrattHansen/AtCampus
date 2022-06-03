@@ -1,9 +1,39 @@
 [![Java CI with Maven](https://github.com/ToMrArcher/AtCampus/actions/workflows/maven.yml/badge.svg)](https://github.com/ToMrArcher/AtCampus/actions/workflows/maven.yml)
+# AtCampus 
 
 [Link to GitHub Pages](https://tomrarcher.github.io/atcampus-slate) <br>
 [Link to Slate Github](https://github.com/tomrarcher/atcampus-slate)
 
-# AtCampus 
+
+# Installing and running the application:
+
+### 1:
+Install Docker Desktop, restart your computer and run the program:
+
+[Download here](https://docs.docker.com/get-docker/)
+
+### 2: 
+Install Expo Go in the App store or Google Play Store on your mobile:
+
+https://expo.dev/client
+
+### 3:
+Open the project in your prefered IDE (We mostly used IntelliJ) and follow these steps in the terminal – **MAKE SURE DOCKER DESKTOP IS RUNNING**: 
+```console
+cd Server/src/main/resources/docker/
+docker compose down   <- If this gives you a warning just continue with the steps below
+docker compose up -d
+cd../../../../../     <- go back to atCampus folder
+cd Client
+npm install react-native
+expo update
+npm install -g expo-cli
+npm install
+expo start
+```
+
+### When running `expo start` you get a QR-code in the terminal. Open the camera on your mobile and scan this code. The QR code should lead you to the Expo App and there the app should be running and you're ready to try our application :)
+
 
 ## Server
 
@@ -19,10 +49,15 @@ docker compose up -d
 ```
 ## Client
 
+
+### Install the Expo go app in App store or Google play store
+https://expo.dev/client
+
 ### Start the expo app
 
 ```console
 cd Client
+npm install
 npm start
 ```
 
