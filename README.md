@@ -21,7 +21,7 @@ https://expo.dev/client
 Open the project in your prefered IDE (We mostly used IntelliJ) and follow these steps in the terminal – **MAKE SURE DOCKER DESKTOP IS RUNNING**: 
 ```console
 cd Server/src/main/resources/docker/
-docker compose down
+docker compose down   <- If this gives you a warning just continue with the steps under
 docker compose up -d
 cd../../../../../     <- go back to atCampus folder
 cd Client
