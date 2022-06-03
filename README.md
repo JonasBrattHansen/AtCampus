@@ -28,7 +28,7 @@ cd Client
 expo start
 ```
 
-### When running expo start you get a QR-code in the terminal. Open the camera on your mobile and scan this code. The QR code should lead you to the Expo App and there the app should be running and you're ready to try our application :)
+### When running `expo start` you get a QR-code in the terminal. Open the camera on your mobile and scan this code. The QR code should lead you to the Expo App and there the app should be running and you're ready to try our application :)
 
 
 ## Server
