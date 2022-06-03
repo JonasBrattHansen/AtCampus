@@ -27,6 +27,7 @@ cd../../../../../     <- go back to atCampus folder
 cd Client
 npm install react-native
 expo update
+npm install -g expo-cli
 npm install
 expo start
 ```
