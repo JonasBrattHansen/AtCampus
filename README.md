@@ -18,7 +18,7 @@ Install Expo Go in the App store or Google Play Store on your mobile:
 https://expo.dev/client
 
 ### 3:
-Open the project in your prefered IDE and follow these steps in the terminal – **MAKE SURE DOCKER DESKTOP IS RUNNING**: 
+Open the project in your prefered IDE(We mostly used IntelliJ) and follow these steps in the terminal – **MAKE SURE DOCKER DESKTOP IS RUNNING**: 
 ```console
 cd Server/src/main/resources/docker/
 docker compose down
