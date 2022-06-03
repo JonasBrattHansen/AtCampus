@@ -75,7 +75,7 @@ export default function GroupComment({navigation, route}){
             </View>
 
             <View style={styles.containerPost}>
-                <Text style={styles.post}>{post.body}</Text>
+                <Text Text numberOfLines={3}  style={styles.post}>{post.body}</Text>
             </View>
 
             <View style={styles.containerChat} >
