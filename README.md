@@ -19,6 +19,10 @@ docker compose up -d
 ```
 ## Client
 
+
+## Install the Expo go app in app store or Google play store
+https://expo.dev/client
+
 ### Start the expo app
 
 ```console
