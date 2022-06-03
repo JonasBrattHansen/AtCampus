@@ -1,3 +1,5 @@
+# AtCampus 
+
 [![Java CI with Maven](https://github.com/ToMrArcher/AtCampus/actions/workflows/maven.yml/badge.svg)](https://github.com/ToMrArcher/AtCampus/actions/workflows/maven.yml)
 
 [Link to GitHub Pages](https://tomrarcher.github.io/atcampus-slate) <br>
