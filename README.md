@@ -27,6 +27,7 @@ https://expo.dev/client
 
 ```console
 cd Client
+npm install
 npm start
 ```
 
